@@ -1,0 +1,4 @@
+https://news.google.com/rss?hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/headlines/section/topic/BUSINESS?hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/headlines/section/topic/NATION?hl=en-US&gl=US&ceid=US:en
