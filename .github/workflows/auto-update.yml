@@ -1,0 +1,24 @@
+name: Auto Update PureStill
+
+on:
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - run: pip install feedparser
+      - run: python fetch_news.py
+      - run: python generate_pages.py
+      - run: |
+          git config user.name 'auto-bot'
+          git config user.email 'bot@purestill.com'
+          git add .
+          git commit -m 'Daily auto update' || echo 'No changes'
+          git push
