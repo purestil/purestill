@@ -1,6 +1,7 @@
 print("Starting PureStill generator…")
+
 import json, os
-from datetime import datetime
+from datetime import datetime, date
 from collections import defaultdict
 
 # ================== LOAD DATA ==================
@@ -72,14 +73,18 @@ def build_related(current_index, items, limit=3):
         if idx != current_index:
             scored.append((score_article(it), idx, it))
     scored.sort(reverse=True)
+
     links = ""
     for _, idx, it in scored[:limit]:
         links += f"<li><a href='/articles/article-{idx+1}.html'>{it['title']}</a></li>\n"
     return links
 
+def rotating_hero_index(total):
+    return date.today().toordinal() % total
+
 # ================== ARTICLE GENERATION ==================
 categories = defaultdict(list)
-index_links = ""
+article_scores = []
 
 for i, item in enumerate(data):
     cat = item.get("category", "General")
@@ -88,8 +93,7 @@ for i, item in enumerate(data):
 
     canonical = f"{BASE_URL}/articles/article-{i+1}.html"
 
-    content = item.get("content", item["title"])
-    content = entity_link(content)
+    content = entity_link(item.get("content", item["title"]))
 
     if is_evergreen(item):
         content += "<p><em>Updated periodically to reflect recent developments.</em></p>"
@@ -114,7 +118,7 @@ for i, item in enumerate(data):
     with open(os.path.join(ARTICLES_DIR, f"article-{i+1}.html"), "w", encoding="utf-8") as f:
         f.write(page)
 
-    index_links += f"<p><a href='/articles/article-{i+1}.html'>{item['title']}</a></p>\n"
+    article_scores.append((score_article(item), i, item))
 
 # ================== TOPIC HUBS ==================
 for cat, items in categories.items():
@@ -158,36 +162,84 @@ for slug, title in PILLARS.items():
     with open(os.path.join(PILLARS_DIR, f"{slug}.html"), "w", encoding="utf-8") as f:
         f.write(html)
 
-# ================== HOMEPAGE + PAGINATION ==================
-PER_PAGE = 10
-pages = [data[i:i+PER_PAGE] for i in range(0, len(data), PER_PAGE)]
+# ================== PROFESSIONAL HOMEPAGE ==================
+article_scores.sort(reverse=True)
+most_read = article_scores[:5]
 
-for p, items in enumerate(pages, start=1):
-    links = ""
-    for item in items:
-        idx = data.index(item)
-        links += f"<p><a href='/articles/article-{idx+1}.html'>{item['title']}</a></p>\n"
+hero_idx = rotating_hero_index(len(data))
+hero = data[hero_idx]
 
-    nav = ""
-    if p > 1:
-        nav += f"<a href='/page-{p-1}.html'>← Prev</a> "
-    if p < len(pages):
-        nav += f"<a href='/page-{p+1}.html'>Next →</a>"
+hero_html = f"""
+<h1><a href="/articles/article-{hero_idx+1}.html">{hero['title']}</a></h1>
+<p>{hero.get("summary", hero['title'])}</p>
+"""
 
-    html = f"""<!DOCTYPE html>
-<html><head>
+latest_html = ""
+for i, item in enumerate(data[:10]):
+    latest_html += f"<li><a href='/articles/article-{i+1}.html'>{item['title']}</a></li>\n"
+
+most_read_html = ""
+for _, i, item in most_read:
+    most_read_html += f"<li><a href='/articles/article-{i+1}.html'>{item['title']}</a></li>\n"
+
+index_html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
 <meta charset="UTF-8">
-<title>PureStill – Page {p}</title>
+<title>PureStill | Independent Global Analysis</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-</head><body>
-<h1>Latest Analysis</h1>
-{links}
-<p>{nav}</p>
-</body></html>"""
+<meta http-equiv="content-language" content="en-us">
+<style>
+body{{font-family:Inter,Arial,sans-serif;margin:0;color:#111}}
+.wrap{{max-width:1100px;margin:0 auto;padding:40px 20px}}
+.grid{{display:grid;grid-template-columns:2fr 1fr;gap:40px}}
+ul{{padding-left:18px}}
+footer{{margin-top:80px;border-top:1px solid #ddd;padding-top:20px;color:#555;font-size:14px}}
+</style>
+</head>
+<body>
+<div class="wrap">
 
-    filename = "index.html" if p == 1 else f"page-{p}.html"
-    with open(os.path.join(SITE_DIR, filename), "w", encoding="utf-8") as f:
-        f.write(html)
+<header>
+<h1>PureStill</h1>
+<p>Independent analysis of business, technology, and economic change</p>
+</header>
+
+<section class="grid">
+<div>
+{hero_html}
+</div>
+
+<aside>
+<h2>Most Read</h2>
+<ul>
+{most_read_html}
+</ul>
+</aside>
+</section>
+
+<section>
+<h2>Latest Analysis</h2>
+<ul>
+{latest_html}
+</ul>
+</section>
+
+<footer>
+<a href="/about.html">About</a>
+<a href="/privacy-policy.html">Privacy</a>
+<a href="/disclaimer.html">Disclaimer</a>
+<a href="/contact.html">Contact</a><br><br>
+© PureStill
+</footer>
+
+</div>
+</body>
+</html>
+"""
+
+with open(os.path.join(SITE_DIR, "index.html"), "w", encoding="utf-8") as f:
+    f.write(index_html)
 
 # ================== SITEMAPS ==================
 urls = [f"{BASE_URL}/"]
