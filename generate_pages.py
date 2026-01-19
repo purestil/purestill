@@ -1,9 +1,9 @@
 print("Starting PureStill generator…")
 
 import json, os
-from datetime import datetime, timedelta
+from datetime import datetime
 
-# ================== CONFIG ==================
+# ================= CONFIG =================
 BASE_URL = "https://purestill.pages.dev"
 SITE_DIR = "site"
 ARTICLES_DIR = os.path.join(SITE_DIR, "articles")
@@ -12,107 +12,98 @@ MIN_WORDS = 700
 
 os.makedirs(ARTICLES_DIR, exist_ok=True)
 
-# ================== LOAD DATA ==================
+# ================= LOAD DATA =================
 with open("data.json", encoding="utf-8") as f:
     data = json.load(f)
 
-# ================== LOAD TEMPLATE ==================
+# ================= LOAD TEMPLATE =================
 with open("article_template.html", encoding="utf-8") as f:
     TEMPLATE = f.read()
 
-# ================== HELPERS ==================
+# ================= HELPERS =================
 def parse_date(d):
     try:
         return datetime.strptime(d, "%Y-%m-%d")
     except:
         return datetime.utcnow()
 
-def excerpt(text, words=30):
+def excerpt(text, words=28):
     parts = text.strip().split()
     return " ".join(parts[:words]) + "…" if len(parts) > words else text
 
-def ensure_min_words(content, title, category, min_words=MIN_WORDS):
-    if len(content.split()) >= min_words:
+def ensure_min_words(content, title, category):
+    if len(content.split()) >= MIN_WORDS:
         return content
 
     filler = f"""
 <h2>Background</h2>
 <p>
-This analysis examines developments related to {title.lower()} and places
-them within a broader historical and economic context.
+This analysis places {title.lower()} within a broader historical and
+contextual framework related to {category.lower()} trends.
 </p>
 
-<h2>Key Considerations</h2>
+<h2>Key Developments</h2>
 <p>
-Several factors influence how this issue may evolve, including market
-conditions, institutional responses, and longer-term structural trends
-within the {category.lower()} landscape.
+Recent signals suggest evolving dynamics that influence expectations,
+decision-making, and long-term structural considerations.
 </p>
 
-<h2>Economic and Policy Context</h2>
+<h2>Why This Matters</h2>
 <p>
-Economic indicators and policy communication continue to shape expectations.
-Understanding these signals helps explain short-term reactions and long-term
-adjustments.
+Understanding these developments helps explain broader implications for
+business strategy, policy interpretation, and economic conditions.
 </p>
 
-<h2>Implications</h2>
+<h2>Looking Ahead</h2>
 <p>
-The implications extend beyond immediate outcomes, affecting business
-decision-making, investment strategies, and broader economic stability.
-</p>
-
-<h2>What to Watch</h2>
-<p>
-Future developments will depend on incoming data, official commentary,
-and changes in global conditions.
+Future outcomes will depend on incoming data, institutional responses,
+and shifts in market sentiment over time.
 </p>
 
 <h2>Conclusion</h2>
 <p>
-While short-term movements attract attention, long-term context remains
-essential for interpreting the significance of this topic.
+Short-term movements often draw attention, but long-term context provides
+clearer insight into the significance of this topic.
 </p>
 """
-
     return content + filler
 
-def build_feed_blocks(items, exclude_idx=None, limit=3):
-    html = ""
-    count = 0
-    for i, item in enumerate(items):
-        if exclude_idx is not None and i == exclude_idx:
-            continue
+def build_similar_blocks(current_idx, current_category, limit=3):
+    blocks = ""
+    matches = []
 
-        date = item["_dt"].strftime("%B %d, %Y")
+    # 1️⃣ Same category first
+    for i, item in enumerate(data):
+        if i != current_idx and item.get("category") == current_category:
+            matches.append(i)
 
-        html += f"""
+    # 2️⃣ Fallback to other categories
+    if len(matches) < limit:
+        for i, item in enumerate(data):
+            if i != current_idx and i not in matches:
+                matches.append(i)
+
+    for i in matches[:limit]:
+        item = data[i]
+        blocks += f"""
         <div class="post">
           <h3><a href="/articles/article-{i+1}.html">{item['title']}</a></h3>
-          <div class="info">Published {date}</div>
-          <p>{excerpt(item['content'], 28)}</p>
+          <div class="info">Published {item['_dt'].strftime('%B %d, %Y')}</div>
+          <p>{excerpt(item['content'])}</p>
           <a href="/articles/article-{i+1}.html">Read more →</a>
         </div>
         """
 
-        count += 1
-        if count >= limit:
-            break
+    return blocks
 
-    return html
-
-# ================== SORT & ROTATE ==================
+# ================= PREP DATA =================
 for item in data:
     item["_dt"] = parse_date(item.get("date"))
 
 # newest first
 data.sort(key=lambda x: x["_dt"], reverse=True)
 
-# daily rotation (keeps homepage fresh)
-rotate = datetime.utcnow().toordinal() % len(data)
-data = data[rotate:] + data[:rotate]
-
-# ================== ARTICLE GENERATION ==================
+# ================= ARTICLE GENERATION =================
 for i, item in enumerate(data):
     canonical = f"{BASE_URL}/articles/article-{i+1}.html"
     pub_date = item["_dt"].strftime("%B %d, %Y")
@@ -124,8 +115,7 @@ for i, item in enumerate(data):
         category
     )
 
-    featured_blocks = build_feed_blocks(data, exclude_idx=i, limit=3)
-    recent_blocks = build_feed_blocks(data[i+1:], exclude_idx=None, limit=3)
+    similar_blocks = build_similar_blocks(i, category)
 
     page = TEMPLATE
     page = page.replace("{{TITLE}}", item["title"])
@@ -134,30 +124,25 @@ for i, item in enumerate(data):
     page = page.replace("{{DATE}}", pub_date)
     page = page.replace("{{CONTENT}}", content)
     page = page.replace("{{CANONICAL_URL}}", canonical)
-    page = page.replace("{{FEATURED_BLOCKS}}", featured_blocks)
-    page = page.replace("{{RECENT_BLOCKS}}", recent_blocks)
+    page = page.replace("{{SIMILAR_BLOCKS}}", similar_blocks)
 
     with open(os.path.join(ARTICLES_DIR, f"article-{i+1}.html"), "w", encoding="utf-8") as f:
         f.write(page)
 
-# ================== PAGINATION ==================
-pages = [data[i:i+PER_PAGE] for i in range(0, len(data), PER_PAGE)]
-
-def render_cards(items):
+# ================= HOMEPAGE =================
+def render_home(items):
     html = ""
-    for item in items:
-        idx = data.index(item)
+    for i, item in enumerate(items[:PER_PAGE]):
         html += f"""
         <div class="post">
-          <h3><a href="/articles/article-{idx+1}.html">{item['title']}</a></h3>
+          <h3><a href="/articles/article-{i+1}.html">{item['title']}</a></h3>
           <div class="info">Published {item['_dt'].strftime('%B %d, %Y')}</div>
-          <p>{excerpt(item['content'], 28)}</p>
-          <a href="/articles/article-{idx+1}.html">Read more →</a>
+          <p>{excerpt(item['content'])}</p>
+          <a href="/articles/article-{i+1}.html">Read more →</a>
         </div>
         """
     return html
 
-# ================== HOMEPAGE ==================
 index_html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -173,7 +158,7 @@ index_html = f"""<!DOCTYPE html>
 
 <section>
 <h2>Latest Articles</h2>
-{render_cards(pages[0])}
+{render_home(data)}
 </section>
 
 <p>
@@ -190,19 +175,4 @@ index_html = f"""<!DOCTYPE html>
 with open(os.path.join(SITE_DIR, "index.html"), "w", encoding="utf-8") as f:
     f.write(index_html)
 
-# ================== ARCHIVE PAGES ==================
-for p in range(1, len(pages)):
-    html = f"""<!DOCTYPE html>
-<html lang="en">
-<head><meta charset="UTF-8"><title>PureStill – Page {p+1}</title></head>
-<body>
-<h1>PureStill</h1>
-{render_cards(pages[p])}
-<p><a href="/">Home</a></p>
-</body>
-</html>
-"""
-    with open(os.path.join(SITE_DIR, f"page-{p+1}.html"), "w", encoding="utf-8") as f:
-        f.write(html)
-
-print("PureStill generation complete: long-form articles, rotation, feeds ready.")
+print("PureStill generation complete: similar articles linked successfully.")
