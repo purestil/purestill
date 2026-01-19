@@ -1,14 +1,16 @@
 [
   {
-    "title": "US Inflation Outlook for 2026",
-    "link": "https://www.federalreserve.gov/",
-    "content": "Inflation in the United States remains a key concern for policymakers and markets. Signals from the Federal Reserve suggest a cautious stance as interest rates balance growth and price stability. Analysts expect inflation to ease gradually, though energy prices and supply chains remain risks.",
-    "category": "Economy"
+    "title": "Major shifts shaping the U.S. economic outlook",
+    "content": "The United States economy is showing mixed signals as recent data suggests...",
+    "category": "Economy",
+    "date": "2026-07-19",
+    "link": "https://example.com/source"
   },
   {
-    "title": "How Artificial Intelligence Is Reshaping Productivity",
-    "link": "https://www.whitehouse.gov/",
-    "content": "Artificial Intelligence is transforming productivity across industries. From automation in manufacturing to decision support in finance and healthcare, AI systems are changing how work is performed while raising new economic and policy questions.",
-    "category": "Technology"
+    "title": "Technology investment trends and productivity",
+    "content": "Investment in emerging technologies continues to reshape productivity...",
+    "category": "Technology",
+    "date": "2026-07-18",
+    "link": "https://example.com/source"
   }
 ]
