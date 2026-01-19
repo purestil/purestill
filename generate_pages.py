@@ -135,39 +135,58 @@ for category, items in categories.items():
     with open(os.path.join(TOPICS_DIR, f"{slug}.html"), "w", encoding="utf-8") as f:
         f.write(html)
 
-# ================= HOMEPAGE =================
-featured = data[0]
-featured_html = f"""
-<h1><a href="/articles/article-1.html">{featured['title']}</a></h1>
-<p>{featured.get('summary','')}</p>
+# ================== HOMEPAGE GENERATION ==================
+
+with open("index_template.html", encoding="utf-8") as f:
+    INDEX_TEMPLATE = f.read()
+
+# Sort newest first (daily rotation works automatically)
+sorted_data = sorted(
+    data,
+    key=lambda x: x.get("date", ""),
+    reverse=True
+)
+
+# FEATURED ARTICLE (top story)
+featured = sorted_data[0]
+featured_idx = data.index(featured)
+
+FEATURED_HTML = f"""
+<h1>
+  <a href="/articles/article-{featured_idx+1}.html">
+    {featured['title']}
+  </a>
+</h1>
+<p class="meta">
+  Published {featured.get('date','')} · {featured.get('category','General')}
+</p>
+<p>
+  {excerpt(featured.get('content',''), 260)}
+</p>
+<a href="/articles/article-{featured_idx+1}.html">Read full analysis →</a>
 """
 
-recent_html = ""
-older_html = ""
+# RECENT ARTICLES (next 3)
+RECENT_HTML = ""
+for item in sorted_data[1:4]:
+    idx = data.index(item)
+    RECENT_HTML += article_card(item, idx)
 
-for i, item in enumerate(data[1:4], start=2):
-    recent_html += f"""
-<div class="card">
-  <h3><a href="/articles/article-{i}.html">{item['title']}</a></h3>
-  <p>{item.get('summary','')}</p>
-</div>
-"""
+# OLDER ARTICLES (next 6)
+OLDER_HTML = ""
+for item in sorted_data[4:10]:
+    idx = data.index(item)
+    OLDER_HTML += article_card(item, idx)
 
-for i, item in enumerate(data[4:10], start=5):
-    older_html += f"""
-<div class="card">
-  <h3><a href="/articles/article-{i}.html">{item['title']}</a></h3>
-  <p>{item.get('summary','')}</p>
-</div>
-"""
+# Inject into template
+index_html = INDEX_TEMPLATE
+index_html = index_html.replace("{{FEATURED_ARTICLE}}", FEATURED_HTML)
+index_html = index_html.replace("{{RECENT_ARTICLES}}", RECENT_HTML)
+index_html = index_html.replace("{{OLDER_ARTICLES}}", OLDER_HTML)
 
-index_page = INDEX_TEMPLATE
-index_page = index_page.replace("{{FEATURED_ARTICLE}}", featured_html)
-index_page = index_page.replace("{{RECENT_ARTICLES}}", recent_html)
-index_page = index_page.replace("{{OLDER_ARTICLES}}", older_html)
-
+# Write homepage
 with open(os.path.join(SITE_DIR, "index.html"), "w", encoding="utf-8") as f:
-    f.write(index_page)
+    f.write(index_html)
 
 # ================= SITEMAP =================
 urls = [f"{BASE_URL}/"]
