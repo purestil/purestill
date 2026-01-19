@@ -138,6 +138,75 @@ for i, item in enumerate(data):
     with open(os.path.join(ARTICLES_DIR, f"article-{i+1}.html"), "w", encoding="utf-8") as f:
         f.write(page)
 
+# ================= ARTICLES INDEX PAGE =================
+articles_index = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Articles | PureStill</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{font-family:Inter,Arial,sans-serif;background:#fff;color:#111}
+.wrap{max-width:900px;margin:0 auto;padding:60px 20px}
+h1{font-family:Georgia,serif}
+.article-list a{display:block;margin:14px 0;color:#111;text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>All Articles</h1>
+<div class="article-list">
+"""
+
+for i, item in enumerate(data):
+    articles_index += f"<a href='/articles/article-{i+1}.html'>{item['title']}</a>\n"
+
+articles_index += """
+</div>
+<p><a href="/">← Back to Home</a></p>
+</div>
+</body>
+</html>
+"""
+
+with open(os.path.join(ARTICLES_DIR, "index.html"), "w", encoding="utf-8") as f:
+    f.write(articles_index)
+
+# ================= TOPICS INDEX PAGE =================
+topics_index = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Topics | PureStill</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{font-family:Inter,Arial,sans-serif;background:#fff;color:#111}
+.wrap{max-width:900px;margin:0 auto;padding:60px 20px}
+h1{font-family:Georgia,serif}
+.topic-list a{display:block;margin:14px 0;color:#111;text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Topics</h1>
+<div class="topic-list">
+"""
+
+for category in categories.keys():
+    slug = category.lower().replace(" ", "-")
+    topics_index += f"<a href='/topics/{slug}.html'>{category}</a>\n"
+
+topics_index += """
+</div>
+<p><a href="/">← Back to Home</a></p>
+</div>
+</body>
+</html>
+"""
+
+with open(os.path.join(TOPICS_DIR, "index.html"), "w", encoding="utf-8") as f:
+    f.write(topics_index)
+
 # ================= TOPIC HUBS =================
 for category, items in categories.items():
     slug = category.lower().replace(" ", "-")
