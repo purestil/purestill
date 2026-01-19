@@ -2,27 +2,92 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>{{title}} | PureStill</title>
+
+  <title>{{TITLE}} | PureStill</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="{{summary}}">
+  <meta name="description" content="{{SUMMARY}}">
   <meta name="robots" content="index, follow">
+  <meta http-equiv="content-language" content="en-us">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="{{CANONICAL_URL}}">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="{{title}}">
-  <meta property="og:description" content="{{summary}}">
+  <meta property="og:title" content="{{TITLE}}">
+  <meta property="og:description" content="{{SUMMARY}}">
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="PureStill">
 
-  <!-- US RPM Optimization -->
-  <meta http-equiv="content-language" content="en-us">
+  <!-- ================= JSON-LD: ARTICLE ================= -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    "headline": "{{TITLE}}",
+    "datePublished": "{{DATE}}",
+    "dateModified": "{{DATE}}",
+    "author": {
+      "@type": "Organization",
+      "name": "PureStill Editorial"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "PureStill"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "{{CANONICAL_URL}}"
+    },
+    "description": "{{SUMMARY}}"
+  }
+  </script>
 
-  <!-- AdSense (ADD AFTER APPROVAL ONLY) -->
+  <!-- ================= JSON-LD: BREADCRUMB ================= -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://purestill.pages.dev/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "{{CATEGORY}}",
+        "item": "https://purestill.pages.dev/topics/{{CATEGORY_SLUG}}.html"
+      }
+    ]
+  }
+  </script>
+
+  <!-- ================= JSON-LD: AUTHOR ================= -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "PureStill Editorial",
+    "url": "https://purestill.pages.dev/about.html",
+    "affiliation": {
+      "@type": "Organization",
+      "name": "PureStill"
+    },
+    "jobTitle": "Editorial Analysis",
+    "knowsAbout": ["Economics", "Technology", "Global Markets"]
+  }
+  </script>
+
+  <!-- ================= ADSENSE (ENABLE ONLY AFTER APPROVAL) ================= -->
   <!--
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
     crossorigin="anonymous"></script>
   -->
 
+  <!-- ================= STYLES ================= -->
   <style>
     body {
       font-family: Georgia, "Times New Roman", serif;
@@ -43,7 +108,7 @@
     .meta {
       color: #666;
       font-size: 0.95em;
-      margin-bottom: 32px;
+      margin-bottom: 28px;
     }
 
     article p {
@@ -51,14 +116,25 @@
       font-size: 1.05em;
     }
 
+    nav.breadcrumb {
+      font-size: 0.9em;
+      color: #666;
+      margin-bottom: 14px;
+    }
+
+    nav.breadcrumb a {
+      color: #666;
+      text-decoration: none;
+    }
+
     .ad {
-      margin: 32px 0;
+      margin: 36px 0;
       text-align: center;
     }
 
     .related {
-      margin-top: 48px;
-      padding-top: 24px;
+      margin-top: 52px;
+      padding-top: 26px;
       border-top: 1px solid #ddd;
     }
 
@@ -74,20 +150,20 @@
       margin-bottom: 8px;
     }
 
-    nav {
-      margin-top: 48px;
+    footer {
+      margin-top: 60px;
       padding-top: 24px;
       border-top: 1px solid #ddd;
       font-size: 0.95em;
     }
 
-    nav a {
+    footer a {
       margin-right: 14px;
-      text-decoration: none;
       color: #0645ad;
+      text-decoration: none;
     }
 
-    nav a:hover {
+    footer a:hover {
       text-decoration: underline;
     }
   </style>
@@ -95,57 +171,55 @@
 
 <body>
 
-<header>
-  <h1>{{title}}</h1>
-  <div class="meta">
-    Published {{date}} · Source: {{source}}
+  <!-- ================= BREADCRUMB UI ================= -->
+  <nav class="breadcrumb">
+    <a href="/">Home</a> ›
+    <a href="/topics/{{CATEGORY_SLUG}}.html">{{CATEGORY}}</a>
+  </nav>
+
+  <header>
+    <h1>{{TITLE}}</h1>
+    <div class="meta">
+      Published {{DATE}} · Source: {{SOURCE}}
+    </div>
+  </header>
+
+  <!-- ================= AD SLOT: TOP (POST-APPROVAL ONLY) ================= -->
+  <!--
+  <div class="ad">
+    <ins class="adsbygoogle"
+      style="display:block"
+      data-ad-client="ca-pub-XXXXXXXXXXXX"
+      data-ad-slot="1111111111"
+      data-ad-format="auto"
+      data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
-</header>
+  -->
 
-<!-- AdSense Slot 1: Top (AFTER approval only) -->
-<!--
-<div class="ad">
-  <ins class="adsbygoogle"
-    style="display:block"
-    data-ad-client="ca-pub-XXXXXXXXXXXX"
-    data-ad-slot="1111111111"
-    data-ad-format="auto"
-    data-full-width-responsive="true"></ins>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
--->
+  <article>
+    {{CONTENT}}
+  </article>
 
-<article>
-  {{content}}
-</article>
+  <!-- ================= AD MARKERS (CONTROLLED BY PYTHON) ================= -->
+  <!-- {{AD_MID}} -->
+  <!-- {{AD_BOTTOM}} -->
 
-<!-- AdSense Slot 2: In-content (AFTER approval only) -->
-<!--
-<div class="ad">
-  <ins class="adsbygoogle"
-    style="display:block"
-    data-ad-client="ca-pub-XXXXXXXXXXXX"
-    data-ad-slot="2222222222"
-    data-ad-format="rectangle"
-    data-full-width-responsive="true"></ins>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
--->
+  <!-- ================= RELATED ARTICLES ================= -->
+  <section class="related">
+    <h3>Related analysis</h3>
+    <ul>
+      {{RELATED_LINKS}}
+    </ul>
+  </section>
 
-<section class="related">
-  <h3>Related analysis</h3>
-  <ul>
-    {{related_links}}
-  </ul>
-</section>
-
-<nav>
-  <a href="/">Home</a>
-  <a href="/about.html">About</a>
-  <a href="/privacy-policy.html">Privacy Policy</a>
-  <a href="/disclaimer.html">Disclaimer</a>
-  <a href="/contact.html">Contact</a>
-</nav>
+  <footer>
+    <a href="/">Home</a>
+    <a href="/about.html">About</a>
+    <a href="/privacy-policy.html">Privacy Policy</a>
+    <a href="/disclaimer.html">Disclaimer</a>
+    <a href="/contact.html">Contact</a>
+  </footer>
 
 </body>
 </html>
