@@ -138,39 +138,87 @@ for i, item in enumerate(data):
     with open(os.path.join(ARTICLES_DIR, f"article-{i+1}.html"), "w", encoding="utf-8") as f:
         f.write(page)
 
-# ================= ARTICLES INDEX PAGE =================
-articles_index = """<!DOCTYPE html>
+# ================= ARTICLES INDEX PAGINATION =================
+
+ARTICLES_PER_PAGE = 10
+
+total_articles = len(data)
+total_pages = (total_articles + ARTICLES_PER_PAGE - 1) // ARTICLES_PER_PAGE
+
+def render_articles_page(page_num):
+    start = (page_num - 1) * ARTICLES_PER_PAGE
+    end = start + ARTICLES_PER_PAGE
+    items = data[start:end]
+
+    article_html = ""
+    for i, item in enumerate(items, start=start + 1):
+        summary = item.get("summary", "")[:160]
+
+        article_html += f"""
+        <div style="margin-bottom:32px;padding-bottom:28px;border-bottom:1px solid #eee">
+          <h2 style="font-family:Georgia,serif;margin-bottom:6px">
+            <a href="/articles/article-{i}.html" style="color:#111;text-decoration:none">
+              {item['title']}
+            </a>
+          </h2>
+          <div style="font-size:13px;color:#666;margin-bottom:8px">
+            Published {item.get('date','')}
+          </div>
+          <div style="font-size:15px;color:#333;line-height:1.6">
+            {summary}…
+          </div>
+          <div style="margin-top:8px">
+            <a href="/articles/article-{i}.html" style="text-decoration:underline">
+              Read more →
+            </a>
+          </div>
+        </div>
+        """
+
+    nav = "<div style='margin-top:40px;text-align:center;font-size:14px'>"
+    if page_num > 1:
+        prev_link = "/articles/" if page_num == 2 else f"/articles/page-{page_num-1}.html"
+        nav += f"<a href='{prev_link}' style='margin-right:16px'>← Newer</a>"
+    if page_num < total_pages:
+        nav += f"<a href='/articles/page-{page_num+1}.html'>Older →</a>"
+    nav += "</div>"
+
+    return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Articles | PureStill</title>
+<title>Articles – Page {page_num} | PureStill</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index, follow">
 <style>
-body{font-family:Inter,Arial,sans-serif;background:#fff;color:#111}
-.wrap{max-width:900px;margin:0 auto;padding:60px 20px}
-h1{font-family:Georgia,serif}
-.article-list a{display:block;margin:14px 0;color:#111;text-decoration:underline}
+body{{font-family:Inter,Arial,sans-serif;background:#fff;color:#111}}
+.wrap{{max-width:900px;margin:0 auto;padding:60px 20px}}
+h1{{font-family:Georgia,serif;margin-bottom:40px}}
+a{{color:#111}}
 </style>
 </head>
 <body>
 <div class="wrap">
 <h1>All Articles</h1>
-<div class="article-list">
-"""
-
-for i, item in enumerate(data):
-    articles_index += f"<a href='/articles/article-{i+1}.html'>{item['title']}</a>\n"
-
-articles_index += """
-</div>
-<p><a href="/">← Back to Home</a></p>
+{article_html}
+{nav}
+<p style="margin-top:40px"><a href="/">← Back to Home</a></p>
 </div>
 </body>
 </html>
 """
 
-with open(os.path.join(ARTICLES_DIR, "index.html"), "w", encoding="utf-8") as f:
-    f.write(articles_index)
+for page in range(1, total_pages + 1):
+    html = render_articles_page(page)
+
+    if page == 1:
+        path = os.path.join(ARTICLES_DIR, "index.html")
+    else:
+        path = os.path.join(ARTICLES_DIR, f"page-{page}.html")
+
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(html)
+
 
 # ================= TOPICS INDEX PAGE =================
 topics_index = """<!DOCTYPE html>
