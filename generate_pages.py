@@ -1,3 +1,4 @@
+print("Starting PureStill generator…")
 import json, os
 from datetime import datetime
 from collections import defaultdict
