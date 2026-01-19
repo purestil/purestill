@@ -9,19 +9,20 @@
 <meta http-equiv="content-language" content="en-us">
 
 <style>
-/* ================= ROOT & THEME ================= */
+<style>
+/* ================= THEME VARIABLES ================= */
 :root{
   --bg:#ffffff;
-  --text:#111111;
-  --muted:#555555;
-  --border:#dddddd;
+  --text:#111;
+  --muted:#555;
+  --border:#e0e0e0;
   --link:#1a0dab;
 }
 
 body.dark{
   --bg:#0e0e10;
   --text:#eaeaea;
-  --muted:#aaaaaa;
+  --muted:#aaa;
   --border:#2a2a2a;
   --link:#8ab4f8;
 }
@@ -29,27 +30,43 @@ body.dark{
 /* ================= BASE ================= */
 body{
   margin:0;
-  font-family:Inter,Arial,sans-serif;
+  font-family:Inter, Arial, sans-serif;
   background:var(--bg);
   color:var(--text);
-  line-height:1.7;
+  line-height:1.75;
 }
 
+/* ================= LAYOUT ================= */
 .container{
-  max-width:760px; /* reading-width optimization */
+  width:100%;
   margin:0 auto;
-  padding:48px 18px 80px;
+  padding:48px 24px 80px;
+}
+
+/* Desktop wide view */
+@media (min-width:1024px){
+  .container{
+    max-width:1200px;
+  }
+}
+
+/* Tablet & mobile reading view */
+@media (max-width:1023px){
+  .container{
+    max-width:760px;
+    padding:36px 16px 64px;
+  }
 }
 
 /* ================= HEADER ================= */
 header{
   text-align:center;
-  margin-bottom:48px;
+  margin-bottom:56px;
 }
 
 .brand{
-  font-family:Georgia,serif;
-  font-size:clamp(28px,5vw,36px);
+  font-family:Georgia, serif;
+  font-size:clamp(30px, 4vw, 38px);
   font-weight:500;
 }
 
@@ -69,52 +86,78 @@ nav a:hover{
   text-decoration:underline;
 }
 
+/* Mobile nav spacing */
+@media (max-width:600px){
+  nav a{
+    display:inline-block;
+    margin:6px 8px;
+  }
+}
+
 /* ================= SECTIONS ================= */
 .section{
-  margin-top:64px;
+  margin-top:72px;
 }
 
 .section h2{
-  font-family:Georgia,serif;
-  font-size:clamp(20px,4vw,24px);
-  margin-bottom:28px;
+  font-family:Georgia, serif;
+  font-size:clamp(22px, 3vw, 26px);
+  margin-bottom:32px;
 }
 
 /* ================= FEATURED ================= */
 .featured h1{
-  font-family:Georgia,serif;
-  font-size:clamp(24px,5vw,30px);
-  margin-bottom:10px;
+  font-family:Georgia, serif;
+  font-size:clamp(26px, 4vw, 34px);
+  margin-bottom:12px;
 }
 
 /* ================= META ================= */
 .meta{
   font-size:13px;
   color:var(--muted);
-  margin-bottom:10px;
 }
 
 /* ================= CARDS ================= */
 .card-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:28px;
+  gap:32px;
+}
+
+/* Desktop: multi-column */
+@media (min-width:1024px){
+  .card-grid{
+    grid-template-columns:repeat(3, 1fr);
+  }
+}
+
+/* Tablet */
+@media (min-width:600px) and (max-width:1023px){
+  .card-grid{
+    grid-template-columns:repeat(2, 1fr);
+  }
+}
+
+/* Mobile */
+@media (max-width:599px){
+  .card-grid{
+    grid-template-columns:1fr;
+  }
 }
 
 .card{
   border:1px solid var(--border);
-  padding:22px;
+  padding:24px;
 }
 
 .card h3{
-  font-family:Georgia,serif;
-  font-size:18px;
+  font-family:Georgia, serif;
+  font-size:20px;
   margin:0 0 10px;
 }
 
 .card p{
-  font-size:15px;
-  color:var(--text);
+  font-size:16px;
 }
 
 /* ================= LINKS ================= */
@@ -134,8 +177,8 @@ h3 a:hover{
 }
 
 .read-more{
+  margin-top:8px;
   font-size:14px;
-  margin-top:6px;
 }
 
 .read-more a{
@@ -145,8 +188,8 @@ h3 a:hover{
 
 /* ================= FOOTER ================= */
 footer{
-  margin-top:90px;
-  padding-top:34px;
+  margin-top:96px;
+  padding-top:36px;
   border-top:1px solid var(--border);
   font-size:14px;
   color:var(--muted);
@@ -171,17 +214,8 @@ footer a:hover{
   cursor:pointer;
   color:var(--muted);
 }
+</style>
 
-/* ================= MOBILE SPACING ================= */
-@media(max-width:600px){
-  .container{
-    padding:36px 14px 64px;
-  }
-  nav a{
-    display:inline-block;
-    margin:6px 8px;
-  }
-}
 </style>
 </head>
 
