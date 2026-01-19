@@ -3,10 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <title>PureStill | Independent Global Analysis</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Independent analysis of business, technology, and economic developments with a focus on the United States.">
 <meta name="robots" content="index, follow">
 <meta http-equiv="content-language" content="en-us">
+
+<link rel="canonical" href="https://purestill.pages.dev/">
+
+<!-- Google News helpers -->
+<meta name="news_keywords" content="economy, markets, technology, policy">
+<meta property="og:site_name" content="PureStill">
 
 <style>
 /* ================= THEME VARIABLES ================= */
@@ -16,14 +23,25 @@
   --muted:#555;
   --border:#e0e0e0;
   --link:#1a0dab;
+  --card:#fafafa;
+  --accent:#1a0dab;
 }
 
+/* ================= DARK ================= */
 body.dark{
   --bg:#0e0e10;
   --text:#eaeaea;
   --muted:#aaa;
   --border:#2a2a2a;
   --link:#8ab4f8;
+  --card:#16161a;
+}
+
+/* ================= OLED ================= */
+body.dark.oled{
+  --bg:#000000;
+  --card:#000000;
+  --border:#1a1a1a;
 }
 
 /* ================= BASE ================= */
@@ -42,14 +60,10 @@ body{
   padding:48px 24px 80px;
 }
 
-/* Desktop wide view */
 @media (min-width:1024px){
-  .container{
-    max-width:1200px;
-  }
+  .container{ max-width:1200px; }
 }
 
-/* Tablet & mobile reading view */
 @media (max-width:1023px){
   .container{
     max-width:760px;
@@ -81,11 +95,8 @@ nav a{
   font-weight:500;
 }
 
-nav a:hover{
-  text-decoration:underline;
-}
+nav a:hover{ text-decoration:underline; }
 
-/* Mobile nav spacing */
 @media (max-width:600px){
   nav a{
     display:inline-block;
@@ -123,30 +134,22 @@ nav a:hover{
   gap:32px;
 }
 
-/* Desktop: multi-column */
 @media (min-width:1024px){
-  .card-grid{
-    grid-template-columns:repeat(3, 1fr);
-  }
+  .card-grid{ grid-template-columns:repeat(3, 1fr); }
 }
 
-/* Tablet */
 @media (min-width:600px) and (max-width:1023px){
-  .card-grid{
-    grid-template-columns:repeat(2, 1fr);
-  }
+  .card-grid{ grid-template-columns:repeat(2, 1fr); }
 }
 
-/* Mobile */
 @media (max-width:599px){
-  .card-grid{
-    grid-template-columns:1fr;
-  }
+  .card-grid{ grid-template-columns:1fr; }
 }
 
 .card{
   border:1px solid var(--border);
   padding:24px;
+  background:var(--card);
 }
 
 .card h3{
@@ -160,20 +163,13 @@ nav a:hover{
 }
 
 /* ================= LINKS ================= */
-a{
-  color:inherit;
-  text-decoration:none;
-}
+a{ color:inherit; text-decoration:none; }
 
-h1 a, h2 a, h3 a{
-  color:var(--text);
-}
+h1 a, h2 a, h3 a{ color:var(--text); }
 
 h1 a:hover,
 h2 a:hover,
-h3 a:hover{
-  text-decoration:underline;
-}
+h3 a:hover{ text-decoration:underline; }
 
 .read-more{
   margin-top:8px;
@@ -181,7 +177,7 @@ h3 a:hover{
 }
 
 .read-more a{
-  color:var(--link);
+  color:var(--accent);
   text-decoration:underline;
 }
 
@@ -200,11 +196,9 @@ footer a{
   color:var(--muted);
 }
 
-footer a:hover{
-  text-decoration:underline;
-}
+footer a:hover{ text-decoration:underline; }
 
-/* ================= DARK MODE TOGGLE ================= */
+/* ================= CONTROLS ================= */
 .toggle{
   position:fixed;
   top:14px;
@@ -212,13 +206,16 @@ footer a:hover{
   font-size:13px;
   cursor:pointer;
   color:var(--muted);
+  background:var(--card);
+  border:1px solid var(--border);
+  padding:6px 10px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="toggle" onclick="toggleDark()">🌓 Theme</div>
+<div class="toggle" onclick="toggleTheme()" id="themeBtn">🌙</div>
 
 <div class="container">
 
@@ -274,16 +271,34 @@ footer a:hover{
 </div>
 
 <script>
-function toggleDark(){
-  document.body.classList.toggle("dark");
-  localStorage.setItem("purestill-theme",
-    document.body.classList.contains("dark") ? "dark" : "light");
+/* ===== AUTO NIGHT MODE ===== */
+const hour=new Date().getHours();
+const saved=localStorage.getItem("purestill-theme");
+const prefersOLED=window.matchMedia("(dynamic-range: high)").matches;
+
+if(saved){
+  document.body.classList.toggle("dark",saved==="dark");
+}else if(hour>=19||hour<=5){
+  document.body.classList.add("dark");
 }
-(function(){
-  if(localStorage.getItem("purestill-theme")==="dark"){
-    document.body.classList.add("dark");
-  }
-})();
+
+if(document.body.classList.contains("dark") && prefersOLED){
+  document.body.classList.add("oled");
+}
+
+/* ===== THEME TOGGLE ===== */
+const themeBtn=document.getElementById("themeBtn");
+function toggleTheme(){
+  document.body.classList.toggle("dark");
+  document.body.classList.toggle("oled",
+    document.body.classList.contains("dark") && prefersOLED
+  );
+  localStorage.setItem("purestill-theme",
+    document.body.classList.contains("dark")?"dark":"light"
+  );
+  themeBtn.textContent=document.body.classList.contains("dark")?"☀️":"🌙";
+}
+themeBtn.textContent=document.body.classList.contains("dark")?"☀️":"🌙";
 </script>
 
 </body>
