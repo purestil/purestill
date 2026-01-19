@@ -7,7 +7,6 @@ from datetime import datetime
 BASE_URL = "https://purestill.pages.dev"
 SITE_DIR = "site"
 ARTICLES_DIR = os.path.join(SITE_DIR, "articles")
-PER_PAGE = 9
 MIN_WORDS = 700
 
 os.makedirs(ARTICLES_DIR, exist_ok=True)
@@ -27,43 +26,49 @@ def parse_date(d):
     except:
         return datetime.utcnow()
 
-def excerpt(text, words=28):
+def excerpt(text, words=35):
     parts = text.strip().split()
     return " ".join(parts[:words]) + "…" if len(parts) > words else text
 
-def ensure_min_words(content, title, category):
-    if len(content.split()) >= MIN_WORDS:
+def ensure_min_words(content, title, category, min_words=MIN_WORDS):
+    if len(content.split()) >= min_words:
         return content
 
     filler = f"""
 <h2>Background</h2>
 <p>
-This analysis places {title.lower()} within a broader historical and
-contextual framework related to {category.lower()} trends.
+This analysis places {title.lower()} within a broader historical and economic
+context related to developments in the {category.lower()} landscape.
 </p>
 
-<h2>Key Developments</h2>
+<h2>Recent Developments</h2>
 <p>
-Recent signals suggest evolving dynamics that influence expectations,
-decision-making, and long-term structural considerations.
+Recent signals suggest evolving dynamics that continue to shape expectations
+among policymakers, businesses, and market participants.
 </p>
 
-<h2>Why This Matters</h2>
+<h2>Economic and Policy Context</h2>
 <p>
-Understanding these developments helps explain broader implications for
-business strategy, policy interpretation, and economic conditions.
+Economic indicators, official communications, and global conditions all play
+a role in how this issue develops over time.
 </p>
 
-<h2>Looking Ahead</h2>
+<h2>Implications</h2>
 <p>
-Future outcomes will depend on incoming data, institutional responses,
-and shifts in market sentiment over time.
+The implications extend beyond short-term outcomes, influencing decision-making,
+strategic planning, and longer-term stability.
+</p>
+
+<h2>What to Watch Going Forward</h2>
+<p>
+Future developments will depend on incoming data, institutional responses,
+and broader macroeconomic trends.
 </p>
 
 <h2>Conclusion</h2>
 <p>
-Short-term movements often draw attention, but long-term context provides
-clearer insight into the significance of this topic.
+While short-term movements often attract attention, long-term context remains
+essential for understanding the significance of this topic.
 </p>
 """
     return content + filler
@@ -72,14 +77,14 @@ def build_similar_blocks(current_idx, current_category, limit=3):
     blocks = ""
     matches = []
 
-    # 1️⃣ Same category first
+    # Prefer same category
     for i, item in enumerate(data):
         if i != current_idx and item.get("category") == current_category:
             matches.append(i)
 
-    # 2️⃣ Fallback to other categories
+    # Fallback to others
     if len(matches) < limit:
-        for i, item in enumerate(data):
+        for i in range(len(data)):
             if i != current_idx and i not in matches:
                 matches.append(i)
 
@@ -89,7 +94,7 @@ def build_similar_blocks(current_idx, current_category, limit=3):
         <div class="post">
           <h3><a href="/articles/article-{i+1}.html">{item['title']}</a></h3>
           <div class="info">Published {item['_dt'].strftime('%B %d, %Y')}</div>
-          <p>{excerpt(item['content'])}</p>
+          <p>{excerpt(item['content'], 28)}</p>
           <a href="/articles/article-{i+1}.html">Read more →</a>
         </div>
         """
@@ -100,7 +105,7 @@ def build_similar_blocks(current_idx, current_category, limit=3):
 for item in data:
     item["_dt"] = parse_date(item.get("date"))
 
-# newest first
+# Newest first
 data.sort(key=lambda x: x["_dt"], reverse=True)
 
 # ================= ARTICLE GENERATION =================
@@ -109,72 +114,27 @@ for i, item in enumerate(data):
     pub_date = item["_dt"].strftime("%B %d, %Y")
     category = item.get("category", "General")
 
-raw_content = item.get("content", item["title"])
+    # 🔴 IMPORTANT FIX — EXPAND CONTENT FIRST
+    raw_content = item.get("content", item["title"])
+    content = ensure_min_words(
+        raw_content,
+        item["title"],
+        category,
+        min_words=MIN_WORDS
+    )
 
-content = ensure_min_words(
-    raw_content,
-    item["title"],
-    item.get("category", "General"),
-    min_words=700
-)
     similar_blocks = build_similar_blocks(i, category)
 
     page = TEMPLATE
     page = page.replace("{{TITLE}}", item["title"])
-    page = page.replace("{{SUMMARY}}", excerpt(content, 40))
+    page = page.replace("{{SUMMARY}}", excerpt(content, 45))
     page = page.replace("{{SOURCE}}", item.get("link", "Public sources"))
     page = page.replace("{{DATE}}", pub_date)
-    page = page.replace("{{CONTENT}}", content)
+    page = page.replace("{{CONTENT}}", content)  # ✅ USE EXPANDED CONTENT
     page = page.replace("{{CANONICAL_URL}}", canonical)
     page = page.replace("{{SIMILAR_BLOCKS}}", similar_blocks)
 
     with open(os.path.join(ARTICLES_DIR, f"article-{i+1}.html"), "w", encoding="utf-8") as f:
         f.write(page)
 
-# ================= HOMEPAGE =================
-def render_home(items):
-    html = ""
-    for i, item in enumerate(items[:PER_PAGE]):
-        html += f"""
-        <div class="post">
-          <h3><a href="/articles/article-{i+1}.html">{item['title']}</a></h3>
-          <div class="info">Published {item['_dt'].strftime('%B %d, %Y')}</div>
-          <p>{excerpt(item['content'])}</p>
-          <a href="/articles/article-{i+1}.html">Read more →</a>
-        </div>
-        """
-    return html
-
-index_html = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>PureStill | Independent Global Analysis</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Independent analysis of business, technology, and economic developments.">
-</head>
-<body>
-
-<h1>PureStill</h1>
-<p>Independent analysis of business, technology, and economic change.</p>
-
-<section>
-<h2>Latest Articles</h2>
-{render_home(data)}
-</section>
-
-<p>
-<a href="/about.html">About</a> ·
-<a href="/privacy-policy.html">Privacy</a> ·
-<a href="/disclaimer.html">Disclaimer</a> ·
-<a href="/contact.html">Contact</a>
-</p>
-
-</body>
-</html>
-"""
-
-with open(os.path.join(SITE_DIR, "index.html"), "w", encoding="utf-8") as f:
-    f.write(index_html)
-
-print("PureStill generation complete: similar articles linked successfully.")
+print("PureStill generation complete — expanded articles are LIVE.")
