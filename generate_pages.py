@@ -74,7 +74,10 @@ data = data[rotate_index:] + data[:rotate_index]
 for i, item in enumerate(data):
     canonical = f"{BASE_URL}/articles/article-{i+1}.html"
     pub_date = item["_dt"].strftime("%B %d, %Y")
+featured_blocks = build_feed_blocks(data, exclude_idx=i, limit=3)
+recent_blocks = build_feed_blocks(data[i+1:], exclude_idx=None, limit=3)
 
+    
     page = TEMPLATE
     page = page.replace("{{TITLE}}", item["title"])
     page = page.replace("{{SUMMARY}}", excerpt(item["content"], 40))
