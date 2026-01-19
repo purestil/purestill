@@ -1,110 +1,197 @@
-print("Starting PureStill generator…")
+print("Starting PureStill generator...")
 
 import json, os
 from datetime import datetime
+from collections import defaultdict
 
-# ================= CONFIG =================
-BASE_URL = "https://purestill.pages.dev"
-SITE_DIR = "site"
-ARTICLES_DIR = os.path.join(SITE_DIR, "articles")
-
-os.makedirs(ARTICLES_DIR, exist_ok=True)
-
-# ================= LOAD DATA =================
+# ================== LOAD DATA ==================
 with open("data.json", encoding="utf-8") as f:
     data = json.load(f)
 
-# ================= LOAD TEMPLATE =================
+# ================== DIRECTORIES ==================
+SITE_DIR = "site"
+ARTICLES_DIR = os.path.join(SITE_DIR, "articles")
+TOPICS_DIR = os.path.join(SITE_DIR, "topics")
+PILLARS_DIR = os.path.join(SITE_DIR, "pillars")
+
+os.makedirs(ARTICLES_DIR, exist_ok=True)
+os.makedirs(TOPICS_DIR, exist_ok=True)
+os.makedirs(PILLARS_DIR, exist_ok=True)
+
+# ================== LOAD TEMPLATES ==================
 with open("article_template.html", encoding="utf-8") as f:
-    TEMPLATE = f.read()
+    ARTICLE_TEMPLATE = f.read()
 
-# ================= CONTENT EXPANSION (CRITICAL) =================
-def ensure_min_words(text, title, min_words=700):
-    filler = [
-        f"<h2>Background</h2><p>{title} has developed within a broader economic and policy context in the United States.</p>",
-        "<h2>Recent Developments</h2><p>Recent signals suggest gradual adjustments rather than abrupt changes, with markets responding cautiously.</p>",
-        "<h2>Economic Context</h2><p>Inflation trends, interest rate expectations, and labor market data provide essential context.</p>",
-        "<h2>Implications</h2><p>This development may influence business decisions, investment strategies, and regulatory considerations.</p>",
-        "<h2>What to Watch</h2><p>Upcoming data releases and policy communications will help clarify future direction.</p>",
-        "<h2>Conclusion</h2><p>A long-term perspective remains essential when interpreting economic and market signals.</p>",
-    ]
+with open("index_template.html", encoding="utf-8") as f:
+    INDEX_TEMPLATE = f.read()
 
-    expanded = f"<p>{text}</p>"
-    i = 0
-    while len(expanded.split()) < min_words:
-        expanded += filler[i % len(filler)]
-        i += 1
+# ================== CONSTANTS ==================
+BASE_URL = "https://purestill.pages.dev"
 
-    return expanded
+PILLARS = {
+    "Economy": "us-economy",
+    "Technology": "technology-trends",
+    "General": "us-economy"
+}
 
-# ================= RELATED ARTICLES =================
-def build_related_blocks(current_index, items, limit=3):
-    blocks = ""
-    count = 0
+# ================== HELPERS ==================
+def excerpt(text, limit=220):
+    words = text.split()
+    return " ".join(words[:limit]) + ("…" if len(words) > limit else "")
 
-    for i, it in enumerate(items):
-        if i == current_index:
-            continue
-
-        blocks += f"""
-        <div class="related-item">
-          <h3><a href="/articles/article-{i+1}.html">{it['title']}</a></h3>
-          <p>{it.get('content','')[:140]}…</p>
-        </div>
-        """
-
-        count += 1
-        if count >= limit:
-            break
-
-    return blocks
-
-# ================= GENERATE ARTICLES =================
-for i, item in enumerate(data):
-    title = item.get("title", "Untitled")
-    raw_content = item.get("content", title)
-
-    # 🔥 FORCE EXPANSION
-    content = ensure_min_words(raw_content, title)
-
-    related_blocks = build_related_blocks(i, data)
-
-    html = TEMPLATE
-    html = html.replace("{{TITLE}}", title)
-    html = html.replace("{{SUMMARY}}", raw_content[:160])
-    html = html.replace("{{SOURCE}}", item.get("link", "Public sources"))
-    html = html.replace("{{DATE}}", datetime.utcnow().strftime("%B %d, %Y"))
-    html = html.replace("{{CONTENT}}", content)
-    html = html.replace("{{RELATED_BLOCKS}}", related_blocks)
-    html = html.replace(
-        "{{CANONICAL_URL}}",
-        f"{BASE_URL}/articles/article-{i+1}.html"
+def ensure_length(text, min_words=650):
+    words = text.split()
+    if len(words) >= min_words:
+        return text
+    filler = (
+        " This analysis expands on broader economic context, historical patterns, "
+        "policy implications, and market responses to provide a balanced and "
+        "informational overview based on publicly available sources."
     )
+    while len(words) < min_words:
+        text += filler
+        words = text.split()
+    return text
+
+def score(item):
+    s = len(item.get("content", "").split()) // 200
+    if item.get("category") in ["Economy", "Technology"]:
+        s += 3
+    return s
+
+def build_related(current_index, items, limit=3):
+    ranked = []
+    for i, it in enumerate(items):
+        if i != current_index:
+            ranked.append((score(it), i, it))
+    ranked.sort(reverse=True)
+    html = ""
+    for _, i, it in ranked[:limit]:
+        html += f"<li><a href='/articles/article-{i+1}.html'>{it['title']}</a></li>\n"
+    return html
+
+def article_card(item, idx):
+    return f"""
+    <div class="card">
+      <h3>
+        <a href="/articles/article-{idx+1}.html">{item['title']}</a>
+      </h3>
+      <p class="meta">
+        Published {item.get('date','')} · {item.get('category','General')}
+      </p>
+      <p>{excerpt(item.get('content',''))}</p>
+      <a href="/articles/article-{idx+1}.html">Read more →</a>
+    </div>
+    """
+
+# ================== ARTICLE GENERATION ==================
+categories = defaultdict(list)
+
+for i, item in enumerate(data):
+    category = item.get("category", "General")
+    slug = category.lower().replace(" ", "-")
+    categories[category].append((i, item))
+
+    canonical = f"{BASE_URL}/articles/article-{i+1}.html"
+    date = item.get("date", datetime.utcnow().strftime("%Y-%m-%d"))
+
+    content = ensure_length(item.get("content", item["title"]))
+
+    page = ARTICLE_TEMPLATE
+    page = page.replace("{{TITLE}}", item["title"])
+    page = page.replace("{{SUMMARY}}", excerpt(content, 160))
+    page = page.replace("{{SOURCE}}", item.get("link", "Public sources"))
+    page = page.replace("{{DATE}}", date)
+    page = page.replace("{{CONTENT}}", f"<p>{content.replace('\n','</p><p>')}</p>")
+    page = page.replace("{{RELATED_LINKS}}", build_related(i, data))
+    page = page.replace("{{CATEGORY}}", category)
+    page = page.replace("{{CATEGORY_SLUG}}", slug)
+    page = page.replace("{{CANONICAL_URL}}", canonical)
+    page = page.replace("{{AD_MID}}", "<!-- MID AD -->")
+    page = page.replace("{{AD_BOTTOM}}", "<!-- BOTTOM AD -->")
 
     with open(os.path.join(ARTICLES_DIR, f"article-{i+1}.html"), "w", encoding="utf-8") as f:
+        f.write(page)
+
+# ================== TOPIC HUBS ==================
+for cat, items in categories.items():
+    slug = cat.lower().replace(" ", "-")
+    links = ""
+    for i, item in items:
+        links += f"<p><a href='/articles/article-{i+1}.html'>{item['title']}</a></p>\n"
+
+    html = f"""<!DOCTYPE html>
+<html><head>
+<meta charset="UTF-8">
+<title>{cat} Analysis | PureStill</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head><body>
+<h1>{cat}</h1>
+{links}
+<p><a href="/">Home</a></p>
+</body></html>"""
+
+    with open(os.path.join(TOPICS_DIR, f"{slug}.html"), "w", encoding="utf-8") as f:
         f.write(html)
 
-# ================= HOMEPAGE =================
-index_items = ""
-for i, item in enumerate(data[:10]):
-    index_items += f"<p><a href='/articles/article-{i+1}.html'>{item['title']}</a></p>\n"
-
-index_html = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
+# ================== PILLAR PAGES ==================
+for cat, slug in PILLARS.items():
+    html = f"""<!DOCTYPE html>
+<html><head>
 <meta charset="UTF-8">
-<title>PureStill | Independent Global Analysis</title>
+<title>{cat} Overview | PureStill</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-<h1>PureStill</h1>
-<p>Independent analysis of business, technology, and economic change.</p>
-{index_items}
-</body>
-</html>
+</head><body>
+<h1>{cat}</h1>
+<p>This is an evergreen pillar page updated periodically.</p>
+<p><a href="/">Home</a></p>
+</body></html>"""
+
+    with open(os.path.join(PILLARS_DIR, f"{slug}.html"), "w", encoding="utf-8") as f:
+        f.write(html)
+
+# ================== HOMEPAGE (PREMIUM) ==================
+sorted_data = sorted(data, key=lambda x: x.get("date",""), reverse=True)
+
+featured = sorted_data[0]
+f_idx = data.index(featured)
+
+FEATURED = f"""
+<h1>
+  <a href="/articles/article-{f_idx+1}.html">{featured['title']}</a>
+</h1>
+<p class="meta">Published {featured.get('date','')}</p>
+<p>{excerpt(featured.get('content',''),260)}</p>
+<a href="/articles/article-{f_idx+1}.html">Read full analysis →</a>
 """
+
+RECENT = ""
+for item in sorted_data[1:4]:
+    RECENT += article_card(item, data.index(item))
+
+OLDER = ""
+for item in sorted_data[4:10]:
+    OLDER += article_card(item, data.index(item))
+
+index_html = INDEX_TEMPLATE
+index_html = index_html.replace("{{FEATURED_ARTICLE}}", FEATURED)
+index_html = index_html.replace("{{RECENT_ARTICLES}}", RECENT)
+index_html = index_html.replace("{{OLDER_ARTICLES}}", OLDER)
 
 with open(os.path.join(SITE_DIR, "index.html"), "w", encoding="utf-8") as f:
     f.write(index_html)
 
-print("PureStill site generated successfully — expanded articles + related links live.")
+# ================== SITEMAPS ==================
+urls = [f"{BASE_URL}/"]
+for i in range(len(data)):
+    urls.append(f"{BASE_URL}/articles/article-{i+1}.html")
+
+sitemap = "<?xml version='1.0' encoding='UTF-8'?>\n<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>\n"
+for u in urls:
+    sitemap += f"<url><loc>{u}</loc></url>\n"
+sitemap += "</urlset>"
+
+with open(os.path.join(SITE_DIR, "sitemap.xml"), "w", encoding="utf-8") as f:
+    f.write(sitemap)
+
+print("PureStill site generated successfully.")
