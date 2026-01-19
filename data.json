@@ -1,18 +1,58 @@
 [
   {
-    "title": "Major shifts shaping the United States economic outlook",
-    "summary": "An independent analysis examining recent economic indicators, policy signals, and long-term trends influencing business confidence.",
-    "content": "The United States economy is showing mixed signals as recent data suggests moderation in inflation alongside resilient labor markets. Policymakers continue to balance growth with stability. Market participants are closely watching Federal Reserve communications, fiscal conditions, and productivity trends. Over the long term, structural shifts such as demographic changes, technology adoption, and global trade realignments may shape economic outcomes. Analysts note that while short-term volatility remains, longer-term fundamentals continue to evolve in ways that demand careful interpretation and measured response.",
-    "category": "Economy",
-    "date": "2026-07-19",
-    "source": "https://www.federalreserve.gov/"
+    "title": "Federal Reserve Signals Cautious Policy Stance Amid Economic Uncertainty",
+    "summary": "An independent analysis based on recent public information regarding Federal Reserve policy signals. The summary highlights context, implications, and relevance for the United States.",
+    "content": "",
+    "category": "Policy",
+    "date": "2026-01-20",
+    "source": "https://feeds.federalreserve.gov/pressreleases.htm"
   },
   {
-    "title": "Technology investment trends and productivity",
-    "summary": "How capital allocation and innovation cycles are influencing productivity growth.",
-    "content": "Investment in technology continues to reshape productivity across sectors. Firms are prioritizing automation, AI-driven tools, and cloud infrastructure to improve efficiency. While near-term returns vary, long-term productivity gains depend on complementary investments in skills and organizational change.",
+    "title": "US Job Growth Shows Signs of Moderation",
+    "summary": "An independent analysis based on recent public information regarding labor market trends in the United States. The summary highlights context, implications, and relevance for the United States.",
+    "content": "",
+    "category": "Economy",
+    "date": "2026-01-20",
+    "source": "https://www.bls.gov/feed/bls_latest.rss"
+  },
+  {
+    "title": "Consumer Spending Patterns Shift as Inflation Pressures Ease",
+    "summary": "An independent analysis based on recent public information regarding consumer spending and inflation dynamics. The summary highlights context, implications, and relevance for the United States.",
+    "content": "",
+    "category": "Economy",
+    "date": "2026-01-19",
+    "source": "https://www.bea.gov/news/events/rss.xml"
+  },
+  {
+    "title": "Technology Investment Accelerates Across US Enterprises",
+    "summary": "An independent analysis based on recent public information regarding technology investment trends in the United States. The summary highlights context, implications, and relevance for the United States.",
+    "content": "",
     "category": "Technology",
-    "date": "2026-07-18",
-    "source": "https://www.bls.gov/"
+    "date": "2026-01-19",
+    "source": "https://techcrunch.com/feed/"
+  },
+  {
+    "title": "Policy Makers Weigh Regulatory Adjustments for Emerging Technologies",
+    "summary": "An independent analysis based on recent public information regarding regulatory discussions around emerging technologies. The summary highlights context, implications, and relevance for the United States.",
+    "content": "",
+    "category": "Policy",
+    "date": "2026-01-18",
+    "source": "https://thehill.com/rss/syndicator/19110"
+  },
+  {
+    "title": "US Equity Markets React to Shifting Interest Rate Expectations",
+    "summary": "An independent analysis based on recent public information regarding market reactions to interest rate expectations. The summary highlights context, implications, and relevance for the United States.",
+    "content": "",
+    "category": "Markets",
+    "date": "2026-01-18",
+    "source": "https://feeds.reuters.com/reuters/businessNews"
+  },
+  {
+    "title": "Artificial Intelligence Adoption Expands in Corporate Operations",
+    "summary": "An independent analysis based on recent public information regarding artificial intelligence adoption in business operations. The summary highlights context, implications, and relevance for the United States.",
+    "content": "",
+    "category": "Technology",
+    "date": "2026-01-17",
+    "source": "https://www.wired.com/feed/rss"
   }
 ]
