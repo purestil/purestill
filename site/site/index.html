@@ -1,19 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>PureStill — Independent Global Analysis</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-</head>
-<body>
-  <h1>PureStill</h1>
-  <p>Independent analysis of business, technology, and economic change.</p>
+  <meta charset="UTF-8">
+  <title>{{title}} | PureStill</title>
 
-  <nav>
-    <a href="/about.html">About</a> |
-    <a href="/privacy-policy.html">Privacy Policy</a> |
-    <a href="/disclaimer.html">Disclaimer</a> |
-    <a href="/contact.html">Contact</a>
-  </nav>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{{summary}}">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="{{title}}">
+  <meta property="og:description" content="{{summary}}">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="PureStill">
+
+  <!-- Basic styling (clean + fast) -->
+  <style>
+    body {
+      font-family: Georgia, "Times New Roman", serif;
+      max-width: 760px;
+      margin: 40px auto;
+      padding: 0 16px;
+      line-height: 1.7;
+      color: #111;
+      background: #fff;
+    }
+
+    header h1 {
+      font-size: 2.2em;
+      margin-bottom: 10px;
+    }
+
+    .meta {
+      color: #555;
+      font-size: 0.95em;
+      margin-bottom: 25px;
+    }
+
+    article p {
+      margin-bottom: 1.2em;
+    }
+
+    nav {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #ddd;
+      font-size: 0.95em;
+    }
+
+    nav a {
+      margin-right: 12px;
+      text-decoration: none;
+      color: #0645ad;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>{{title}}</h1>
+  <div class="meta">
+    Published on {{date}} · Source: {{source}}
+  </div>
+</header>
+
+<article>
+  {{content}}
+</article>
+
+<nav>
+  <a href="/">Home</a>
+  <a href="/about.html">About</a>
+  <a href="/privacy-policy.html">Privacy Policy</a>
+  <a href="/disclaimer.html">Disclaimer</a>
+  <a href="/contact.html">Contact</a>
+</nav>
+
 </body>
 </html>
