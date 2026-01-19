@@ -27,6 +27,7 @@ with open(FEEDS_FILE, encoding="utf-8") as f:
     feeds = [line.strip() for line in f if line.strip() and not line.startswith("#")]
 
 new_items_added = 0
+paused_feeds = []
 
 # ================= CATEGORY DETECTION =================
 def detect_category(title):
@@ -47,6 +48,19 @@ for feed_url in feeds:
         break
 
     feed = feedparser.parse(feed_url)
+
+    # ---------- AUTO-PAUSE ON ERROR ----------
+    if getattr(feed, "bozo", False):
+        paused_feeds.append(feed_url)
+        print(f"⚠️ Skipping feed due to error: {feed_url}")
+        continue
+
+    if not feed.entries:
+        paused_feeds.append(feed_url)
+        print(f"⚠️ Skipping empty feed: {feed_url}")
+        continue
+    # ----------------------------------------
+
     feed_count = 0
 
     for entry in feed.entries:
@@ -89,4 +103,10 @@ for feed_url in feeds:
 with open(DATA_FILE, "w", encoding="utf-8") as f:
     json.dump(data, f, indent=2)
 
+# ================= REPORT =================
 print(f"fetch_news.py complete → added {new_items_added} new articles ({TODAY})")
+
+if paused_feeds:
+    print("⏸️ Paused feeds this run:")
+    for f in paused_feeds:
+        print(f" - {f}")
