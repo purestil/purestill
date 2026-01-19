@@ -109,12 +109,14 @@ for i, item in enumerate(data):
     pub_date = item["_dt"].strftime("%B %d, %Y")
     category = item.get("category", "General")
 
-    content = ensure_min_words(
-        item.get("content", item["title"]),
-        item["title"],
-        category
-    )
+raw_content = item.get("content", item["title"])
 
+content = ensure_min_words(
+    raw_content,
+    item["title"],
+    item.get("category", "General"),
+    min_words=700
+)
     similar_blocks = build_similar_blocks(i, category)
 
     page = TEMPLATE
