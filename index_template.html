@@ -2,188 +2,84 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-
 <title>PureStill | Independent Global Analysis</title>
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Independent analysis of business, technology, and economic change with a focus on the United States.">
+<meta name="description" content="Independent analysis of business, technology, and economic developments with a focus on the United States.">
 <meta name="robots" content="index, follow">
 <meta http-equiv="content-language" content="en-us">
 
 <style>
-body{
-  margin:0;
-  background:#fff;
-  color:#111;
-  font-family: Inter, Arial, sans-serif;
-}
-a{ color:#111; text-decoration:none; }
-a:hover{ text-decoration:underline; }
-
-/* ===== HEADER ===== */
-header{
-  border-bottom:1px solid #e5e5e5;
-}
-.header-inner{
-  max-width:1100px;
-  margin:0 auto;
-  padding:20px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-}
-.brand{
-  font-family: Georgia, serif;
-  font-size:32px;
-  font-weight:600;
-  margin-bottom:10px;
-}
-.nav{
-  font-size:14px;
-  color:#555;
-}
-.nav a{ margin:0 10px; color:#555; }
-
-/* ===== LAYOUT ===== */
-.container{
-  max-width:1100px;
-  margin:0 auto;
-  padding:40px 20px 100px;
-}
-
-/* ===== FEATURED ===== */
-.hero{
-  margin-bottom:60px;
-}
-.hero h1{
-  font-family: Georgia, serif;
-  font-size:2.6em;
-  line-height:1.25;
-  margin-bottom:14px;
-}
-.hero p{
-  font-size:17px;
-  color:#444;
-}
-
-/* ===== SECTIONS ===== */
-.section{
-  margin-bottom:70px;
-}
-.section h2{
-  font-family: Georgia, serif;
-  font-size:22px;
-  margin-bottom:30px;
-}
-
-/* ===== CARDS ===== */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:30px;
-}
-.card{
-  border-top:1px solid #e5e5e5;
-  padding-top:16px;
-}
-.thumb{
-  width:100%;
-  height:160px;
-  background:#f2f2f2;
-  margin-bottom:14px;
-}
-.card h3{
-  font-family: Georgia, serif;
-  font-size:18px;
-  margin-bottom:8px;
-}
-.meta{
-  font-size:13px;
-  color:#777;
-  margin-bottom:8px;
-}
-.excerpt{
-  font-size:15px;
-  color:#444;
-}
-.readmore{
-  display:inline-block;
-  margin-top:8px;
-  font-size:14px;
-}
-
-/* ===== FOOTER ===== */
-footer{
-  border-top:1px solid #e5e5e5;
-  margin-top:80px;
-  padding-top:30px;
-  font-size:14px;
-  color:#666;
-}
-footer a{
-  margin-right:14px;
-  color:#666;
-}
+body{margin:0;font-family:Inter,Arial,sans-serif;background:#fff;color:#111}
+.container{max-width:1000px;margin:0 auto;padding:40px 20px 80px}
+header{text-align:center;margin-bottom:40px}
+.brand{font-family:Georgia,serif;font-size:36px;font-weight:500}
+nav{margin-top:20px;font-size:14px}
+nav a{margin:0 10px;color:#111;text-decoration:none}
+nav a:hover{text-decoration:underline}
+.section{margin-top:60px}
+.section h2{font-family:Georgia,serif;font-size:24px;margin-bottom:25px}
+.featured h1{font-family:Georgia,serif;font-size:30px}
+.meta{font-size:13px;color:#666;margin-bottom:10px}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px}
+.card{border:1px solid #ddd;padding:20px}
+.card h3{font-family:Georgia,serif;font-size:18px;margin:0 0 8px}
+.card p{font-size:14px;color:#333}
+.read-more{font-size:14px}
+.read-more a{text-decoration:underline}
+footer{margin-top:80px;padding-top:30px;border-top:1px solid #ddd;font-size:14px;color:#555;text-align:center}
+footer a{margin:0 8px;color:#555}
 </style>
 </head>
 
 <body>
-
-<!-- ===== HEADER ===== -->
-<header>
-  <div class="header-inner">
-    <div class="brand">PureStill</div>
-    <nav class="nav">
-      <a href="/">Home</a>
-      <a href="/articles/">Articles</a>
-      <a href="/topics/">Topics</a>
-      <a href="/about.html">About</a>
-      <a href="/terms.html">Terms</a>
-      <a href="/privacy-policy.html">Privacy</a>
-      <a href="/disclaimer.html">Disclaimer</a>
-      <a href="/contact.html">Contact</a>
-    </nav>
-  </div>
-</header>
-
 <div class="container">
 
-<!-- ===== FEATURED ===== -->
-<section class="hero">
+<header>
+  <div class="brand">PureStill</div>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/articles/">Articles</a>
+    <a href="/topics/">Topics</a>
+    <a href="/about.html">About</a>
+    <a href="/terms.html">Terms</a>
+    <a href="/privacy-policy.html">Privacy</a>
+    <a href="/contact.html">Contact</a>
+    <a href="/disclaimer.html">Disclaimer</a>
+  </nav>
+</header>
+
+<section class="section featured">
+  <h2>Featured Analysis</h2>
   {{FEATURED_ARTICLE}}
 </section>
 
-<!-- ===== RECENT ===== -->
 <section class="section">
   <h2>Recent Analysis</h2>
-  <div class="grid">
+  <div class="card-grid">
     {{RECENT_ARTICLES}}
   </div>
 </section>
 
-<!-- ===== MORE TOP ===== -->
 <section class="section">
-  <h2>More Coverage</h2>
-  <div class="grid">
+  <h2>Top Articles</h2>
+  <div class="card-grid">
     {{TOP_ARTICLES}}
   </div>
 </section>
 
-<!-- ===== OLDER ===== -->
 <section class="section">
-  <h2>From the Archive</h2>
-  <div class="grid">
+  <h2>Earlier Analysis</h2>
+  <div class="card-grid">
     {{OLDER_ARTICLES}}
   </div>
 </section>
 
 <footer>
-  <a href="/">Home</a>
   <a href="/about.html">About</a>
   <a href="/terms.html">Terms</a>
   <a href="/privacy-policy.html">Privacy</a>
-  <a href="/disclaimer.html">Disclaimer</a>
-  <a href="/contact.html">Contact</a><br><br>
+  <a href="/contact.html">Contact</a>
+  <a href="/disclaimer.html">Disclaimer</a><br><br>
   © PureStill
 </footer>
 
