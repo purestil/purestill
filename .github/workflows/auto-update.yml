@@ -1,34 +1,36 @@
-name: Auto Generate PureStill Pages
+name: PureStill Auto Post
 
 on:
-  workflow_dispatch:
   schedule:
-    - cron: "0 3 * * *"
-
-permissions:
-  contents: write
+    - cron: "0 3 * * *"   # runs daily (UTC)
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
           python-version: "3.11"
 
-      - name: Generate site
-        run: |
-          python generate_pages.py
+      - name: Install dependencies
+        run: pip install feedparser
 
-      - name: Commit and push changes
+      - name: Fetch new content
+        run: python fetch_news.py
+
+      - name: Generate site
+        run: python generate_pages.py
+
+      - name: Commit and push
         run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git add site/
-          git commit -m "Auto update PureStill site" || echo "No changes to commit"
+          git config user.name "purestill-bot"
+          git config user.email "purestill.official@gmail.com"
+          git add .
+          git commit -m "Daily auto post" || echo "No changes"
           git push
+
