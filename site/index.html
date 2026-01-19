@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+
 <title>PureStill | Independent Global Analysis</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="PureStill provides independent analysis of business, technology, and economic developments with a focus on the United States.">
+<meta name="description" content="Independent analysis of business, technology, and economic developments with a focus on the United States.">
 <meta name="robots" content="index, follow">
 <meta http-equiv="content-language" content="en-us">
 
@@ -16,43 +17,43 @@ body{
   background:#fff;
   color:#111;
 }
-a{color:#111;text-decoration:none}
-a:hover{text-decoration:underline}
-
 .container{
-  max-width:1100px;
+  max-width:1000px;
   margin:0 auto;
-  padding:30px 20px 80px;
+  padding:40px 20px 80px;
 }
-
-/* ===== HEADER ===== */
 header{
-  border-bottom:1px solid #ddd;
-  padding-bottom:20px;
-  margin-bottom:40px;
   text-align:center;
+  margin-bottom:40px;
 }
 .brand{
   font-family:Georgia,serif;
-  font-size:30px;
+  font-size:36px;
   font-weight:500;
 }
-.nav{
-  margin-top:12px;
+nav{
+  margin-top:20px;
   font-size:14px;
 }
-.nav a{
+nav a{
   margin:0 10px;
-  color:#444;
+  color:#111;
+  text-decoration:none;
 }
-
-/* ===== FEATURED ===== */
-.featured{
-  margin-bottom:50px;
+nav a:hover{
+  text-decoration:underline;
+}
+.section{
+  margin-top:60px;
+}
+.section h2{
+  font-family:Georgia,serif;
+  font-size:24px;
+  margin-bottom:25px;
 }
 .featured h1{
   font-family:Georgia,serif;
-  font-size:32px;
+  font-size:30px;
   margin-bottom:10px;
 }
 .meta{
@@ -60,21 +61,9 @@ header{
   color:#666;
   margin-bottom:10px;
 }
-.excerpt{
-  font-size:16px;
-  color:#333;
-}
-
-/* ===== ARTICLE GRID ===== */
-.section-title{
-  font-family:Georgia,serif;
-  font-size:22px;
-  margin:50px 0 20px;
-}
-
-.grid{
+.card-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
   gap:30px;
 }
 .card{
@@ -83,37 +72,31 @@ header{
 }
 .card h3{
   font-family:Georgia,serif;
-  font-size:20px;
+  font-size:18px;
   margin:0 0 8px;
 }
-.card .meta{
-  margin-bottom:8px;
-}
-.readmore{
+.card p{
   font-size:14px;
-  margin-top:10px;
-  display:inline-block;
+  color:#333;
 }
-
-/* ===== OLDER ===== */
-.older ul{
-  padding-left:18px;
+.read-more{
+  font-size:14px;
 }
-.older li{
-  margin-bottom:8px;
+.read-more a{
+  color:#111;
+  text-decoration:underline;
 }
-
-/* ===== FOOTER ===== */
 footer{
   margin-top:80px;
+  padding-top:30px;
   border-top:1px solid #ddd;
-  padding-top:20px;
   font-size:14px;
   color:#555;
   text-align:center;
 }
 footer a{
   margin:0 8px;
+  color:#555;
 }
 </style>
 </head>
@@ -124,121 +107,129 @@ footer a{
 
 <header>
   <div class="brand">PureStill</div>
-  <div class="nav">
+  <nav>
     <a href="/">Home</a>
     <a href="/articles/article-1.html">Articles</a>
     <a href="/topics/economy.html">Topics</a>
     <a href="/about.html">About</a>
     <a href="/terms.html">Terms</a>
     <a href="/privacy-policy.html">Privacy</a>
-    <a href="/disclaimer.html">Disclaimer</a>
     <a href="/contact.html">Contact</a>
-  </div>
+    <a href="/disclaimer.html">Disclaimer</a>
+  </nav>
 </header>
 
 <!-- ===== FEATURED ARTICLE ===== -->
-<section class="featured">
+<section class="section featured">
+  <h2>Featured Analysis</h2>
   <h1>
     <a href="/articles/article-1.html">
-      Major Shifts Shaping the United States Economic Outlook
+      Major shifts shaping the United States economic outlook
     </a>
   </h1>
-  <div class="meta">Published July 2026 · Economy</div>
-  <p class="excerpt">
-    A clear examination of recent developments influencing business confidence,
-    policy direction, and long-term economic expectations in the United States.
+  <div class="meta">Published July 19, 2026</div>
+  <p>
+    An independent analysis examining recent economic indicators, policy signals,
+    and long-term trends influencing business and market confidence.
   </p>
-  <a class="readmore" href="/articles/article-1.html">Read more →</a>
+  <p class="read-more">
+    <a href="/articles/article-1.html">Read more →</a>
+  </p>
 </section>
 
 <!-- ===== RECENT ARTICLES ===== -->
-<section>
-  <div class="section-title">Recent Analysis</div>
+<section class="section">
+  <h2>Recent Analysis</h2>
+  <div class="card-grid">
 
-  <div class="grid">
     <div class="card">
       <h3><a href="/articles/article-2.html">Technology investment trends and productivity</a></h3>
-      <div class="meta">Technology · July 2026</div>
-      <p class="excerpt">
-        How current investment patterns are reshaping productivity and long-term
-        competitiveness.
-      </p>
-      <a class="readmore" href="/articles/article-2.html">Read more →</a>
+      <div class="meta">Published July 18, 2026</div>
+      <p>How capital allocation and innovation cycles are influencing long-term productivity.</p>
+      <p class="read-more"><a href="/articles/article-2.html">Read more →</a></p>
     </div>
 
     <div class="card">
       <h3><a href="/articles/article-3.html">Federal policy signals markets are watching</a></h3>
-      <div class="meta">Economy · July 2026</div>
-      <p class="excerpt">
-        An overview of recent policy indicators and why financial markets are
-        paying close attention.
-      </p>
-      <a class="readmore" href="/articles/article-3.html">Read more →</a>
+      <div class="meta">Published July 18, 2026</div>
+      <p>An overview of recent policy communications and their potential economic impact.</p>
+      <p class="read-more"><a href="/articles/article-3.html">Read more →</a></p>
     </div>
 
     <div class="card">
       <h3><a href="/articles/article-4.html">AI adoption and workforce implications</a></h3>
-      <div class="meta">Technology · July 2026</div>
-      <p class="excerpt">
-        Examining how artificial intelligence is influencing employment patterns
-        and organizational structure.
-      </p>
-      <a class="readmore" href="/articles/article-4.html">Read more →</a>
+      <div class="meta">Published July 17, 2026</div>
+      <p>Understanding how automation and AI are reshaping employment patterns.</p>
+      <p class="read-more"><a href="/articles/article-4.html">Read more →</a></p>
     </div>
+
   </div>
 </section>
 
 <!-- ===== TOP ARTICLES ===== -->
-<section>
-  <div class="section-title">Top Articles</div>
+<section class="section">
+  <h2>Top Articles</h2>
+  <div class="card-grid">
 
-  <div class="grid">
     <div class="card">
-      <h3><a href="/articles/article-5.html">Inflation data: what matters and what does not</a></h3>
-      <div class="meta">Economy</div>
-      <p class="excerpt">
-        A breakdown of key inflation indicators and how to interpret them
-        correctly.
-      </p>
-      <a class="readmore" href="/articles/article-5.html">Read more →</a>
+      <h3><a href="/articles/article-5.html">Inflation data: what matters and what doesn’t</a></h3>
+      <div class="meta">Published July 16, 2026</div>
+      <p>A breakdown of key inflation metrics and why some signals are misleading.</p>
+      <p class="read-more"><a href="/articles/article-5.html">Read more →</a></p>
     </div>
 
     <div class="card">
-      <h3><a href="/articles/article-6.html">Labor market trends and economic resilience</a></h3>
-      <div class="meta">Economy</div>
-      <p class="excerpt">
-        Understanding labor participation, wage growth, and structural shifts.
-      </p>
-      <a class="readmore" href="/articles/article-6.html">Read more →</a>
+      <h3><a href="/articles/article-6.html">Corporate earnings as an economic signal</a></h3>
+      <div class="meta">Published July 15, 2026</div>
+      <p>What earnings trends reveal about broader economic conditions.</p>
+      <p class="read-more"><a href="/articles/article-6.html">Read more →</a></p>
     </div>
 
     <div class="card">
-      <h3><a href="/articles/article-7.html">Financial conditions and long-term risk factors</a></h3>
-      <div class="meta">Markets</div>
-      <p class="excerpt">
-        Assessing tightening financial conditions and their potential effects.
-      </p>
-      <a class="readmore" href="/articles/article-7.html">Read more →</a>
+      <h3><a href="/articles/article-7.html">Labor market trends and resilience</a></h3>
+      <div class="meta">Published July 14, 2026</div>
+      <p>An analysis of employment data and long-term workforce stability.</p>
+      <p class="read-more"><a href="/articles/article-7.html">Read more →</a></p>
     </div>
+
   </div>
 </section>
 
 <!-- ===== OLDER ARTICLES ===== -->
-<section class="older">
-  <div class="section-title">Older Articles</div>
-  <ul>
-    <li><a href="/articles/article-8.html">Global growth outlook amid tightening policy</a></li>
-    <li><a href="/articles/article-9.html">Corporate earnings as an economic signal</a></li>
-    <li><a href="/articles/article-10.html">Why long-term investors remain cautious</a></li>
-  </ul>
+<section class="section">
+  <h2>Earlier Analysis</h2>
+  <div class="card-grid">
+
+    <div class="card">
+      <h3><a href="/articles/article-8.html">Financial conditions and long-term risks</a></h3>
+      <div class="meta">Published July 12, 2026</div>
+      <p>Examining tightening conditions and their implications for growth.</p>
+      <p class="read-more"><a href="/articles/article-8.html">Read more →</a></p>
+    </div>
+
+    <div class="card">
+      <h3><a href="/articles/article-9.html">Global growth outlook amid policy shifts</a></h3>
+      <div class="meta">Published July 11, 2026</div>
+      <p>A global perspective on economic momentum and uncertainty.</p>
+      <p class="read-more"><a href="/articles/article-9.html">Read more →</a></p>
+    </div>
+
+    <div class="card">
+      <h3><a href="/articles/article-10.html">Why long-term investors remain cautious</a></h3>
+      <div class="meta">Published July 10, 2026</div>
+      <p>Understanding risk sentiment and capital preservation strategies.</p>
+      <p class="read-more"><a href="/articles/article-10.html">Read more →</a></p>
+    </div>
+
+  </div>
 </section>
 
 <footer>
   <a href="/about.html">About</a>
   <a href="/terms.html">Terms</a>
   <a href="/privacy-policy.html">Privacy</a>
-  <a href="/disclaimer.html">Disclaimer</a>
-  <a href="/contact.html">Contact</a><br><br>
+  <a href="/contact.html">Contact</a>
+  <a href="/disclaimer.html">Disclaimer</a><br><br>
   © PureStill
 </footer>
 
