@@ -3,14 +3,12 @@
 <head>
 <meta charset="UTF-8">
 
-<title>{{TITLE}} | PureStill</title>
+<title>PureStill | Independent Global Analysis</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="{{SUMMARY}}">
+<meta name="description" content="Independent analysis of business, technology, and economic change with a focus on the United States.">
 <meta name="robots" content="index, follow">
 <meta http-equiv="content-language" content="en-us">
-
-<link rel="canonical" href="{{CANONICAL_URL}}">
 
 <style>
 body{
@@ -20,74 +18,86 @@ body{
   color: #111;
 }
 .container{
-  max-width: 860px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 40px 20px 90px;
+  padding: 40px 20px 80px;
 }
 
 /* ===== HEADER ===== */
 header{
-  margin-bottom: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 18px;
 }
 .brand{
   font-family: Georgia, serif;
-  font-size: 26px;
+  font-size: 28px;
   text-decoration: none;
   color: #111;
 }
+nav a{
+  margin-left: 18px;
+  font-size: 14px;
+  color: #111;
+  text-decoration: none;
+}
+nav a:hover{
+  text-decoration: underline;
+}
 
-/* ===== ARTICLE ===== */
-h1{
+/* ===== HERO ===== */
+.hero{
+  margin-top: 42px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid #ddd;
+}
+.hero h1{
   font-family: Georgia, serif;
-  font-size: 2.4em;
-  margin-bottom: 10px;
+  font-size: 2.5em;
+  margin-bottom: 12px;
 }
-.meta{
-  font-size: 13px;
-  color: #666;
-  margin-bottom: 32px;
-}
-
-article{
+.hero p{
   font-size: 16px;
-  line-height: 1.75;
+  color: #333;
 }
-article h2{
-  font-family: Georgia, serif;
-  font-size: 1.4em;
-  margin-top: 36px;
-}
-article p{
-  margin-bottom: 18px;
+.hero a{
+  color: #111;
+  text-decoration: underline;
 }
 
-/* ===== ADS (SAFE PLACEHOLDERS) ===== */
-.ad{
-  margin: 40px 0;
-  text-align: center;
-  color: #888;
-  font-size: 13px;
+/* ===== SECTIONS ===== */
+.section{
+  margin-top: 60px;
 }
-
-/* ===== RELATED ===== */
-.related{
-  margin-top: 80px;
-  padding-top: 32px;
-  border-top: 1px solid #ddd;
-}
-.related h2{
+.section h2{
   font-family: Georgia, serif;
   font-size: 22px;
   margin-bottom: 24px;
 }
-.related ul{
-  list-style: none;
-  padding: 0;
+
+/* ===== GRID ===== */
+.news-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+  gap: 30px;
 }
-.related li{
-  margin-bottom: 14px;
+.card{
+  border-top: 1px solid #ddd;
+  padding-top: 14px;
 }
-.related a{
+.card h3{
+  font-family: Georgia, serif;
+  font-size: 18px;
+  margin: 0 0 8px;
+}
+.card p{
+  font-size: 14px;
+  color: #444;
+  margin: 0 0 10px;
+}
+.card a{
   color: #111;
   text-decoration: underline;
 }
@@ -109,31 +119,6 @@ footer a:hover{
   text-decoration: underline;
 }
 </style>
-
-<!-- ===== JSON-LD (ARTICLE SCHEMA) ===== -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "NewsArticle",
-  "headline": "{{TITLE}}",
-  "datePublished": "{{DATE}}",
-  "dateModified": "{{DATE}}",
-  "author": {
-    "@type": "Organization",
-    "name": "PureStill Editorial"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "PureStill"
-  },
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "{{CANONICAL_URL}}"
-  },
-  "description": "{{SUMMARY}}"
-}
-</script>
-
 </head>
 
 <body>
@@ -142,43 +127,39 @@ footer a:hover{
 <!-- ===== HEADER ===== -->
 <header>
   <a href="/" class="brand">PureStill</a>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/topics/economy.html">Economy</a>
+    <a href="/topics/technology.html">Technology</a>
+    <a href="/about.html">About</a>
+    <a href="/privacy-policy.html">Privacy</a>
+    <a href="/contact.html">Contact</a>
+  </nav>
 </header>
 
-<!-- ===== BREADCRUMB ===== -->
-<nav style="font-size:13px;color:#666;margin-bottom:18px">
-  <a href="/">Home</a> ›
-  <a href="/topics/{{CATEGORY_SLUG}}.html">{{CATEGORY}}</a>
-</nav>
+<!-- ===== FEATURED ARTICLE ===== -->
+<section class="hero">
+  {{FEATURED_ARTICLE}}
+</section>
 
-<!-- ===== TITLE ===== -->
-<h1>{{TITLE}}</h1>
+<!-- ===== RECENT ARTICLES ===== -->
+<section class="section">
+  <h2>Latest Analysis</h2>
+  <div class="news-grid">
+    {{RECENT_ARTICLES}}
+  </div>
+</section>
 
-<div class="meta">
-  Published {{DATE}} · Source: {{SOURCE}}
-</div>
-
-<!-- ===== ARTICLE CONTENT ===== -->
-<article>
-{{CONTENT}}
-</article>
-
-<!-- ===== MID CONTENT AD ===== -->
-{{AD_MID}}
-
-<!-- ===== BOTTOM CONTENT AD ===== -->
-{{AD_BOTTOM}}
-
-<!-- ===== RELATED ARTICLES ===== -->
-<section class="related">
-  <h2>Related Analysis</h2>
-  <ul>
-    {{RELATED_LINKS}}
-  </ul>
+<!-- ===== OLDER ARTICLES ===== -->
+<section class="section">
+  <h2>More Coverage</h2>
+  <div class="news-grid">
+    {{OLDER_ARTICLES}}
+  </div>
 </section>
 
 <!-- ===== FOOTER ===== -->
 <footer>
-  <a href="/">Home</a>
   <a href="/about.html">About</a>
   <a href="/privacy-policy.html">Privacy</a>
   <a href="/terms.html">Terms</a>
