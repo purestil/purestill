@@ -1,19 +1,225 @@
 <!DOCTYPE html>
-  <head>
-    <html>
-  <!-- Google tag (gtag.js) -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<!-- ✅ UNIVERSAL THEME DECISION (SAME AS ALL PAGES) -->
+<script>
+(function(){
+  const KEY = "purestill-theme";
+  const saved = localStorage.getItem(KEY);
+  const hour = new Date().getHours();
+
+  let mode = saved;
+  if(!mode){
+    mode = (hour >= 19 || hour <= 5) ? "dark" : "light";
+  }
+
+  if(mode === "dark"){
+    document.documentElement.classList.add("dark");
+  }
+})();
+</script>
+
+<!-- Google tag (keep as-is) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YG0KQL8BCE"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-YG0KQL8BCE');
 </script>
-    <title>Disclaimer</title></head>
-<body><div class="wrap">
-<h1>Disclaimer</h1>
-<p>PureStill is not a news publisher. Content is based on publicly available information.</p>
-<p>No guarantees are made regarding accuracy or timeliness.</p>
-<p>Nothing here constitutes financial, legal, or professional advice.</p>
-</div></body></html>
+
+<title>Disclaimer | PureStill</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Disclaimer for PureStill. Read important information about the nature, limitations, and intended use of our content.">
+<meta name="robots" content="index, follow">
+<meta http-equiv="content-language" content="en-us">
+
+<style>
+/* ================= THEME ================= */
+:root{
+  --bg:#ffffff;
+  --text:#111;
+  --muted:#555;
+  --border:#e0e0e0;
+  --link:#1a0dab;
+  --card:#fafafa;
+}
+
+html.dark{
+  --bg:#0e0e10;
+  --text:#eaeaea;
+  --muted:#aaa;
+  --border:#2a2a2a;
+  --link:#8ab4f8;
+  --card:#16161a;
+}
+
+/* ================= BASE ================= */
+body{
+  margin:0;
+  font-family:Inter, Arial, sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.75;
+}
+
+/* ================= LAYOUT ================= */
+.container{
+  max-width:900px;
+  margin:0 auto;
+  padding:48px 20px 80px;
+}
+
+/* ================= HEADER ================= */
+header{
+  text-align:center;
+  margin-bottom:56px;
+}
+
+.brand{
+  font-family:Georgia, serif;
+  font-size:clamp(28px, 4vw, 36px);
+  font-weight:500;
+}
+
+nav{
+  margin-top:18px;
+  font-size:14px;
+}
+
+nav a{
+  margin:0 10px;
+  color:var(--text);
+  text-decoration:none;
+  font-weight:500;
+}
+
+nav a:hover{
+  text-decoration:underline;
+}
+
+/* ================= CONTENT ================= */
+h1{
+  font-family:Georgia, serif;
+  font-size:clamp(26px, 4vw, 32px);
+  margin-bottom:24px;
+}
+
+p{
+  font-size:17px;
+  margin-bottom:18px;
+  color:var(--text);
+}
+
+.note{
+  font-size:15px;
+  color:var(--muted);
+  border-left:3px solid var(--border);
+  padding-left:12px;
+  margin:24px 0;
+}
+
+/* ================= FOOTER ================= */
+footer{
+  margin-top:96px;
+  padding-top:36px;
+  border-top:1px solid var(--border);
+  font-size:14px;
+  color:var(--muted);
+  text-align:center;
+}
+
+/* ================= THEME TOGGLE ================= */
+.toggle{
+  position:fixed;
+  top:14px;
+  right:16px;
+  font-size:13px;
+  cursor:pointer;
+  color:var(--muted);
+  background:var(--card);
+  border:1px solid var(--border);
+  padding:6px 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="toggle" onclick="toggleTheme()" id="themeBtn">🌙</div>
+
+<div class="container">
+
+<header>
+  <div class="brand">PureStill</div>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/articles/">Articles</a>
+    <a href="/topics/">Topics</a>
+    <a href="/about.html">About</a>
+    <a href="/terms.html">Terms</a>
+    <a href="/privacy-policy.html">Privacy</a>
+    <a href="/contact.html">Contact</a>
+    <a href="/disclaimer.html">Disclaimer</a>
+  </nav>
+</header>
+
+<main>
+  <h1>Disclaimer</h1>
+
+  <p>
+    PureStill is an independent analysis platform that summarizes and contextualizes
+    publicly available information related to business, technology, and economic developments.
+  </p>
+
+  <p>
+    PureStill does not operate as a traditional news publisher and does not engage in original
+    reporting or journalism. Content is derived from publicly accessible sources and presented
+    for general informational purposes only.
+  </p>
+
+  <p>
+    While reasonable efforts are made to ensure accuracy, PureStill makes no representations
+    or warranties regarding the completeness, accuracy, or timeliness of any information
+    published on this site.
+  </p>
+
+  <div class="note">
+    Nothing on PureStill constitutes financial, legal, medical, or professional advice.
+    Readers should consult qualified professionals before making decisions based on
+    information found on this site.
+  </div>
+
+  <p>
+    Use of this website and reliance on any information provided is solely at your own risk.
+  </p>
+</main>
+
+<footer>
+  © PureStill
+</footer>
+
+</div>
+
+<script>
+function toggleTheme(){
+  const KEY="purestill-theme";
+  const root=document.documentElement;
+
+  root.classList.toggle("dark");
+
+  localStorage.setItem(
+    KEY,
+    root.classList.contains("dark") ? "dark" : "light"
+  );
+
+  document.getElementById("themeBtn").textContent =
+    root.classList.contains("dark") ? "☀️" : "🌙";
+}
+</script>
+
+</body>
+</html>
