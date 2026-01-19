@@ -1,18 +1,222 @@
 <!DOCTYPE html>
-<html>
-  <head>
-      <!-- Google tag (gtag.js) -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<!-- ✅ UNIVERSAL THEME DECISION (SAME AS ALL PAGES) -->
+<script>
+(function(){
+  const KEY = "purestill-theme";
+  const saved = localStorage.getItem(KEY);
+  const hour = new Date().getHours();
+
+  let mode = saved;
+  if(!mode){
+    mode = (hour >= 19 || hour <= 5) ? "dark" : "light";
+  }
+
+  if(mode === "dark"){
+    document.documentElement.classList.add("dark");
+  }
+})();
+</script>
+
+<!-- Google tag (keep as-is) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YG0KQL8BCE"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-YG0KQL8BCE');
 </script>
-    <title>Contact PureStill</title></head>
-<body><div class="wrap">
-<h1>Contact</h1>
-<p>Email: purestill.official@gmail.com</p>
-<p>We do not provide professional advice via email.</p>
-</div></body></html>
+
+<title>Contact PureStill</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Contact information for PureStill. Reach the editorial team for general inquiries, corrections, or feedback.">
+<meta name="robots" content="index, follow">
+<meta http-equiv="content-language" content="en-us">
+
+<style>
+/* ================= THEME ================= */
+:root{
+  --bg:#ffffff;
+  --text:#111;
+  --muted:#555;
+  --border:#e0e0e0;
+  --link:#1a0dab;
+  --card:#fafafa;
+}
+
+html.dark{
+  --bg:#0e0e10;
+  --text:#eaeaea;
+  --muted:#aaa;
+  --border:#2a2a2a;
+  --link:#8ab4f8;
+  --card:#16161a;
+}
+
+/* ================= BASE ================= */
+body{
+  margin:0;
+  font-family:Inter, Arial, sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.75;
+}
+
+/* ================= LAYOUT ================= */
+.container{
+  max-width:900px;
+  margin:0 auto;
+  padding:48px 20px 80px;
+}
+
+/* ================= HEADER ================= */
+header{
+  text-align:center;
+  margin-bottom:56px;
+}
+
+.brand{
+  font-family:Georgia, serif;
+  font-size:clamp(28px, 4vw, 36px);
+  font-weight:500;
+}
+
+nav{
+  margin-top:18px;
+  font-size:14px;
+}
+
+nav a{
+  margin:0 10px;
+  color:var(--text);
+  text-decoration:none;
+  font-weight:500;
+}
+
+nav a:hover{
+  text-decoration:underline;
+}
+
+/* ================= CONTENT ================= */
+h1{
+  font-family:Georgia, serif;
+  font-size:clamp(26px, 4vw, 32px);
+  margin-bottom:24px;
+}
+
+p{
+  font-size:17px;
+  margin-bottom:18px;
+  color:var(--text);
+}
+
+.email{
+  font-size:18px;
+  font-weight:500;
+  margin:16px 0;
+}
+
+.note{
+  font-size:15px;
+  color:var(--muted);
+  border-left:3px solid var(--border);
+  padding-left:12px;
+  margin-top:24px;
+}
+
+/* ================= FOOTER ================= */
+footer{
+  margin-top:96px;
+  padding-top:36px;
+  border-top:1px solid var(--border);
+  font-size:14px;
+  color:var(--muted);
+  text-align:center;
+}
+
+/* ================= THEME TOGGLE ================= */
+.toggle{
+  position:fixed;
+  top:14px;
+  right:16px;
+  font-size:13px;
+  cursor:pointer;
+  color:var(--muted);
+  background:var(--card);
+  border:1px solid var(--border);
+  padding:6px 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="toggle" onclick="toggleTheme()" id="themeBtn">🌙</div>
+
+<div class="container">
+
+<header>
+  <div class="brand">PureStill</div>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/articles/">Articles</a>
+    <a href="/topics/">Topics</a>
+    <a href="/about.html">About</a>
+    <a href="/terms.html">Terms</a>
+    <a href="/privacy-policy.html">Privacy</a>
+    <a href="/contact.html">Contact</a>
+    <a href="/disclaimer.html">Disclaimer</a>
+  </nav>
+</header>
+
+<main>
+  <h1>Contact</h1>
+
+  <p>
+    This page provides contact information for PureStill.  
+    We welcome general inquiries, factual corrections, and feedback related to our published content.
+  </p>
+
+  <div class="email">
+    Email: <a href="mailto:purestill.official@gmail.com">purestill.official@gmail.com</a>
+  </div>
+
+  <p class="note">
+    Please note: PureStill does not provide financial, legal, medical, or professional advice via email.
+    Messages requesting personalized guidance may not receive a response.
+  </p>
+
+  <p class="note">
+    We do not accept guest posts, paid placements, or sponsored content inquiries at this time.
+  </p>
+</main>
+
+<footer>
+  © PureStill
+</footer>
+
+</div>
+
+<script>
+function toggleTheme(){
+  const KEY="purestill-theme";
+  const root=document.documentElement;
+
+  root.classList.toggle("dark");
+
+  localStorage.setItem(
+    KEY,
+    root.classList.contains("dark") ? "dark" : "light"
+  );
+
+  document.getElementById("themeBtn").textContent =
+    root.classList.contains("dark") ? "☀️" : "🌙";
+}
+</script>
+
+</body>
+</html>
