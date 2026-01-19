@@ -74,15 +74,35 @@ def build_article_content(item):
     return "\n".join(paragraphs)
 
 def build_related(current_index, items, limit=3):
-    links = []
-    for i, it in enumerate(items):
-        if i != current_index:
-            links.append((i, it["title"]))
-    links = links[:limit]
-
     html = ""
-    for idx, title in links:
-        html += f"<li><a href='/articles/article-{idx+1}.html'>{title}</a></li>\n"
+
+    for i, item in enumerate(items):
+        if i == current_index:
+            continue
+
+        html += f"""
+        <div class="related-item">
+          <h3>
+            <a href="/articles/article-{i+1}.html">
+              {item['title']}
+            </a>
+          </h3>
+          <div class="related-meta">
+            {item.get('category','General')} · {item.get('date','')}
+          </div>
+          <div class="related-excerpt">
+            {item.get('summary','')[:160]}…
+          </div>
+          <div class="related-read">
+            <a href="/articles/article-{i+1}.html">Read more →</a>
+          </div>
+        </div>
+        """
+
+        limit -= 1
+        if limit == 0:
+            break
+
     return html
 
 # ================= ARTICLE GENERATION =================
