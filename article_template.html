@@ -13,7 +13,6 @@
 <link rel="canonical" href="{{CANONICAL_URL}}">
 
 <style>
-/* ================= THEME ================= */
 :root{
   --bg:#ffffff;
   --text:#111;
@@ -22,11 +21,6 @@
   --link:#1a0dab;
 }
 
-body.reading{
-  --bg:#fff;
-}
-
-/* ================= BASE ================= */
 body{
   margin:0;
   font-family:Inter, Arial, sans-serif;
@@ -35,7 +29,6 @@ body{
   line-height:1.8;
 }
 
-/* ================= PROGRESS BAR ================= */
 .progress{
   position:fixed;
   top:0;
@@ -46,7 +39,6 @@ body{
   z-index:9999;
 }
 
-/* ================= HEADER ================= */
 header{
   text-align:center;
   padding:22px 0;
@@ -74,24 +66,20 @@ nav a{
 
 nav a:hover{ text-decoration:underline; }
 
-/* ================= ARTICLE LAYOUT ================= */
 .article-wrap{
   width:100%;
   margin:0 auto;
   padding:48px 20px 100px;
 }
 
-/* Desktop */
 @media(min-width:1024px){
   .article-wrap{ max-width:1000px; }
 }
 
-/* Mobile */
 @media(max-width:1023px){
   .article-wrap{ max-width:720px; padding:40px 16px 80px; }
 }
 
-/* ================= META ================= */
 .category{
   font-size:13px;
   color:#777;
@@ -113,16 +101,14 @@ h1{
 .meta{
   font-size:14px;
   color:#777;
-  margin-bottom:14px;
 }
 
-.reading-time{
+.reading-meta{
   font-size:13px;
   color:var(--muted);
   margin-bottom:34px;
 }
 
-/* ================= TOC (MOBILE ONLY) ================= */
 #toc{
   display:none;
   border:1px solid var(--border);
@@ -151,14 +137,11 @@ h1{
   #toc{ display:block; }
 }
 
-/* ================= ARTICLE BODY ================= */
 article{
   font-size:17px;
 }
 
-article p{
-  margin-bottom:22px;
-}
+article p{ margin-bottom:22px; }
 
 article h2{
   font-family:Georgia, serif;
@@ -171,27 +154,31 @@ article a{
   text-decoration:underline;
 }
 
-/* ================= SOURCE ================= */
+/* ===== SOURCE BLOCK ===== */
 .source{
   font-size:14px;
   color:var(--muted);
   margin-top:40px;
 }
 
-.source a{
+.sources a{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-right:14px;
   color:var(--link);
-  text-decoration:underline;
+  text-decoration:none;
 }
 
-/* ================= ADS ================= */
-.ad{
-  margin:50px 0;
-  text-align:center;
-  font-size:13px;
-  color:#888;
+.sources a:hover{ text-decoration:underline; }
+
+.sources img{
+  width:16px;
+  height:16px;
+  border-radius:2px;
 }
 
-/* ================= RELATED ================= */
+/* ===== RELATED ===== */
 .related{
   margin-top:90px;
   padding-top:40px;
@@ -204,24 +191,18 @@ article a{
   margin-bottom:26px;
 }
 
-.related ul{
-  padding-left:18px;
-}
+.related ul{ padding-left:18px; }
 
-.related li{
-  margin-bottom:12px;
-}
+.related li{ margin-bottom:12px; }
 
 .related a{
   color:#111;
   text-decoration:none;
 }
 
-.related a:hover{
-  text-decoration:underline;
-}
+.related a:hover{ text-decoration:underline; }
 
-/* ================= FOOTER ================= */
+/* ===== FOOTER ===== */
 footer{
   margin-top:100px;
   padding-top:30px;
@@ -238,13 +219,7 @@ footer a{
 
 footer a:hover{ text-decoration:underline; }
 
-/* ================= READING MODE ================= */
-body.reading article{
-  max-width:680px;
-  margin:0 auto;
-}
-
-/* ================= CONTROLS ================= */
+/* ===== CONTROLS ===== */
 .controls{
   position:fixed;
   bottom:18px;
@@ -257,19 +232,17 @@ body.reading article{
   color:#555;
 }
 
-/* ================= PRINT ================= */
-@media print{
-  header, nav, .controls, .progress, #toc, footer{
-    display:none !important;
-  }
-  article{
-    max-width:700px;
-    font-size:15px;
-  }
+body.reading article{
+  max-width:680px;
+  margin:0 auto;
+}
+
+a:focus{
+  outline:2px dashed var(--link);
+  outline-offset:3px;
 }
 </style>
 
-<!-- ===== JSON-LD ===== -->
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
@@ -296,10 +269,8 @@ body.reading article{
     <a href="/articles/">Articles</a>
     <a href="/topics/">Topics</a>
     <a href="/about.html">About</a>
-    <a href="/terms.html">Terms</a>
     <a href="/privacy-policy.html">Privacy</a>
     <a href="/contact.html">Contact</a>
-    <a href="/disclaimer.html">Disclaimer</a>
   </nav>
 </header>
 
@@ -310,37 +281,31 @@ body.reading article{
 <div class="subhead">{{SUMMARY}}</div>
 
 <div class="meta">Published {{DATE}}</div>
-<div class="reading-time" id="readingTime"></div>
-
-<div id="toc">
-  <h3>On this page</h3>
+<div class="reading-meta">
+  <span id="readingTime"></span> · <span id="readingLevel"></span>
 </div>
 
-<article>
-{{CONTENT}}
-</article>
+<div id="toc"><h3>On this page</h3></div>
 
-<p class="source">
-Source:
-<a href="{{SOURCE}}" target="_blank" rel="nofollow noopener">{{SOURCE}}</a>
-</p>
+<article>{{CONTENT}}</article>
+
+<div class="source" id="sourceBlock">
+  <strong>Source:</strong>
+  <span class="sources" data-sources="{{SOURCE}}"></span>
+</div>
 
 {{AD_MID}}
 {{AD_BOTTOM}}
 
 <section class="related">
   <h2>Related Analysis</h2>
-  <ul>
-    {{RELATED_LINKS}}
-  </ul>
+  <ul>{{RELATED_LINKS}}</ul>
 </section>
 
 <footer>
   <a href="/">Home</a>
   <a href="/about.html">About</a>
   <a href="/privacy-policy.html">Privacy</a>
-  <a href="/terms.html">Terms</a>
-  <a href="/disclaimer.html">Disclaimer</a>
   <a href="/contact.html">Contact</a><br><br>
   © PureStill
 </footer>
@@ -350,22 +315,14 @@ Source:
 <div class="controls" onclick="toggleReading()">📖 Reading mode</div>
 
 <script>
-/* ===== Progress + Save Position ===== */
+/* ===== Progress ===== */
 const progress=document.getElementById("progress");
 window.addEventListener("scroll",()=>{
   const d=document.documentElement;
-  const sc=(d.scrollTop)/(d.scrollHeight-d.clientHeight)*100;
-  progress.style.width=sc+"%";
-  localStorage.setItem("pscroll-"+location.pathname,d.scrollTop);
+  progress.style.width=(d.scrollTop/(d.scrollHeight-d.clientHeight))*100+"%";
 });
 
-/* ===== Restore Scroll ===== */
-window.addEventListener("load",()=>{
-  const y=localStorage.getItem("pscroll-"+location.pathname);
-  if(y) window.scrollTo(0,parseInt(y,10));
-});
-
-/* ===== TOC + Active ===== */
+/* ===== TOC ===== */
 const toc=document.getElementById("toc");
 const heads=[...document.querySelectorAll("article h2")];
 heads.forEach((h,i)=>{
@@ -376,20 +333,43 @@ heads.forEach((h,i)=>{
   toc.appendChild(a);
 });
 
-window.addEventListener("scroll",()=>{
-  let cur="";
-  heads.forEach(h=>{
-    if(h.getBoundingClientRect().top<=120) cur=h.id;
-  });
-  document.querySelectorAll("#toc a").forEach(a=>{
-    a.classList.toggle("active",a.getAttribute("href")==="#"+cur);
-  });
-});
-
-/* ===== Reading Time ===== */
+/* ===== Reading Time + Level ===== */
 const words=document.querySelector("article").innerText.split(/\s+/).length;
-document.getElementById("readingTime").textContent=
-  Math.max(1,Math.round(words/200))+" min read";
+document.getElementById("readingTime").textContent=Math.max(1,Math.round(words/200))+" min read";
+document.getElementById("readingLevel").textContent=
+  words<600?"Easy":words<1200?"Medium":"Advanced";
+
+/* ===== Source Logic ===== */
+const SOURCE_MAP={
+  "reuters.com":"Reuters",
+  "federalreserve.gov":"Federal Reserve",
+  "bls.gov":"U.S. Bureau of Labor Statistics",
+  "bea.gov":"Bureau of Economic Analysis",
+  "whitehouse.gov":"White House",
+  "npr.org":"NPR",
+  "techcrunch.com":"TechCrunch"
+};
+
+const wrap=document.querySelector(".sources");
+const raw=wrap.dataset.sources;
+
+if(!raw){
+  document.getElementById("sourceBlock").style.display="none";
+}else{
+  raw.split(",").forEach(url=>{
+    try{
+      const u=new URL(url.trim());
+      const host=u.hostname.replace("www.","");
+      const name=SOURCE_MAP[host]||host.split(".")[0];
+      const a=document.createElement("a");
+      a.href=url;
+      a.target="_blank";
+      a.rel="nofollow noopener";
+      a.innerHTML=`<img src="https://www.google.com/s2/favicons?domain=${host}&sz=32">${name}`;
+      wrap.appendChild(a);
+    }catch(e){}
+  });
+}
 
 /* ===== Reading Mode ===== */
 function toggleReading(){
@@ -397,10 +377,5 @@ function toggleReading(){
 }
 </script>
 
-</body>
-</html>
-
-
-</main>
 </body>
 </html>
