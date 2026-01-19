@@ -1,4 +1,54 @@
-https://news.google.com/rss?hl=en-US&gl=US&ceid=US:en
-https://news.google.com/rss/headlines/section/topic/BUSINESS?hl=en-US&gl=US&ceid=US:en
-https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=en-US&gl=US&ceid=US:en
-https://news.google.com/rss/headlines/section/topic/NATION?hl=en-US&gl=US&ceid=US:en
+# ===============================
+# US GOVERNMENT & OFFICIAL DATA
+# ===============================
+
+https://feeds.federalreserve.gov/pressreleases.htm
+https://feeds.federalreserve.gov/speeches.xml
+https://www.bls.gov/feed/bls_latest.rss
+https://www.census.gov/newsroom/rss.xml
+https://www.bea.gov/news/events/rss.xml
+https://www.whitehouse.gov/feed/
+https://www.sec.gov/news/pressreleases.xml
+
+# ===============================
+# PUBLIC BROADCAST & NON-PAYWALL
+# ===============================
+
+https://feeds.npr.org/1001/rss.xml
+https://feeds.npr.org/1019/rss.xml
+
+# ===============================
+# MAJOR US MEDIA (RSS ALLOWED)
+# ===============================
+
+https://thehill.com/rss/syndicator/19110
+https://www.cnbc.com/id/100003114/device/rss/rss.html
+https://feeds.reuters.com/reuters/businessNews
+https://feeds.reuters.com/reuters/technologyNews
+https://feeds.reuters.com/reuters/politicsNews
+
+# ===============================
+# TECH & BUSINESS (US FOCUS)
+# ===============================
+
+https://techcrunch.com/feed/
+https://feeds.arstechnica.com/arstechnica/index
+https://www.wired.com/feed/rss
+
+# ===============================
+# FINANCE & MARKETS
+# ===============================
+
+https://feeds.marketwatch.com/marketwatch/topstories/
+https://finance.yahoo.com/news/rssindex
+https://www.investing.com/rss/news_25.rss
+
+# ===============================
+# GOOGLE NEWS (QUERY-BASED RSS)
+# USE CAREFULLY – SUMMARIZE ONLY
+# ===============================
+
+https://news.google.com/rss/search?q=US+economy+when:7d&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=US+inflation+when:7d&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=US+technology+policy+when:7d&hl=en-US&gl=US&ceid=US:en
+
