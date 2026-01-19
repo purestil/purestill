@@ -14,7 +14,7 @@
 body{
   font-family: Inter, Arial, sans-serif;
   margin: 0;
-  background: #ffffff;
+  background: #fff;
   color: #111;
 }
 .container{
@@ -26,13 +26,22 @@ a{
   color:#111;
   text-decoration: underline;
 }
+header{
+  margin-bottom: 40px;
+}
+.brand{
+  font-family: Georgia, serif;
+  font-size: 26px;
+  font-weight: 500;
+  text-decoration: none;
+}
 h1,h2,h3{
   font-family: Georgia, serif;
   font-weight: 500;
 }
 h1{
   font-size: 2.3em;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 .meta{
   font-size: 13px;
@@ -43,32 +52,24 @@ article{
   font-size: 16px;
   line-height: 1.75;
 }
-.feed{
+.related{
   margin-top: 80px;
+  padding-top: 30px;
+  border-top: 1px solid #ddd;
 }
-.feed h2{
+.related h2{
   font-size: 22px;
   margin-bottom: 25px;
 }
-.post{
-  padding-bottom: 26px;
+.related-item{
   margin-bottom: 26px;
-  border-bottom: 1px solid #ddd;
 }
-.post:last-child{
-  border-bottom: none;
-}
-.post h3{
+.related-item h3{
   margin: 0 0 6px;
   font-size: 19px;
 }
-.post .info{
-  font-size: 13px;
-  color: #777;
-  margin-bottom: 6px;
-}
-.post p{
-  margin: 0 0 6px;
+.related-item p{
+  margin: 0;
   font-size: 15px;
   color: #333;
 }
@@ -89,22 +90,24 @@ footer a{
 
 <div class="container">
 
-<p><a href="/">PureStill</a></p>
+<header>
+  <a href="/" class="brand">PureStill</a>
+</header>
 
 <h1>{{TITLE}}</h1>
 <div class="meta">
   Published {{DATE}} · Source: {{SOURCE}}
 </div>
 
-<!-- ===== MAIN EXPANDED ARTICLE (700–900+ WORDS) ===== -->
+<!-- ===== MAIN ARTICLE ===== -->
 <article>
 {{CONTENT}}
 </article>
 
-<!-- ===== RELATED ARTICLES (AUTO-UPDATED) ===== -->
-<section class="feed">
-  <h2>Related Articles</h2>
-  {{SIMILAR_BLOCKS}}
+<!-- ===== RELATED ARTICLES ===== -->
+<section class="related">
+  <h2>Related Analysis</h2>
+  {{RELATED_BLOCKS}}
 </section>
 
 <footer>
