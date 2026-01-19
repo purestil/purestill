@@ -159,17 +159,7 @@ h1{font-family:Georgia,serif}
 """
 
 for i, item in enumerate(data):
-   date = item.get("date", "")
-summary = item.get("summary", "")[:140]
-
-articles_index += f"""
-<div style="margin-bottom:22px">
-  <a href="/articles/article-{i+1}.html"><strong>{item['title']}</strong></a><br>
-  <small style="color:#666">{date}</small><br>
-  <span style="color:#333">{summary}…</span>
-</div>
-"""
-
+    articles_index += f"<a href='/articles/article-{i+1}.html'>{item['title']}</a>\n"
 
 articles_index += """
 </div>
@@ -181,7 +171,6 @@ articles_index += """
 
 with open(os.path.join(ARTICLES_DIR, "index.html"), "w", encoding="utf-8") as f:
     f.write(articles_index)
-
 
 # ================= TOPICS INDEX PAGE =================
 topics_index = """<!DOCTYPE html>
