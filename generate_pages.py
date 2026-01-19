@@ -1,7 +1,7 @@
 print("Starting PureStill generator…")
 
 import json, os
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from collections import defaultdict
 
 # ================== LOAD DATA ==================
@@ -56,12 +56,6 @@ def entity_link(content):
             )
     return content
 
-def is_evergreen(item):
-    return (
-        item.get("category") in ["Economy", "Technology"] or
-        len(item.get("content", "").split()) > 800
-    )
-
 def score_article(item):
     score = len(item.get("content", "").split()) // 300
     score += 2 if item.get("category") in ["Economy", "Technology"] else 1
@@ -82,6 +76,14 @@ def build_related(current_index, items, limit=3):
 def rotating_hero_index(total):
     return date.today().toordinal() % total
 
+# 🔄 Update rotation logic
+def apply_update_rotation(index, content):
+    if index >= 7:  # rotate articles older than first 7
+        content += (
+            "<p><em>Updated to reflect recent context and evolving developments.</em></p>"
+        )
+    return content
+
 # ================== ARTICLE GENERATION ==================
 categories = defaultdict(list)
 article_scores = []
@@ -94,9 +96,7 @@ for i, item in enumerate(data):
     canonical = f"{BASE_URL}/articles/article-{i+1}.html"
 
     content = entity_link(item.get("content", item["title"]))
-
-    if is_evergreen(item):
-        content += "<p><em>Updated periodically to reflect recent developments.</em></p>"
+    content = apply_update_rotation(i, content)
 
     word_count = len(content.split())
     ad_mid = "<!-- MID CONTENT AD ENABLE -->" if word_count >= 600 else ""
@@ -120,59 +120,24 @@ for i, item in enumerate(data):
 
     article_scores.append((score_article(item), i, item))
 
-# ================== TOPIC HUBS ==================
-for cat, items in categories.items():
-    slug = cat.lower().replace(" ", "-")
-    links = ""
-    for i, item in items:
-        links += f"<p><a href='/articles/article-{i+1}.html'>{item['title']}</a></p>\n"
-
-    html = f"""<!DOCTYPE html>
-<html><head>
-<meta charset="UTF-8">
-<title>{cat} Analysis | PureStill</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-</head><body>
-<h1>{cat}</h1>
-{links}
-<p><a href="/">Home</a></p>
-</body></html>"""
-
-    with open(os.path.join(TOPICS_DIR, f"{slug}.html"), "w", encoding="utf-8") as f:
-        f.write(html)
-
-# ================== PILLAR PAGES ==================
-PILLARS = {
-    "us-economy": "The United States Economy: A Long-Term Overview",
-    "technology-trends": "Technology Trends Shaping the Global Economy"
-}
-
-for slug, title in PILLARS.items():
-    html = f"""<!DOCTYPE html>
-<html><head>
-<meta charset="UTF-8">
-<title>{title} | PureStill</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-</head><body>
-<h1>{title}</h1>
-<p>This is an evergreen analysis page updated periodically.</p>
-<p><a href="/">Home</a></p>
-</body></html>"""
-
-    with open(os.path.join(PILLARS_DIR, f"{slug}.html"), "w", encoding="utf-8") as f:
-        f.write(html)
-
-# ================== PROFESSIONAL HOMEPAGE ==================
+# ================== HOMEPAGE SECTIONS ==================
 article_scores.sort(reverse=True)
 most_read = article_scores[:5]
 
 hero_idx = rotating_hero_index(len(data))
 hero = data[hero_idx]
 
-hero_html = f"""
-<h1><a href="/articles/article-{hero_idx+1}.html">{hero['title']}</a></h1>
-<p>{hero.get("summary", hero['title'])}</p>
-"""
+def section_links(category, limit=5):
+    html = ""
+    count = 0
+    for i, item in enumerate(data):
+        if item.get("category") == category and count < limit:
+            html += f"<li><a href='/articles/article-{i+1}.html'>{item['title']}</a></li>\n"
+            count += 1
+    return html
+
+economy_html = section_links("Economy")
+tech_html = section_links("Technology")
 
 latest_html = ""
 for i, item in enumerate(data[:10]):
@@ -182,6 +147,7 @@ most_read_html = ""
 for _, i, item in most_read:
     most_read_html += f"<li><a href='/articles/article-{i+1}.html'>{item['title']}</a></li>\n"
 
+# ================== PROFESSIONAL HOMEPAGE ==================
 index_html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -193,6 +159,7 @@ index_html = f"""<!DOCTYPE html>
 body{{font-family:Inter,Arial,sans-serif;margin:0;color:#111}}
 .wrap{{max-width:1100px;margin:0 auto;padding:40px 20px}}
 .grid{{display:grid;grid-template-columns:2fr 1fr;gap:40px}}
+section{{margin-top:60px}}
 ul{{padding-left:18px}}
 footer{{margin-top:80px;border-top:1px solid #ddd;padding-top:20px;color:#555;font-size:14px}}
 </style>
@@ -207,22 +174,29 @@ footer{{margin-top:80px;border-top:1px solid #ddd;padding-top:20px;color:#555;fo
 
 <section class="grid">
 <div>
-{hero_html}
+<h2><a href="/articles/article-{hero_idx+1}.html">{hero['title']}</a></h2>
+<p>{hero.get("summary", hero['title'])}</p>
 </div>
 
 <aside>
-<h2>Most Read</h2>
-<ul>
-{most_read_html}
-</ul>
+<h3>Most Read</h3>
+<ul>{most_read_html}</ul>
 </aside>
 </section>
 
 <section>
+<h2>Economy</h2>
+<ul>{economy_html}</ul>
+</section>
+
+<section>
+<h2>Technology</h2>
+<ul>{tech_html}</ul>
+</section>
+
+<section>
 <h2>Latest Analysis</h2>
-<ul>
-{latest_html}
-</ul>
+<ul>{latest_html}</ul>
 </section>
 
 <footer>
@@ -240,49 +214,5 @@ footer{{margin-top:80px;border-top:1px solid #ddd;padding-top:20px;color:#555;fo
 
 with open(os.path.join(SITE_DIR, "index.html"), "w", encoding="utf-8") as f:
     f.write(index_html)
-
-# ================== SITEMAPS ==================
-urls = [f"{BASE_URL}/"]
-
-for i in range(len(data)):
-    urls.append(f"{BASE_URL}/articles/article-{i+1}.html")
-
-for cat in categories.keys():
-    urls.append(f"{BASE_URL}/topics/{cat.lower().replace(' ', '-')}.html")
-
-for slug in PILLARS.keys():
-    urls.append(f"{BASE_URL}/pillars/{slug}.html")
-
-sitemap = "<?xml version='1.0' encoding='UTF-8'?>\n<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>\n"
-for u in urls:
-    sitemap += f"<url><loc>{u}</loc></url>\n"
-sitemap += "</urlset>"
-
-with open(os.path.join(SITE_DIR, "sitemap.xml"), "w", encoding="utf-8") as f:
-    f.write(sitemap)
-
-# ================== NEWS SITEMAP ==================
-news = "<?xml version='1.0' encoding='UTF-8'?>\n"
-news += "<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9' xmlns:news='http://www.google.com/schemas/sitemap-news/0.9'>\n"
-
-for i, item in enumerate(data[:50]):
-    news += f"""
-<url>
-<loc>{BASE_URL}/articles/article-{i+1}.html</loc>
-<news:news>
-<news:publication>
-<news:name>PureStill</news:name>
-<news:language>en</news:language>
-</news:publication>
-<news:publication_date>{datetime.utcnow().strftime('%Y-%m-%d')}</news:publication_date>
-<news:title>{item['title']}</news:title>
-</news:news>
-</url>
-"""
-
-news += "</urlset>"
-
-with open(os.path.join(SITE_DIR, "news-sitemap.xml"), "w", encoding="utf-8") as f:
-    f.write(news)
 
 print("PureStill site generated successfully.")
