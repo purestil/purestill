@@ -67,7 +67,7 @@ footer a{
 }
 </style>
 
-<!-- ===== JSON-LD: ARTICLE ===== -->
+<!-- ================= JSON-LD: ARTICLE ================= -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -88,6 +88,28 @@ footer a{
     "@id": "{{CANONICAL_URL}}"
   },
   "description": "{{SUMMARY}}"
+}
+</script>
+
+<!-- ============== JSON-LD: BREADCRUMBS ============== -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://purestill.pages.dev/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "{{CATEGORY}}",
+      "item": "https://purestill.pages.dev/topics/{{CATEGORY_SLUG}}.html"
+    }
+  ]
 }
 </script>
 
@@ -132,6 +154,7 @@ statements, presented for informational purposes only.
 {{CONTENT}}
 </article>
 
+<!-- ===== AD PLACEHOLDERS (ENABLE AFTER ADSENSE APPROVAL) ===== -->
 <!-- {{AD_MID}} -->
 <!-- {{AD_BOTTOM}} -->
 
