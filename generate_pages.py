@@ -3,6 +3,35 @@ print("Starting PureStill generator…")
 import json, os
 from datetime import datetime, timedelta
 
+# ================== ARTICLE FEED HELPERS ==================
+
+def excerpt(text, words=30):
+    return " ".join(text.split()[:words]) + "…"
+
+def build_feed_blocks(items, exclude_idx=None, limit=3):
+    html = ""
+    count = 0
+    for i, item in enumerate(items):
+        if exclude_idx is not None and i == exclude_idx:
+            continue
+
+        date = item["_dt"].strftime("%B %d, %Y")
+
+        html += f"""
+        <div class="post">
+          <h3><a href="/articles/article-{i+1}.html">{item['title']}</a></h3>
+          <div class="info">Published {date}</div>
+          <p>{excerpt(item.get('content', item['title']), 28)}</p>
+          <a href="/articles/article-{i+1}.html">Read more →</a>
+        </div>
+        """
+
+        count += 1
+        if count >= limit:
+            break
+
+    return html
+
 # ================= CONFIG =================
 BASE_URL = "https://purestill.pages.dev"
 SITE_DIR = "site"
