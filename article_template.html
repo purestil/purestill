@@ -8,117 +8,212 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="{{SUMMARY}}">
 <meta name="robots" content="index, follow">
+<meta http-equiv="content-language" content="en-us">
+
 <link rel="canonical" href="{{CANONICAL_URL}}">
 
 <style>
 body{
-  font-family: Inter, Arial, sans-serif;
-  margin: 0;
-  background: #fff;
-  color: #111;
-}
-.container{
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 40px 20px 90px;
-}
-a{
+  margin:0;
+  background:#fff;
   color:#111;
-  text-decoration: underline;
+  font-family: Inter, Arial, sans-serif;
 }
-header{
-  margin-bottom: 40px;
+
+/* ===== HEADER ===== */
+.site-header{
+  border-bottom:1px solid #e5e5e5;
+  padding:18px 0;
+}
+.header-inner{
+  max-width:1100px;
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:40px;
 }
 .brand{
   font-family: Georgia, serif;
-  font-size: 26px;
-  font-weight: 500;
-  text-decoration: none;
+  font-size:28px;
+  font-weight:600;
+  text-decoration:none;
+  color:#000;
 }
-h1,h2,h3{
-  font-family: Georgia, serif;
-  font-weight: 500;
+.home-link{
+  font-size:14px;
+  text-decoration:none;
+  color:#555;
+}
+.home-link:hover{ text-decoration:underline; }
+
+/* ===== ARTICLE WRAP ===== */
+.article-wrap{
+  max-width:820px;
+  margin:0 auto;
+  padding:40px 20px 100px;
+}
+
+/* ===== META ===== */
+.category{
+  font-size:13px;
+  color:#777;
+  margin-bottom:12px;
 }
 h1{
-  font-size: 2.3em;
-  margin-bottom: 8px;
+  font-family: Georgia, serif;
+  font-size:2.6em;
+  line-height:1.25;
+  margin-bottom:16px;
+}
+.subhead{
+  font-size:18px;
+  color:#444;
+  margin-bottom:24px;
 }
 .meta{
-  font-size: 13px;
-  color: #666;
-  margin-bottom: 30px;
+  font-size:14px;
+  color:#777;
+  margin-bottom:40px;
 }
+
+/* ===== ARTICLE BODY ===== */
 article{
-  font-size: 16px;
-  line-height: 1.75;
+  font-size:17px;
+  line-height:1.75;
 }
+article p{
+  margin-bottom:20px;
+}
+article h2{
+  font-family: Georgia, serif;
+  font-size:1.5em;
+  margin:48px 0 18px;
+}
+
+/* ===== ADS ===== */
+.ad{
+  margin:50px 0;
+  text-align:center;
+  font-size:13px;
+  color:#888;
+}
+
+/* ===== RELATED ===== */
 .related{
-  margin-top: 80px;
-  padding-top: 30px;
-  border-top: 1px solid #ddd;
+  margin-top:90px;
+  padding-top:40px;
+  border-top:1px solid #e5e5e5;
 }
 .related h2{
-  font-size: 22px;
-  margin-bottom: 25px;
+  font-family: Georgia, serif;
+  font-size:22px;
+  margin-bottom:24px;
 }
-.related-item{
-  margin-bottom: 26px;
+.related ul{
+  list-style:none;
+  padding:0;
 }
-.related-item h3{
-  margin: 0 0 6px;
-  font-size: 19px;
+.related li{
+  margin-bottom:14px;
 }
-.related-item p{
-  margin: 0;
-  font-size: 15px;
-  color: #333;
+.related a{
+  text-decoration:none;
+  color:#111;
 }
+.related a:hover{ text-decoration:underline; }
+
+/* ===== FOOTER ===== */
 footer{
-  margin-top: 90px;
-  padding-top: 35px;
-  border-top: 1px solid #ddd;
-  font-size: 14px;
-  color: #555;
+  margin-top:100px;
+  padding-top:30px;
+  border-top:1px solid #e5e5e5;
+  font-size:14px;
+  color:#666;
 }
 footer a{
-  margin-right: 12px;
+  margin-right:14px;
+  text-decoration:none;
+  color:#666;
 }
+footer a:hover{ text-decoration:underline; }
 </style>
-</head>
 
+<!-- ===== JSON-LD ===== -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"NewsArticle",
+  "headline":"{{TITLE}}",
+  "datePublished":"{{DATE}}",
+  "dateModified":"{{DATE}}",
+  "author":{
+    "@type":"Organization",
+    "name":"PureStill Editorial"
+  },
+  "publisher":{
+    "@type":"Organization",
+    "name":"PureStill"
+  },
+  "mainEntityOfPage":{
+    "@type":"WebPage",
+    "@id":"{{CANONICAL_URL}}"
+  },
+  "description":"{{SUMMARY}}"
+}
+</script>
+
+</head>
 <body>
 
-<div class="container">
-
-<header>
-  <a href="/" class="brand">PureStill</a>
+<!-- ===== HEADER ===== -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/" class="home-link">Home</a>
+    <a href="/" class="brand">PureStill</a>
+  </div>
 </header>
 
+<!-- ===== ARTICLE ===== -->
+<main class="article-wrap">
+
+<div class="category">{{CATEGORY}}</div>
+
 <h1>{{TITLE}}</h1>
+
+<div class="subhead">{{SUMMARY}}</div>
+
 <div class="meta">
   Published {{DATE}} · Source: {{SOURCE}}
 </div>
 
-<!-- ===== MAIN ARTICLE ===== -->
 <article>
 {{CONTENT}}
 </article>
 
-<!-- ===== RELATED ARTICLES ===== -->
+<!-- MID AD -->
+{{AD_MID}}
+
+<!-- BOTTOM AD -->
+{{AD_BOTTOM}}
+
 <section class="related">
   <h2>Related Analysis</h2>
-  {{RELATED_BLOCKS}}
+  <ul>
+    {{RELATED_LINKS}}
+  </ul>
 </section>
 
 <footer>
   <a href="/">Home</a>
   <a href="/about.html">About</a>
   <a href="/privacy-policy.html">Privacy</a>
+  <a href="/terms.html">Terms</a>
   <a href="/disclaimer.html">Disclaimer</a>
   <a href="/contact.html">Contact</a><br><br>
   © PureStill
 </footer>
 
-</div>
+</main>
 </body>
 </html>
