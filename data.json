@@ -1,16 +1,18 @@
 [
   {
-    "title": "Major shifts shaping the U.S. economic outlook",
-    "content": "The United States economy is showing mixed signals as recent data suggests...",
+    "title": "Major shifts shaping the United States economic outlook",
+    "summary": "An independent analysis examining recent economic indicators, policy signals, and long-term trends influencing business confidence.",
+    "content": "The United States economy is showing mixed signals as recent data suggests moderation in inflation alongside resilient labor markets. Policymakers continue to balance growth with stability. Market participants are closely watching Federal Reserve communications, fiscal conditions, and productivity trends. Over the long term, structural shifts such as demographic changes, technology adoption, and global trade realignments may shape economic outcomes. Analysts note that while short-term volatility remains, longer-term fundamentals continue to evolve in ways that demand careful interpretation and measured response.",
     "category": "Economy",
     "date": "2026-07-19",
-    "link": "https://example.com/source"
+    "source": "https://www.federalreserve.gov/"
   },
   {
     "title": "Technology investment trends and productivity",
-    "content": "Investment in emerging technologies continues to reshape productivity...",
+    "summary": "How capital allocation and innovation cycles are influencing productivity growth.",
+    "content": "Investment in technology continues to reshape productivity across sectors. Firms are prioritizing automation, AI-driven tools, and cloud infrastructure to improve efficiency. While near-term returns vary, long-term productivity gains depend on complementary investments in skills and organizational change.",
     "category": "Technology",
     "date": "2026-07-18",
-    "link": "https://example.com/source"
+    "source": "https://www.bls.gov/"
   }
 ]
