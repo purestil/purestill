@@ -1,18 +1,259 @@
 <!DOCTYPE html>
-<html>
-<!-- Google tag (gtag.js) -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<!-- ✅ UNIVERSAL THEME DECISION (SAME AS ALL PAGES) -->
+<script>
+(function(){
+  const KEY = "purestill-theme";
+  const saved = localStorage.getItem(KEY);
+  const hour = new Date().getHours();
+
+  let mode = saved;
+  if(!mode){
+    mode = (hour >= 19 || hour <= 5) ? "dark" : "light";
+  }
+
+  if(mode === "dark"){
+    document.documentElement.classList.add("dark");
+  }
+})();
+</script>
+
+<!-- Google tag (keep as-is) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YG0KQL8BCE"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-YG0KQL8BCE');
 </script>
-<head><title>Privacy Policy</title></head>
-<body><div class="wrap">
-<h1>Privacy Policy</h1>
-<p>PureStill does not collect personal information. Limited non-personal data may be collected for analytics and advertising purposes.</p>
-<p>Third-party partners such as Google may use cookies to display relevant ads.</p>
-<p>By using this site, you consent to this policy.</p>
-</div></body></html>
+
+<title>Privacy Policy | PureStill</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Privacy Policy for PureStill. Learn how we collect, use, and protect information when you use our website.">
+<meta name="robots" content="index, follow">
+<meta http-equiv="content-language" content="en-us">
+
+<style>
+/* ================= THEME ================= */
+:root{
+  --bg:#ffffff;
+  --text:#111;
+  --muted:#555;
+  --border:#e0e0e0;
+  --link:#1a0dab;
+  --card:#fafafa;
+}
+
+html.dark{
+  --bg:#0e0e10;
+  --text:#eaeaea;
+  --muted:#aaa;
+  --border:#2a2a2a;
+  --link:#8ab4f8;
+  --card:#16161a;
+}
+
+/* ================= BASE ================= */
+body{
+  margin:0;
+  font-family:Inter, Arial, sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.75;
+}
+
+/* ================= LAYOUT ================= */
+.container{
+  max-width:900px;
+  margin:0 auto;
+  padding:48px 20px 80px;
+}
+
+/* ================= HEADER ================= */
+header{
+  text-align:center;
+  margin-bottom:56px;
+}
+
+.brand{
+  font-family:Georgia, serif;
+  font-size:clamp(28px, 4vw, 36px);
+  font-weight:500;
+}
+
+nav{
+  margin-top:18px;
+  font-size:14px;
+}
+
+nav a{
+  margin:0 10px;
+  color:var(--text);
+  text-decoration:none;
+  font-weight:500;
+}
+
+nav a:hover{
+  text-decoration:underline;
+}
+
+/* ================= CONTENT ================= */
+h1{
+  font-family:Georgia, serif;
+  font-size:clamp(26px, 4vw, 32px);
+  margin-bottom:24px;
+}
+
+h2{
+  font-family:Georgia, serif;
+  font-size:22px;
+  margin-top:40px;
+  margin-bottom:16px;
+}
+
+p{
+  font-size:17px;
+  margin-bottom:18px;
+  color:var(--text);
+}
+
+.note{
+  font-size:15px;
+  color:var(--muted);
+  border-left:3px solid var(--border);
+  padding-left:12px;
+  margin:24px 0;
+}
+
+/* ================= FOOTER ================= */
+footer{
+  margin-top:96px;
+  padding-top:36px;
+  border-top:1px solid var(--border);
+  font-size:14px;
+  color:var(--muted);
+  text-align:center;
+}
+
+/* ================= THEME TOGGLE ================= */
+.toggle{
+  position:fixed;
+  top:14px;
+  right:16px;
+  font-size:13px;
+  cursor:pointer;
+  color:var(--muted);
+  background:var(--card);
+  border:1px solid var(--border);
+  padding:6px 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="toggle" onclick="toggleTheme()" id="themeBtn">🌙</div>
+
+<div class="container">
+
+<header>
+  <div class="brand">PureStill</div>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/articles/">Articles</a>
+    <a href="/topics/">Topics</a>
+    <a href="/about.html">About</a>
+    <a href="/terms.html">Terms</a>
+    <a href="/privacy-policy.html">Privacy</a>
+    <a href="/contact.html">Contact</a>
+    <a href="/disclaimer.html">Disclaimer</a>
+  </nav>
+</header>
+
+<main>
+  <h1>Privacy Policy</h1>
+
+  <p>
+    This Privacy Policy explains how PureStill collects, uses, and protects information
+    when you visit this website.
+  </p>
+
+  <h2>Information We Collect</h2>
+
+  <p>
+    PureStill does not knowingly collect personally identifiable information from users.
+    We do not require account registration or user login to access content.
+  </p>
+
+  <p>
+    Limited non-personal information may be collected automatically, such as browser type,
+    device information, approximate location, and usage statistics.
+  </p>
+
+  <h2>Analytics and Advertising</h2>
+
+  <p>
+    PureStill uses third-party services such as Google Analytics to understand how visitors
+    use the site and to improve content quality.
+  </p>
+
+  <p>
+    Third-party advertising partners, including Google, may use cookies or similar
+    technologies to display ads based on user visits to this and other websites.
+  </p>
+
+  <div class="note">
+    Google’s use of advertising cookies enables it and its partners to serve ads based on
+    visits to this site and/or other sites on the internet.
+  </div>
+
+  <p>
+    Users may opt out of personalized advertising by visiting
+    <a href="https://adssettings.google.com" target="_blank" rel="noopener nofollow">
+      Google Ad Settings
+    </a>.
+  </p>
+
+  <h2>Consent</h2>
+
+  <p>
+    By using this website, you consent to this Privacy Policy and agree to its terms.
+  </p>
+
+  <h2>Updates</h2>
+
+  <p>
+    This Privacy Policy may be updated from time to time. Any changes will be reflected
+    on this page.
+  </p>
+</main>
+
+<footer>
+  © PureStill
+</footer>
+
+</div>
+
+<script>
+function toggleTheme(){
+  const KEY="purestill-theme";
+  const root=document.documentElement;
+
+  root.classList.toggle("dark");
+
+  localStorage.setItem(
+    KEY,
+    root.classList.contains("dark") ? "dark" : "light"
+  );
+
+  document.getElementById("themeBtn").textContent =
+    root.classList.contains("dark") ? "☀️" : "🌙";
+}
+</script>
+
+</body>
+</html>
