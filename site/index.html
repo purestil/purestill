@@ -7,10 +7,28 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-YG0KQL8BCE');
 </script>
+
 <meta charset="UTF-8">
+
+<!-- ✅ UNIVERSAL THEME SNIPPET (DO NOT TOUCH) -->
+<script>
+(function(){
+  const KEY = "purestill-theme";
+  const saved = localStorage.getItem(KEY);
+  const hour = new Date().getHours();
+
+  let mode = saved;
+  if(!mode){
+    mode = (hour >= 19 || hour <= 5) ? "dark" : "light";
+  }
+
+  if(mode === "dark"){
+    document.documentElement.classList.add("dark");
+  }
+})();
+</script>
 
 <title>PureStill | Independent Global Analysis</title>
 
@@ -20,92 +38,128 @@
 <meta http-equiv="content-language" content="en-us">
 
 <style>
+/* ===== THEME VARIABLES ===== */
+:root{
+  --bg:#ffffff;
+  --text:#111;
+  --muted:#555;
+  --border:#ddd;
+  --link:#111;
+}
+
+html.dark{
+  --bg:#0e0e10;
+  --text:#eaeaea;
+  --muted:#aaa;
+  --border:#2a2a2a;
+  --link:#8ab4f8;
+}
+
+/* ================= BASE ================= */
 body{
   margin:0;
   font-family:Inter,Arial,sans-serif;
-  background:#fff;
-  color:#111;
+  background:var(--bg);
+  color:var(--text);
 }
+
 .container{
   max-width:1000px;
   margin:0 auto;
   padding:40px 20px 80px;
 }
+
 header{
   text-align:center;
   margin-bottom:40px;
 }
+
 .brand{
   font-family:Georgia,serif;
   font-size:36px;
   font-weight:500;
 }
+
 nav{
   margin-top:20px;
   font-size:14px;
 }
+
 nav a{
   margin:0 10px;
-  color:#111;
+  color:var(--text);
   text-decoration:none;
 }
+
 nav a:hover{
   text-decoration:underline;
 }
+
 .section{
   margin-top:60px;
 }
+
 .section h2{
   font-family:Georgia,serif;
   font-size:24px;
   margin-bottom:25px;
 }
+
 .featured h1{
   font-family:Georgia,serif;
   font-size:30px;
   margin-bottom:10px;
 }
+
 .meta{
   font-size:13px;
-  color:#666;
+  color:var(--muted);
   margin-bottom:10px;
 }
+
 .card-grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
   gap:30px;
 }
+
 .card{
-  border:1px solid #ddd;
+  border:1px solid var(--border);
   padding:20px;
 }
+
 .card h3{
   font-family:Georgia,serif;
   font-size:18px;
   margin:0 0 8px;
 }
+
 .card p{
   font-size:14px;
-  color:#333;
+  color:var(--text);
 }
+
 .read-more{
   font-size:14px;
 }
+
 .read-more a{
-  color:#111;
+  color:var(--link);
   text-decoration:underline;
 }
+
 footer{
   margin-top:80px;
   padding-top:30px;
-  border-top:1px solid #ddd;
+  border-top:1px solid var(--border);
   font-size:14px;
-  color:#555;
+  color:var(--muted);
   text-align:center;
 }
+
 footer a{
   margin:0 8px;
-  color:#555;
+  color:var(--muted);
 }
 </style>
 </head>
