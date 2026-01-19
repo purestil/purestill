@@ -100,32 +100,76 @@ article h2{
 }
 
 /* ===== RELATED ===== */
-  <section class="related">
+ <section class="related">
   <h2>Related Analysis</h2>
-  <ul>
+
+  <div class="related-list">
     {{RELATED_LINKS}}
-  </ul>
+  </div>
 </section>
+
 .related{
   margin-top:90px;
   padding-top:40px;
   border-top:1px solid #e5e5e5;
 }
+
 .related h2{
   font-family: Georgia, serif;
   font-size:22px;
-  margin-bottom:24px;
+  margin-bottom:28px;
 }
-.related ul{
-  list-style:none;
-  padding:0;
+
+.related-list{
+  display:flex;
+  flex-direction:column;
+  gap:28px;
 }
-.related li{
-  margin-bottom:14px;
+
+.related-item{
+  padding-bottom:22px;
+  border-bottom:1px solid #eee;
 }
-.related a{
-  text-decoration:none;
+
+.related-item:last-child{
+  border-bottom:none;
+}
+
+.related-item h3{
+  font-family: Georgia, serif;
+  font-size:18px;
+  margin:0 0 6px;
+}
+
+.related-item h3 a{
   color:#111;
+  text-decoration:none;
+}
+
+.related-item h3 a:hover{
+  text-decoration:underline;
+}
+
+.related-meta{
+  font-size:13px;
+  color:#777;
+  margin-bottom:8px;
+}
+
+.related-excerpt{
+  font-size:14px;
+  color:#333;
+  line-height:1.6;
+}
+
+.related-read{
+  margin-top:6px;
+  font-size:14px;
+}
+
+.related-read a{
+  color:#111;
+  text-decoration:underline;
 }
 .related a:hover{ text-decoration:underline; }
 
