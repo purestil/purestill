@@ -2,6 +2,25 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+
+<!-- ✅ UNIVERSAL THEME DECISION (DO NOT TOUCH AGAIN) -->
+<script>
+(function(){
+  const KEY = "purestill-theme";
+  const saved = localStorage.getItem(KEY);
+  const hour = new Date().getHours();
+
+  let mode = saved;
+  if(!mode){
+    mode = (hour >= 19 || hour <= 5) ? "dark" : "light";
+  }
+
+  if(mode === "dark"){
+    document.documentElement.classList.add("dark");
+  }
+})();
+</script>
+
 <title>PureStill | Independent Global Analysis</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,7 +30,6 @@
 
 <link rel="canonical" href="https://purestill.pages.dev/">
 
-<!-- Google News helpers -->
 <meta name="news_keywords" content="economy, markets, technology, policy">
 <meta property="og:site_name" content="PureStill">
 
@@ -27,21 +45,14 @@
   --accent:#1a0dab;
 }
 
-/* ================= DARK ================= */
-body.dark{
+/* ✅ CHANGED: html.dark (NOT body.dark) */
+html.dark{
   --bg:#0e0e10;
   --text:#eaeaea;
   --muted:#aaa;
   --border:#2a2a2a;
   --link:#8ab4f8;
   --card:#16161a;
-}
-
-/* ================= OLED ================= */
-body.dark.oled{
-  --bg:#000000;
-  --card:#000000;
-  --border:#1a1a1a;
 }
 
 /* ================= BASE ================= */
@@ -115,19 +126,6 @@ nav a:hover{ text-decoration:underline; }
   margin-bottom:32px;
 }
 
-/* ================= FEATURED ================= */
-.featured h1{
-  font-family:Georgia, serif;
-  font-size:clamp(26px, 4vw, 34px);
-  margin-bottom:12px;
-}
-
-/* ================= META ================= */
-.meta{
-  font-size:13px;
-  color:var(--muted);
-}
-
 /* ================= CARDS ================= */
 .card-grid{
   display:grid;
@@ -158,29 +156,6 @@ nav a:hover{ text-decoration:underline; }
   margin:0 0 10px;
 }
 
-.card p{
-  font-size:16px;
-}
-
-/* ================= LINKS ================= */
-a{ color:inherit; text-decoration:none; }
-
-h1 a, h2 a, h3 a{ color:var(--text); }
-
-h1 a:hover,
-h2 a:hover,
-h3 a:hover{ text-decoration:underline; }
-
-.read-more{
-  margin-top:8px;
-  font-size:14px;
-}
-
-.read-more a{
-  color:var(--accent);
-  text-decoration:underline;
-}
-
 /* ================= FOOTER ================= */
 footer{
   margin-top:96px;
@@ -191,14 +166,7 @@ footer{
   text-align:center;
 }
 
-footer a{
-  margin:0 8px;
-  color:var(--muted);
-}
-
-footer a:hover{ text-decoration:underline; }
-
-/* ================= CONTROLS ================= */
+/* ================= TOGGLE ================= */
 .toggle{
   position:fixed;
   top:14px;
@@ -259,46 +227,26 @@ footer a:hover{ text-decoration:underline; }
   </div>
 </section>
 
-<footer>
-  <a href="/about.html">About</a>
-  <a href="/terms.html">Terms</a>
-  <a href="/privacy-policy.html">Privacy</a>
-  <a href="/contact.html">Contact</a>
-  <a href="/disclaimer.html">Disclaimer</a><br><br>
-  © PureStill
-</footer>
+<footer>© PureStill</footer>
 
 </div>
 
+<!-- ✅ ONLY TOGGLE LEFT -->
 <script>
-/* ===== AUTO NIGHT MODE ===== */
-const hour=new Date().getHours();
-const saved=localStorage.getItem("purestill-theme");
-const prefersOLED=window.matchMedia("(dynamic-range: high)").matches;
-
-if(saved){
-  document.body.classList.toggle("dark",saved==="dark");
-}else if(hour>=19||hour<=5){
-  document.body.classList.add("dark");
-}
-
-if(document.body.classList.contains("dark") && prefersOLED){
-  document.body.classList.add("oled");
-}
-
-/* ===== THEME TOGGLE ===== */
-const themeBtn=document.getElementById("themeBtn");
 function toggleTheme(){
-  document.body.classList.toggle("dark");
-  document.body.classList.toggle("oled",
-    document.body.classList.contains("dark") && prefersOLED
+  const KEY="purestill-theme";
+  const root=document.documentElement;
+
+  root.classList.toggle("dark");
+
+  localStorage.setItem(
+    KEY,
+    root.classList.contains("dark") ? "dark" : "light"
   );
-  localStorage.setItem("purestill-theme",
-    document.body.classList.contains("dark")?"dark":"light"
-  );
-  themeBtn.textContent=document.body.classList.contains("dark")?"☀️":"🌙";
+
+  document.getElementById("themeBtn").textContent =
+    root.classList.contains("dark") ? "☀️" : "🌙";
 }
-themeBtn.textContent=document.body.classList.contains("dark")?"☀️":"🌙";
 </script>
 
 </body>
