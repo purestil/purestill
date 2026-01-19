@@ -12,15 +12,41 @@
 
 <link rel="canonical" href="{{CANONICAL_URL}}">
 
+<!-- Google News helpers -->
+<meta name="news_keywords" content="{{CATEGORY}}">
+<meta property="article:published_time" content="{{DATE}}">
+<meta property="article:modified_time" content="{{DATE}}">
+
 <style>
+/* ================= BASE THEME ================= */
 :root{
   --bg:#ffffff;
   --text:#111;
   --muted:#666;
   --border:#e5e5e5;
   --link:#1a0dab;
+  --card:#fafafa;
+  --accent:#1a0dab;
 }
 
+/* ================= DARK ================= */
+body.dark{
+  --bg:#0e0e10;
+  --text:#eaeaea;
+  --muted:#aaa;
+  --border:#2a2a2a;
+  --link:#8ab4f8;
+  --card:#16161a;
+}
+
+/* ================= OLED ================= */
+body.dark.oled{
+  --bg:#000000;
+  --card:#000000;
+  --border:#1a1a1a;
+}
+
+/* ================= BASE ================= */
 body{
   margin:0;
   font-family:Inter, Arial, sans-serif;
@@ -35,10 +61,11 @@ body{
   left:0;
   height:3px;
   width:0%;
-  background:var(--link);
+  background:var(--accent);
   z-index:9999;
 }
 
+/* ================= HEADER ================= */
 header{
   text-align:center;
   padding:22px 0;
@@ -49,7 +76,7 @@ header{
   font-family:Georgia, serif;
   font-size:28px;
   font-weight:600;
-  color:#111;
+  color:var(--text);
   text-decoration:none;
 }
 
@@ -60,113 +87,64 @@ nav{
 
 nav a{
   margin:0 10px;
-  color:#555;
+  color:var(--muted);
   text-decoration:none;
 }
 
-nav a:hover{ text-decoration:underline; }
-
+/* ================= ARTICLE ================= */
 .article-wrap{
-  width:100%;
+  max-width:1000px;
   margin:0 auto;
   padding:48px 20px 100px;
 }
 
-@media(min-width:1024px){
-  .article-wrap{ max-width:1000px; }
-}
-
-@media(max-width:1023px){
-  .article-wrap{ max-width:720px; padding:40px 16px 80px; }
-}
-
 .category{
   font-size:13px;
-  color:#777;
-  margin-bottom:10px;
+  color:var(--muted);
 }
 
 h1{
   font-family:Georgia, serif;
   font-size:clamp(26px,4vw,38px);
-  line-height:1.25;
 }
 
 .subhead{
   font-size:18px;
-  color:#444;
-  margin:18px 0 26px;
-}
-
-.meta{
-  font-size:14px;
-  color:#777;
+  color:var(--muted);
+  margin:18px 0;
 }
 
 .reading-meta{
   font-size:13px;
   color:var(--muted);
-  margin-bottom:34px;
-}
-
-#toc{
-  display:none;
-  border:1px solid var(--border);
-  padding:16px;
   margin-bottom:30px;
-  font-size:14px;
-}
-
-#toc h3{
-  font-family:Georgia, serif;
-  margin-top:0;
-}
-
-#toc a{
-  display:block;
-  margin:8px 0;
-  color:var(--link);
-}
-
-#toc a.active{
-  font-weight:600;
-  text-decoration:underline;
-}
-
-@media(max-width:768px){
-  #toc{ display:block; }
 }
 
 article{
   font-size:17px;
 }
 
-article p{ margin-bottom:22px; }
-
 article h2{
+  margin-top:56px;
   font-family:Georgia, serif;
-  font-size:1.5em;
-  margin:56px 0 20px;
 }
 
 article a{
-  color:var(--link);
-  text-decoration:underline;
+  color:var(--accent);
 }
 
-/* ===== SOURCE BLOCK ===== */
+/* ================= SOURCE ================= */
 .source{
+  margin-top:40px;
   font-size:14px;
   color:var(--muted);
-  margin-top:40px;
 }
 
 .sources a{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
   margin-right:14px;
-  color:var(--link);
+  display:inline-flex;
+  gap:6px;
+  color:var(--accent);
   text-decoration:none;
 }
 
@@ -178,68 +156,41 @@ article a{
   border-radius:2px;
 }
 
-/* ===== RELATED ===== */
+/* ================= ADS (SAFE) ================= */
+.ad{
+  background:var(--card);
+  border:1px solid var(--border);
+  padding:20px;
+  margin:50px 0;
+}
+
+/* ================= RELATED ================= */
 .related{
-  margin-top:90px;
-  padding-top:40px;
+  margin-top:80px;
   border-top:1px solid var(--border);
+  padding-top:30px;
 }
 
-.related h2{
-  font-family:Georgia, serif;
-  font-size:22px;
-  margin-bottom:26px;
-}
-
-.related ul{ padding-left:18px; }
-
-.related li{ margin-bottom:12px; }
-
-.related a{
-  color:#111;
-  text-decoration:none;
-}
-
-.related a:hover{ text-decoration:underline; }
-
-/* ===== FOOTER ===== */
+/* ================= FOOTER ================= */
 footer{
   margin-top:100px;
-  padding-top:30px;
-  border-top:1px solid var(--border);
   font-size:14px;
-  color:#666;
+  color:var(--muted);
+  border-top:1px solid var(--border);
+  padding-top:20px;
 }
 
-footer a{
-  margin-right:14px;
-  text-decoration:none;
-  color:#666;
-}
-
-footer a:hover{ text-decoration:underline; }
-
-/* ===== CONTROLS ===== */
+/* ================= CONTROLS ================= */
 .controls{
   position:fixed;
   bottom:18px;
   right:18px;
-  font-size:13px;
-  background:#fff;
+  background:var(--card);
   border:1px solid var(--border);
   padding:8px 12px;
+  display:flex;
+  gap:10px;
   cursor:pointer;
-  color:#555;
-}
-
-body.reading article{
-  max-width:680px;
-  margin:0 auto;
-}
-
-a:focus{
-  outline:2px dashed var(--link);
-  outline-offset:3px;
 }
 </style>
 
@@ -268,24 +219,18 @@ a:focus{
     <a href="/">Home</a>
     <a href="/articles/">Articles</a>
     <a href="/topics/">Topics</a>
-    <a href="/about.html">About</a>
-    <a href="/privacy-policy.html">Privacy</a>
-    <a href="/contact.html">Contact</a>
   </nav>
 </header>
 
 <main class="article-wrap">
 
-<div class="category">{{CATEGORY}}</div>
+<div class="category" id="cat">{{CATEGORY}}</div>
 <h1>{{TITLE}}</h1>
 <div class="subhead">{{SUMMARY}}</div>
 
-<div class="meta">Published {{DATE}}</div>
 <div class="reading-meta">
   <span id="readingTime"></span> · <span id="readingLevel"></span>
 </div>
-
-<div id="toc"><h3>On this page</h3></div>
 
 <article>{{CONTENT}}</article>
 
@@ -302,17 +247,14 @@ a:focus{
   <ul>{{RELATED_LINKS}}</ul>
 </section>
 
-<footer>
-  <a href="/">Home</a>
-  <a href="/about.html">About</a>
-  <a href="/privacy-policy.html">Privacy</a>
-  <a href="/contact.html">Contact</a><br><br>
-  © PureStill
-</footer>
+<footer>© PureStill</footer>
 
 </main>
 
-<div class="controls" onclick="toggleReading()">📖 Reading mode</div>
+<div class="controls">
+  <span onclick="toggleReading()">📖</span>
+  <span onclick="toggleTheme()" id="themeBtn">🌙</span>
+</div>
 
 <script>
 /* ===== Progress ===== */
@@ -322,24 +264,49 @@ window.addEventListener("scroll",()=>{
   progress.style.width=(d.scrollTop/(d.scrollHeight-d.clientHeight))*100+"%";
 });
 
-/* ===== TOC ===== */
-const toc=document.getElementById("toc");
-const heads=[...document.querySelectorAll("article h2")];
-heads.forEach((h,i)=>{
-  h.id="sec-"+i;
-  const a=document.createElement("a");
-  a.href="#"+h.id;
-  a.textContent=h.textContent;
-  toc.appendChild(a);
-});
+/* ===== CATEGORY ACCENT ===== */
+const cat=document.getElementById("cat")?.innerText.toLowerCase()||"";
+const accentMap={
+  economy:"#1a73e8",
+  technology:"#9333ea",
+  markets:"#15803d",
+  policy:"#b91c1c"
+};
+document.documentElement.style.setProperty(
+  "--accent",
+  accentMap[cat]||"#1a0dab"
+);
 
-/* ===== Reading Time + Level ===== */
-const words=document.querySelector("article").innerText.split(/\s+/).length;
-document.getElementById("readingTime").textContent=Math.max(1,Math.round(words/200))+" min read";
-document.getElementById("readingLevel").textContent=
-  words<600?"Easy":words<1200?"Medium":"Advanced";
+/* ===== AUTO NIGHT MODE ===== */
+const hour=new Date().getHours();
+const savedTheme=localStorage.getItem("theme");
+const prefersOLED=window.matchMedia("(dynamic-range: high)").matches;
 
-/* ===== Source Logic ===== */
+if(savedTheme){
+  document.body.classList.toggle("dark",savedTheme==="dark");
+}else if(hour>=19||hour<=5){
+  document.body.classList.add("dark");
+}
+
+if(document.body.classList.contains("dark") && prefersOLED){
+  document.body.classList.add("oled");
+}
+
+/* ===== THEME TOGGLE ===== */
+const themeBtn=document.getElementById("themeBtn");
+function toggleTheme(){
+  document.body.classList.toggle("dark");
+  document.body.classList.toggle("oled",
+    document.body.classList.contains("dark") && prefersOLED
+  );
+  localStorage.setItem("theme",
+    document.body.classList.contains("dark")?"dark":"light"
+  );
+  themeBtn.textContent=document.body.classList.contains("dark")?"☀️":"🌙";
+}
+themeBtn.textContent=document.body.classList.contains("dark")?"☀️":"🌙";
+
+/* ===== SOURCE LOGIC ===== */
 const SOURCE_MAP={
   "reuters.com":"Reuters",
   "federalreserve.gov":"Federal Reserve",
@@ -351,7 +318,7 @@ const SOURCE_MAP={
 };
 
 const wrap=document.querySelector(".sources");
-const raw=wrap.dataset.sources;
+const raw=wrap?.dataset.sources;
 
 if(!raw){
   document.getElementById("sourceBlock").style.display="none";
@@ -365,11 +332,19 @@ if(!raw){
       a.href=url;
       a.target="_blank";
       a.rel="nofollow noopener";
-      a.innerHTML=`<img src="https://www.google.com/s2/favicons?domain=${host}&sz=32">${name}`;
+      a.innerHTML=
+        `<img src="https://www.google.com/s2/favicons?domain=${host}&sz=32">${name}`;
       wrap.appendChild(a);
     }catch(e){}
   });
 }
+
+/* ===== Reading Time ===== */
+const words=document.querySelector("article").innerText.split(/\s+/).length;
+document.getElementById("readingTime").innerText=
+  Math.max(1,Math.round(words/200))+" min read";
+document.getElementById("readingLevel").innerText=
+  words<600?"Easy":words<1200?"Medium":"Advanced";
 
 /* ===== Reading Mode ===== */
 function toggleReading(){
