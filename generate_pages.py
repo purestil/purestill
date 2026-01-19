@@ -139,34 +139,37 @@ for i, item in enumerate(data):
         f.write(page)
 
 # ================= ARTICLES INDEX PAGE =================
-article_items = ""
+articles_index = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Articles | PureStill</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{font-family:Inter,Arial,sans-serif;background:#fff;color:#111}
+.wrap{max-width:900px;margin:0 auto;padding:60px 20px}
+h1{font-family:Georgia,serif}
+.article-list a{display:block;margin:14px 0;color:#111;text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>All Articles</h1>
+<div class="article-list">
+"""
 
 for i, item in enumerate(data):
-    article_items += f"""
-    <div class="article">
-      <h2>
-        <a href="/articles/article-{i+1}.html">{item['title']}</a>
-      </h2>
-      <div class="meta">Published {item.get('date','')}</div>
-      <div class="excerpt">
-        {item.get('summary','')[:180]}…
-      </div>
-      <div class="read-more">
-        <a href="/articles/article-{i+1}.html">Read more →</a>
-      </div>
-    </div>
-    """
+   date = item.get("date", "")
+summary = item.get("summary", "")[:140]
 
-with open("articles_index_template.html", encoding="utf-8") as f:
-    tpl = f.read()
+articles_index += f"""
+<div style="margin-bottom:22px">
+  <a href="/articles/article-{i+1}.html"><strong>{item['title']}</strong></a><br>
+  <small style="color:#666">{date}</small><br>
+  <span style="color:#333">{summary}…</span>
+</div>
+"""
 
-page = tpl.replace("{{ARTICLE_LIST}}", article_items)
-
-with open(os.path.join(ARTICLES_DIR, "index.html"), "w", encoding="utf-8") as f:
-    f.write(page)
-
-for i, item in enumerate(data):
-    articles_index += f"<a href='/articles/article-{i+1}.html'>{item['title']}</a>\n"
 
 articles_index += """
 </div>
@@ -178,6 +181,7 @@ articles_index += """
 
 with open(os.path.join(ARTICLES_DIR, "index.html"), "w", encoding="utf-8") as f:
     f.write(articles_index)
+
 
 # ================= TOPICS INDEX PAGE =================
 topics_index = """<!DOCTYPE html>
