@@ -7,8 +7,8 @@ from datetime import datetime, timezone
 DATA_FILE = "data.json"
 FEEDS_FILE = "feeds.txt"
 
-MAX_ITEMS_PER_FEED = 3      # 2–3 items per feed
-MAX_ITEMS_PER_RUN = 20      # total 15–25 per day (safe default)
+MAX_ITEMS_PER_FEED = 3      # 2–3 per feed
+MAX_ITEMS_PER_RUN = 20      # total per day (safe range 15–25)
 
 TODAY = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
@@ -22,9 +22,21 @@ else:
 existing_links = {item.get("source") for item in data}
 existing_today = sum(1 for item in data if item.get("date") == TODAY)
 
-# ================= LOAD FEEDS =================
+# ================= LOAD FEEDS WITH WEIGHTS =================
+feeds = []
 with open(FEEDS_FILE, encoding="utf-8") as f:
-    feeds = [line.strip() for line in f if line.strip() and not line.startswith("#")]
+    for line in f:
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+
+        parts = [p.strip() for p in line.split("|")]
+        url = parts[0]
+        weight = int(parts[1]) if len(parts) > 1 else 1
+        feeds.append((url, weight))
+
+# Highest priority first (Gov > Media > Tech > Google News)
+feeds.sort(key=lambda x: x[1], reverse=True)
 
 new_items_added = 0
 paused_feeds = []
@@ -32,9 +44,9 @@ paused_feeds = []
 # ================= CATEGORY DETECTION =================
 def detect_category(title):
     t = title.lower()
-    if any(k in t for k in ["inflation", "jobs", "gdp", "economy", "labor"]):
+    if any(k in t for k in ["inflation", "jobs", "labor", "gdp", "economy"]):
         return "Economy"
-    if any(k in t for k in ["technology", "ai", "software", "chip", "tech"]):
+    if any(k in t for k in ["technology", "ai", "chip", "software", "tech"]):
         return "Technology"
     if any(k in t for k in ["market", "stocks", "bonds", "earnings"]):
         return "Markets"
@@ -43,7 +55,7 @@ def detect_category(title):
     return "General"
 
 # ================= FETCH LOOP =================
-for feed_url in feeds:
+for feed_url, weight in feeds:
     if new_items_added >= MAX_ITEMS_PER_RUN:
         break
 
@@ -52,12 +64,12 @@ for feed_url in feeds:
     # ---------- AUTO-PAUSE ON ERROR ----------
     if getattr(feed, "bozo", False):
         paused_feeds.append(feed_url)
-        print(f"⚠️ Skipping feed due to error: {feed_url}")
+        print(f"⚠️ Feed error, skipped: {feed_url}")
         continue
 
     if not feed.entries:
         paused_feeds.append(feed_url)
-        print(f"⚠️ Skipping empty feed: {feed_url}")
+        print(f"⚠️ Empty feed, skipped: {feed_url}")
         continue
     # ----------------------------------------
 
@@ -68,6 +80,8 @@ for feed_url in feeds:
             break
         if feed_count >= MAX_ITEMS_PER_FEED:
             break
+        if existing_today + new_items_added >= MAX_ITEMS_PER_RUN:
+            break
 
         link = entry.get("link")
         title = entry.get("title", "").strip()
@@ -76,19 +90,17 @@ for feed_url in feeds:
             continue
         if link in existing_links:
             continue
-        if existing_today + new_items_added >= MAX_ITEMS_PER_RUN:
-            break
 
-        summary_text = (
+        summary = (
             f"An independent analysis based on recent public information regarding "
-            f"{title}. The article examines context, implications, and broader relevance "
+            f"{title}. The summary highlights context, implications, and relevance "
             f"for the United States."
         )
 
         item = {
             "title": title,
-            "summary": summary_text,
-            "content": "",  # expanded later by generate_pages.py
+            "summary": summary,
+            "content": "",              # expanded later by generate_pages.py
             "category": detect_category(title),
             "date": TODAY,
             "source": link
@@ -104,9 +116,9 @@ with open(DATA_FILE, "w", encoding="utf-8") as f:
     json.dump(data, f, indent=2)
 
 # ================= REPORT =================
-print(f"fetch_news.py complete → added {new_items_added} new articles ({TODAY})")
+print(f"fetch_news.py finished → added {new_items_added} new articles ({TODAY})")
 
 if paused_feeds:
-    print("⏸️ Paused feeds this run:")
+    print("⏸️ Feeds paused this run:")
     for f in paused_feeds:
         print(f" - {f}")
