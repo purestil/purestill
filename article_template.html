@@ -3,21 +3,14 @@
 <head>
 <meta charset="UTF-8">
 
-<!-- ✅ PURESTILL UNIVERSAL THEME (DO NOT TOUCH) -->
+<!-- ✅ PURESTILL UNIVERSAL THEME -->
 <script>
 (function(){
   const KEY="purestill-theme";
   const saved=localStorage.getItem(KEY);
   const hour=new Date().getHours();
-
-  let mode=saved;
-  if(!mode){
-    mode=(hour>=19||hour<=5)?"dark":"light";
-  }
-
-  if(mode==="dark"){
-    document.documentElement.classList.add("dark");
-  }
+  let mode=saved||((hour>=19||hour<=5)?"dark":"light");
+  if(mode==="dark") document.documentElement.classList.add("dark");
 })();
 </script>
 
@@ -27,7 +20,6 @@
 <meta name="description" content="{{SUMMARY}}">
 <meta name="robots" content="index, follow">
 <meta http-equiv="content-language" content="en-us">
-
 <link rel="canonical" href="{{CANONICAL_URL}}">
 
 <meta name="news_keywords" content="{{CATEGORY}}">
@@ -35,154 +27,98 @@
 <meta property="article:modified_time" content="{{DATE}}">
 
 <style>
-/* ================= BASE THEME ================= */
 :root{
-  --bg:#ffffff;
-  --text:#111;
-  --muted:#666;
-  --border:#e5e5e5;
-  --link:#1a0dab;
-  --card:#fafafa;
-  --accent:#1a0dab;
+  --bg:#ffffff; --text:#111; --muted:#666; --border:#e5e5e5;
+  --link:#1a0dab; --card:#fafafa; --accent:#1a0dab;
 }
-
-/* ✅ html.dark (NOT body.dark) */
 html.dark{
-  --bg:#0e0e10;
-  --text:#eaeaea;
-  --muted:#aaa;
-  --border:#2a2a2a;
-  --link:#8ab4f8;
-  --card:#16161a;
+  --bg:#0e0e10; --text:#eaeaea; --muted:#aaa;
+  --border:#2a2a2a; --link:#8ab4f8; --card:#16161a;
 }
-
 body{
-  margin:0;
-  font-family:Inter, Arial, sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  line-height:1.8;
+  margin:0; font-family:Inter, Arial, sans-serif;
+  background:var(--bg); color:var(--text); line-height:1.8;
 }
-
-/* ================= BACK BUTTON ================= */
-.back-btn{
-  position:fixed;
-  top:14px;
-  left:14px;
-  font-size:13px;
-  background:var(--card);
-  border:1px solid var(--border);
-  padding:6px 10px;
-  cursor:pointer;
-  z-index:10000;
-}
-
-/* ================= CONTROLS ================= */
-.controls{
-  position:fixed;
-  bottom:18px;
-  right:18px;
-  background:var(--card);
-  border:1px solid var(--border);
-  padding:8px 12px;
-  display:flex;
-  gap:10px;
-  cursor:pointer;
-  z-index:10000;
-}
-
-/* ================= HEADER ================= */
 header{
-  text-align:center;
-  padding:22px 0;
-  border-bottom:1px solid var(--border);
+  text-align:center; padding:22px 0; border-bottom:1px solid var(--border);
 }
-
 .brand a{
-  font-family:Georgia, serif;
-  font-size:28px;
-  font-weight:600;
-  color:var(--text);
-  text-decoration:none;
+  font-family:Georgia, serif; font-size:28px; font-weight:600;
+  color:var(--text); text-decoration:none;
 }
-
-/* ================= ARTICLE ================= */
+.back-btn{
+  position:fixed; top:14px; left:14px;
+  background:var(--card); border:1px solid var(--border);
+  padding:6px 10px; font-size:13px; cursor:pointer; z-index:10000;
+}
 .article-wrap{
-  max-width:1000px;
-  margin:0 auto;
-  padding:48px 20px 100px;
+  max-width:1000px; margin:0 auto; padding:48px 20px 120px;
 }
+.category{ font-size:13px; color:var(--muted); }
+h1{ font-family:Georgia, serif; font-size:clamp(26px,4vw,38px); }
+.subhead{ font-size:18px; color:var(--muted); margin:18px 0; }
+.reading-meta{ font-size:13px; color:var(--muted); margin-bottom:30px; }
+article{ font-size:17px; }
+article h2{ margin-top:56px; font-family:Georgia, serif; }
+article a{ color:var(--accent); }
 
-.category{
-  font-size:13px;
-  color:var(--muted);
-}
-
-h1{
-  font-family:Georgia, serif;
-  font-size:clamp(26px,4vw,38px);
-}
-
-.subhead{
-  font-size:18px;
-  color:var(--muted);
-  margin:18px 0;
-}
-
-.reading-meta{
-  font-size:13px;
-  color:var(--muted);
-  margin-bottom:30px;
-}
-
-article{
-  font-size:17px;
-}
-
-article h2{
-  margin-top:56px;
-  font-family:Georgia, serif;
-}
-
-article a{
-  color:var(--accent);
-}
-
-/* ================= SOURCE ================= */
+/* ===== SOURCE ===== */
 .source{
-  margin-top:40px;
-  font-size:14px;
-  color:var(--muted);
+  margin-top:40px; font-size:14px; color:var(--muted);
 }
-
 .sources a{
-  margin-right:14px;
-  display:inline-flex;
-  gap:6px;
-  color:var(--accent);
-  text-decoration:none;
+  display:inline-flex; align-items:center; gap:6px;
+  margin-right:14px; color:var(--accent); text-decoration:none;
+}
+.sources img{ width:16px; height:16px; border-radius:2px; }
+
+/* ===== COMMENTS ===== */
+.comments{
+  margin-top:80px; border-top:1px solid var(--border); padding-top:30px;
+}
+.comments textarea{
+  width:100%; min-height:90px; padding:10px;
+  font-family:inherit; font-size:14px;
+  border:1px solid var(--border); background:var(--card);
+  color:var(--text);
+}
+.comments button{
+  margin-top:10px; padding:8px 14px;
+  border:1px solid var(--border); background:var(--card);
+  cursor:pointer;
+}
+.comments-note{ font-size:13px; color:var(--muted); margin-top:8px; }
+
+/* ===== SUBSCRIBE ===== */
+.subscribe{
+  margin-top:60px; padding:20px;
+  border:1px solid var(--border); background:var(--card);
+}
+.subscribe input{
+  width:100%; padding:10px; margin-top:10px;
+  border:1px solid var(--border);
+}
+.subscribe button{
+  margin-top:10px; padding:8px 14px;
+  border:1px solid var(--border); background:var(--bg);
+  cursor:pointer;
 }
 
-.sources img{
-  width:16px;
-  height:16px;
-  border-radius:2px;
-}
-
-/* ================= FOOTER ================= */
+/* ===== FOOTER ===== */
 footer{
-  margin-top:100px;
-  font-size:14px;
-  color:var(--muted);
-  border-top:1px solid var(--border);
-  padding-top:20px;
+  margin-top:100px; border-top:1px solid var(--border);
+  padding-top:30px; font-size:14px; color:var(--muted);
 }
+.footer-links a{
+  margin-right:14px; color:var(--muted); text-decoration:none;
+}
+.footer-links a:hover{ text-decoration:underline; }
+.footer-note{ max-width:800px; font-size:13px; line-height:1.6; }
 </style>
 </head>
 
 <body>
 
-<!-- 🔙 BACK BUTTON -->
 <div class="back-btn" onclick="goBack()">← Back</div>
 
 <header>
@@ -201,6 +137,7 @@ footer{
 
 <article>{{CONTENT}}</article>
 
+<!-- ===== SOURCE BLOCK ===== -->
 <div class="source" id="sourceBlock">
   <strong>Source:</strong>
   <span class="sources" data-sources="{{SOURCE}}"></span>
@@ -209,87 +146,87 @@ footer{
 {{AD_MID}}
 {{AD_BOTTOM}}
 
-<section class="related">
-  <h2>Related Analysis</h2>
-  <ul>{{RELATED_LINKS}}</ul>
-</section>
-
-<footer>© PureStill</footer>
-</main>
-
-<!-- 🎛 CONTROLS -->
-<div class="controls">
-  <span onclick="toggleReading()">📖</span>
-  <span onclick="toggleMusic()" id="musicBtn">🎵</span>
-  <span onclick="toggleTheme()" id="themeBtn">🌙</span>
+<!-- ===== SUBSCRIBE ===== -->
+<div class="subscribe">
+  <strong>Get new analysis updates</strong>
+  <p class="comments-note">Occasional emails. No spam.</p>
+  <input type="email" placeholder="Your email address">
+  <button disabled>Subscribe (coming soon)</button>
 </div>
+
+<!-- ===== COMMENTS ===== -->
+<div class="comments">
+  <h2>Comments</h2>
+  <textarea placeholder="Share your thoughts (comments are moderated)"></textarea>
+  <button disabled>Post comment</button>
+  <div class="comments-note">
+    Comments are moderated for quality and relevance. No promotional content.
+  </div>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="/about.html">About</a>
+    <a href="/contact.html">Contact</a>
+    <a href="/privacy-policy.html">Privacy</a>
+    <a href="/terms.html">Terms</a>
+    <a href="/disclaimer.html">Disclaimer</a>
+  </div>
+  <div class="footer-note">
+    PureStill is an independent analysis platform that summarizes and contextualizes
+    publicly available information related to business, technology, and economic developments.
+    Content is provided for general informational purposes only.
+  </div>
+  <div class="footer-note" style="margin-top:8px;">© PureStill</div>
+</footer>
+
+</main>
 
 <script>
 /* ===== BACK ===== */
-function goBack(){
-  if(history.length>1){ history.back(); }
-  else{ location.href="/"; }
-}
+function goBack(){ history.length>1 ? history.back() : location.href="/"; }
 
-/* ===== READING TIME ===== */
+/* ===== READING META ===== */
 const words=document.querySelector("article").innerText.split(/\s+/).length;
-document.getElementById("readingTime").innerText=
-  Math.max(1,Math.round(words/200))+" min read";
-document.getElementById("readingLevel").innerText=
-  words<600?"Easy":words<1200?"Medium":"Advanced";
+readingTime.innerText=Math.max(1,Math.round(words/200))+" min read";
+readingLevel.innerText=words<600?"Easy":words<1200?"Medium":"Advanced";
 
-/* ===== AMBIENT MUSIC (COPYRIGHT FREE) ===== */
-let audioCtx, oscillator, gainNode;
-let musicOn=false;
-
-function startMusic(freq){
-  audioCtx=new (window.AudioContext||window.webkitAudioContext)();
-  oscillator=audioCtx.createOscillator();
-  gainNode=audioCtx.createGain();
-  oscillator.type="sine";
-  oscillator.frequency.value=freq;
-  gainNode.gain.value=0.02;
-  oscillator.connect(gainNode);
-  gainNode.connect(audioCtx.destination);
-  oscillator.start();
+/* ===== SOURCE LOGIC (GOOGLE FAVICON SAFE) ===== */
+const wrap=document.querySelector(".sources");
+const raw=wrap?.dataset.sources;
+if(!raw){ sourceBlock.style.display="none"; }
+else{
+  raw.split(",").forEach(url=>{
+    try{
+      const u=new URL(url.trim());
+      const host=u.hostname.replace("www.","");
+      const name=host.split(".")[0].replace(/^\w/,c=>c.toUpperCase());
+      const a=document.createElement("a");
+      a.href=url; a.target="_blank"; a.rel="nofollow noopener";
+      a.innerHTML=`<img src="https://www.google.com/s2/favicons?domain=${host}&sz=32">${name}`;
+      wrap.appendChild(a);
+    }catch(e){}
+  });
 }
 
-function stopMusic(){
-  if(oscillator){
-    oscillator.stop();
-    audioCtx.close();
-  }
-}
-
-function toggleMusic(){
+/* ===== AUTO AMBIENT SOUND (COPYRIGHT FREE) ===== */
+let ctx,osc,gain;
+function startAmbient(){
+  ctx=new (window.AudioContext||window.webkitAudioContext)();
+  osc=ctx.createOscillator(); gain=ctx.createGain();
+  const map={ economy:90, markets:80, technology:130, policy:70 };
   const cat=document.getElementById("cat").innerText.toLowerCase();
-  const map={ economy:110, markets:90, technology:140, policy:80 };
-  if(!musicOn){
-    startMusic(map[cat]||100);
-    musicOn=true;
-    musicBtn.innerText="🔇";
-  }else{
-    stopMusic();
-    musicOn=false;
-    musicBtn.innerText="🎵";
-  }
+  osc.frequency.value=map[cat]||100;
+  gain.gain.value=0.015;
+  osc.connect(gain); gain.connect(ctx.destination); osc.start();
 }
-
-/* ===== THEME TOGGLE (PURESTILL SYNC) ===== */
-function toggleTheme(){
-  const KEY="purestill-theme";
-  const root=document.documentElement;
-
-  root.classList.toggle("dark");
-
-  localStorage.setItem(
-    KEY,
-    root.classList.contains("dark")?"dark":"light"
-  );
-
-  document.getElementById("themeBtn").innerText=
-    root.classList.contains("dark")?"☀️":"🌙";
-}
+document.addEventListener("click",()=>{
+  if(!ctx){ startAmbient(); }
+},{ once:true });
+document.addEventListener("visibilitychange",()=>{
+  if(document.hidden && ctx){ ctx.suspend(); }
+  else if(ctx){ ctx.resume(); }
+});
 </script>
 
 </body>
