@@ -1,0 +1,50 @@
+name: PureStill Hourly Live Engine
+
+on:
+  # ⏰ Run every hour forever
+  schedule:
+    - cron: "0 * * * *"
+
+  # ▶ Allow manual run from GitHub UI
+  workflow_dispatch:
+
+jobs:
+  live-update:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2️⃣ Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # 3️⃣ Install dependencies
+      - name: Install Python dependencies
+        run: |
+          pip install --upgrade pip
+          pip install feedparser
+
+      # 4️⃣ Run live engine
+      - name: Run PureStill live engine
+        run: |
+          python scripts/live_engine.py
+
+      # 5️⃣ Commit and push updates (only if changed)
+      - name: Commit updated live signals
+        run: |
+          git config user.name "purestill-bot"
+          git config user.email "bot@purestill.local"
+
+          git add signals/live_feed.json signals/topics_feed.json signals/live_seen.json
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "🔴 Hourly live update"
+            git push
+          fi
