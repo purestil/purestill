@@ -3,112 +3,288 @@
 <head>
 <meta charset="UTF-8">
 
-<title>PureStill | Independent Global Analysis</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="index, follow">
+<!-- 🌙 THEME BOOTSTRAP (FAST, CLS-SAFE) -->
+<script>
+(function(){
+  const KEY="purestill-theme";
+  const saved=localStorage.getItem(KEY);
+  const hour=new Date().getHours();
+  const mode=saved||(hour>=19||hour<=5?"dark":"light");
+  if(mode==="dark") document.documentElement.classList.add("dark");
+})();
+</script>
 
+<title>{{TITLE}} | PureStill</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="{{SUMMARY}}">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="{{CANONICAL_URL}}">
+<meta http-equiv="content-language" content="en-us">
+
+<!-- ===== PURESTILL GENERATEPRESS-STYLE THEME ===== -->
 <style>
+/* ================= ROOT TOKENS ================= */
+:root{
+  --bg:#ffffff;
+  --text:#111111;
+  --muted:#6b7280;
+  --border:#e5e7eb;
+  --card:#fafafa;
+
+  --accent:#c9b26b;
+  --accent-hover:#d4af37;
+
+  --reading-width:720px;
+}
+
+html.dark{
+  --bg:#0e0e10;
+  --text:#eae6da;
+  --muted:#9ca3af;
+  --border:#2a2a2e;
+  --card:#16161a;
+}
+
+/* ================= BASE ================= */
+*{box-sizing:border-box}
 body{
   margin:0;
-  font-family:Inter,system-ui,sans-serif;
-  background:#fff;
-  color:#111;
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.85;
+  -webkit-font-smoothing:antialiased;
 }
+a{
+  color:var(--accent);
+  text-decoration:underline;
+}
+a:hover{color:var(--accent-hover)}
+
+/* ================= HEADER (MATCH INDEX) ================= */
 header{
-  text-align:center;
-  padding:28px 0;
-  border-bottom:1px solid #eee;
+  border-bottom:1px solid var(--border);
+  padding:26px 0 18px;
+  position:relative;
 }
-header h1{
-  font-family:Georgia,serif;
-  font-size:34px;
+.brand{
+  text-align:center;
+  font-family:"Playfair Display",Georgia,serif;
+  font-size:32px;
+  font-weight:600;
+  letter-spacing:.3px;
+}
+nav{
+  margin-top:14px;
+  text-align:center;
+  font-size:14px;
 }
 nav a{
   margin:0 12px;
-  color:#555;
+  color:var(--muted);
   text-decoration:none;
 }
-main{
-  max-width:1200px;
-  margin:auto;
-  padding:60px 20px;
-}
-.section{
-  margin-top:80px;
-}
-.section h2{
-  font-family:Georgia,serif;
-  font-size:26px;
-}
-.grid{
-  display:grid;
-  gap:30px;
-}
-@media(min-width:1024px){
-  .grid{grid-template-columns:repeat(3,1fr)}
-}
-.card{
-  border:1px solid #eee;
-  padding:24px;
-}
-.card a{
-  font-size:18px;
-  color:#111;
-  text-decoration:none;
-}
-.card a:hover{text-decoration:underline}
-.card p{
+nav a:hover{color:var(--accent)}
+
+.theme-toggle{
+  position:absolute;
+  top:22px;
+  right:22px;
+  border:1px solid var(--border);
+  background:var(--card);
+  padding:6px 10px;
   font-size:14px;
-  color:#666;
+  cursor:pointer;
+  border-radius:6px;
 }
+
+/* ================= ARTICLE LAYOUT ================= */
+.article-wrap{
+  max-width:var(--reading-width);
+  margin:0 auto;
+  padding:64px 20px 120px;
+}
+.category{
+  font-size:13px;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  margin-bottom:14px;
+}
+.category a{
+  color:var(--muted);
+  text-decoration:none;
+}
+.category a:hover{color:var(--accent)}
+
+h1{
+  font-family:"Playfair Display",Georgia,serif;
+  font-size:clamp(30px,4vw,44px);
+  line-height:1.25;
+  margin:0;
+}
+
+.subhead{
+  font-size:19px;
+  color:var(--muted);
+  margin:22px 0 30px;
+}
+
+.meta{
+  font-size:13px;
+  color:var(--muted);
+  margin-bottom:44px;
+}
+
+/* ================= CONTENT ================= */
+article{
+  font-size:18.5px;
+}
+article p{
+  margin-bottom:28px;
+}
+article h2{
+  font-family:"Playfair Display",Georgia,serif;
+  font-size:1.55em;
+  margin:72px 0 26px;
+}
+article h3{
+  font-family:"Playfair Display",Georgia,serif;
+  font-size:1.3em;
+  margin:56px 0 22px;
+}
+
+/* ================= PULL QUOTE ================= */
+.pull-quote{
+  margin:48px 0;
+  padding:28px 32px;
+  border-left:4px solid var(--accent);
+  background:var(--card);
+  font-family:"Playfair Display",Georgia,serif;
+  font-size:22px;
+  line-height:1.5;
+}
+
+/* ================= SOURCE ================= */
+.source{
+  margin-top:64px;
+  padding-top:22px;
+  border-top:1px solid var(--border);
+  font-size:14px;
+  color:var(--muted);
+}
+
+/* ================= INTERNAL LINKS ================= */
+.internal-links{
+  margin-top:90px;
+  padding-top:44px;
+  border-top:1px solid var(--border);
+}
+.internal-links h2{
+  font-family:"Playfair Display",Georgia,serif;
+  font-size:22px;
+  margin-bottom:28px;
+}
+.internal-links a{
+  display:block;
+  font-size:16px;
+  margin-bottom:14px;
+  color:var(--text);
+  text-decoration:none;
+}
+.internal-links a:hover{text-decoration:underline}
+
+/* ================= FOOTER ================= */
 footer{
   margin-top:120px;
-  border-top:1px solid #eee;
-  padding-top:40px;
+  border-top:1px solid var(--border);
+  padding-top:48px;
   font-size:14px;
-  color:#777;
+  color:var(--muted);
 }
+footer a{
+  margin-right:16px;
+  color:var(--muted);
+  text-decoration:none;
+}
+footer a:hover{color:var(--accent)}
 </style>
+
 </head>
 
 <body>
 
 <header>
-  <h1>PureStill</h1>
+  <div class="brand">PureStill</div>
+
+  <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+
   <nav>
     <a href="/">Home</a>
-    <a href="/topics/ai.html">Topics</a>
+    <a href="/topics/">Topics</a>
     <a href="/about.html">About</a>
+    <a href="/terms.html">Terms</a>
+    <a href="/privacy-policy.html">Privacy</a>
+    <a href="/contact.html">Contact</a>
+    <a href="/disclaimer.html">Disclaimer</a>
   </nav>
 </header>
 
-<main>
+<main class="article-wrap">
 
-<section class="section">
-  <h2>Latest Analysis</h2>
-  <div class="grid" id="latest"></div>
+<div class="category">
+  <a href="/topics/{{TOPIC_SLUG}}.html">{{TOPIC}}</a>
+</div>
+
+<h1>{{TITLE}}</h1>
+
+<div class="subhead">{{SUMMARY}}</div>
+
+<div class="meta">
+  Published {{DATE}} · <span id="updatedText"></span>
+</div>
+
+<article>
+{{CONTENT}}
+</article>
+
+<div class="source" id="sourceBlock">
+  <strong>Source:</strong> {{SOURCE}}
+</div>
+
+<section class="internal-links">
+  <h2>More Analysis</h2>
+  {{RELATED_LINKS}}
 </section>
+
+<footer>
+  <a href="/about.html">About</a>
+  <a href="/contact.html">Contact</a>
+  <a href="/privacy-policy.html">Privacy</a>
+  <a href="/terms.html">Terms</a>
+  <a href="/disclaimer.html">Disclaimer</a><br><br>
+  © PureStill
+</footer>
 
 </main>
 
-<footer>
-  © PureStill · Updated hourly
-</footer>
-
 <script>
-fetch("/signals/articles_index.json",{cache:"no-store"})
+function toggleTheme(){
+  const h=document.documentElement;
+  const isDark=h.classList.toggle("dark");
+  localStorage.setItem("purestill-theme",isDark?"dark":"light");
+}
+
+/* Updated X minutes ago from live_feed.json */
+fetch("/signals/live_feed.json",{cache:"no-store"})
 .then(r=>r.json())
 .then(data=>{
-  const wrap=document.getElementById("latest");
-  data.slice(0,9).forEach(a=>{
-    const div=document.createElement("div");
-    div.className="card";
-    div.innerHTML=`
-      <a href="${a.url}">${a.title}</a>
-      <p>Updated ${new Date(a.updated).toLocaleString()}</p>
-    `;
-    wrap.appendChild(div);
-  });
+  const m=data.find(i=>i.url===location.pathname);
+  if(m){
+    document.getElementById("updatedText").textContent =
+      "Updated " + m.minutes_ago + " minutes ago";
+  }
 });
 </script>
 
