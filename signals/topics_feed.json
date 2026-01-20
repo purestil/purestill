@@ -1,7 +1,43 @@
 {
-  "AI": [],
+  "AI": [
+    {
+      "id": "b28a5328cc1b0998eb57349ae3a8b7f9",
+      "title": "Driver killed and several injured after train derails near Barcelona, local media report",
+      "url": "https://www.bbc.com/news/articles/c1m78xl0gmpo?at_medium=RSS&at_campaign=rss",
+      "source": "BBC",
+      "topic": "AI",
+      "priority": 80,
+      "minutes_ago": 3,
+      "timestamp": "2026-01-20T22:43:26.943925+00:00",
+      "expires_at": "2026-01-21T00:43:26.943925+00:00"
+    }
+  ],
   "Markets": [],
   "Policy": [],
-  "Technology": [],
-  "World": []
+  "Technology": [
+    {
+      "id": "950e4ab88d6c9eebc40ed722f73fc4a2",
+      "title": "UK households to get \u00a315bn for solar and green tech to lower energy bills",
+      "url": "https://www.bbc.com/news/articles/ckgj7me00p0o?at_medium=RSS&at_campaign=rss",
+      "source": "BBC",
+      "topic": "Technology",
+      "priority": 80,
+      "minutes_ago": 10,
+      "timestamp": "2026-01-20T22:43:26.943925+00:00",
+      "expires_at": "2026-01-21T00:43:26.943925+00:00"
+    }
+  ],
+  "World": [
+    {
+      "id": "17abef3ada397026039c326230b5b6d0",
+      "title": "Beckham vs Peltz Beckham: Could Brooklyn torpedo the family brand?",
+      "url": "https://www.bbc.com/news/articles/c3ve1r2674zo?at_medium=RSS&at_campaign=rss",
+      "source": "BBC",
+      "topic": "World",
+      "priority": 65,
+      "minutes_ago": 37,
+      "timestamp": "2026-01-20T22:43:26.943925+00:00",
+      "expires_at": "2026-01-21T00:43:26.943925+00:00"
+    }
+  ]
 }
