@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 
-<!-- PURESTILL UNIVERSAL THEME (EARLY, NO FLASH) -->
+<!-- PURESTILL UNIVERSAL THEME (NO FLASH) -->
 <script>
 (function(){
   try{
@@ -55,6 +55,17 @@ body{
   line-height:1.8;
 }
 
+/* PROGRESS BAR */
+.progress-bar{
+  position:fixed;
+  top:0;
+  left:0;
+  height:3px;
+  width:0%;
+  background:var(--accent);
+  z-index:99999;
+}
+
 /* BACK BUTTON */
 .back-btn{
   position:fixed;
@@ -68,7 +79,6 @@ body{
   border-radius:4px;
   cursor:pointer;
 }
-.back-btn:hover{opacity:.85}
 
 /* HEADER */
 header{
@@ -170,6 +180,8 @@ footer{
 </head>
 
 <body>
+
+<div class="progress-bar" id="progressBar"></div>
 
 <div class="back-btn" onclick="goBack()">← Back</div>
 
@@ -279,6 +291,17 @@ function goBack(){
          ${host.split(".")[0]}`;
       wrap.appendChild(a);
     }catch(e){}
+  });
+})();
+
+/* PROGRESS BAR */
+(function(){
+  const bar=document.getElementById("progressBar");
+  if(!bar) return;
+  window.addEventListener("scroll",()=>{
+    const d=document.documentElement;
+    const sc=(d.scrollTop)/(d.scrollHeight-d.clientHeight)*100;
+    bar.style.width=sc+"%";
   });
 })();
 </script>
