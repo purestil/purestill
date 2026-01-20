@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<title>{{TITLE}} | PureStill</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="{{SUMMARY}}">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="{{CANONICAL_URL}}">
+
+<style>
+body{
+  margin:0;
+  font-family:Inter,system-ui,sans-serif;
+  background:#fff;
+  color:#111;
+  line-height:1.9;
+}
+header{
+  text-align:center;
+  padding:26px 0;
+  border-bottom:1px solid #eee;
+}
+header a{
+  font-family:Georgia,serif;
+  font-size:28px;
+  color:#111;
+  text-decoration:none;
+}
+main{
+  max-width:720px;
+  margin:auto;
+  padding:64px 20px 120px;
+}
+.category{
+  font-size:13px;
+  text-transform:uppercase;
+  color:#777;
+}
+h1{
+  font-family:Georgia,serif;
+  font-size:2.4rem;
+  line-height:1.25;
+}
+.subhead{
+  color:#555;
+  font-size:18px;
+  margin:22px 0 30px;
+}
+.meta{
+  font-size:13px;
+  color:#777;
+  margin-bottom:44px;
+}
+article p{
+  font-size:18px;
+  margin-bottom:28px;
+}
+.updated{
+  font-size:12px;
+  color:#999;
+  margin-top:30px;
+}
+footer{
+  border-top:1px solid #eee;
+  margin-top:90px;
+  padding-top:30px;
+  font-size:14px;
+  color:#777;
+}
+footer a{color:#777;text-decoration:none;margin-right:14px}
+</style>
+</head>
+
+<body>
+
+<header>
+  <a href="/">PureStill</a>
+</header>
+
+<main>
+
+<div class="category">
+  <a href="/topics/{{TOPIC_SLUG}}.html">{{TOPIC}}</a>
+</div>
+
+<h1>{{TITLE}}</h1>
+
+<div class="subhead">{{SUMMARY}}</div>
+
+<div class="meta">
+  Published {{DATE}} · <span id="updated"></span>
+</div>
+
+<article>
+{{CONTENT}}
+</article>
+
+<div class="updated" id="liveUpdate"></div>
+
+<footer>
+  <a href="/about.html">About</a>
+  <a href="/privacy-policy.html">Privacy</a>
+  <a href="/terms.html">Terms</a>
+  <a href="/disclaimer.html">Disclaimer</a>
+</footer>
+
+</main>
+
+<script>
+/* Updated X minutes ago (from live_feed.json) */
+fetch("/signals/live_feed.json",{cache:"no-store"})
+.then(r=>r.json())
+.then(data=>{
+  const match=data.find(i=>i.url===location.pathname);
+  if(match){
+    document.getElementById("updated").textContent =
+      "Updated " + match.minutes_ago + " min ago";
+  }
+});
+</script>
+
+</body>
+</html>
