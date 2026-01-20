@@ -2,7 +2,6 @@ print("Starting PureStill generator…")
 
 import json, os, re
 from datetime import datetime, timezone
-from dateutil.parser import parse as parse_date
 
 # ================= CONFIG =================
 BASE_URL = "https://purestill.pages.dev"
@@ -39,8 +38,8 @@ def safe(item, *keys, default=""):
 
 def hours_old(date_str):
     try:
-        dt = parse_date(date_str)
-    except:
+        dt = datetime.fromisoformat(date_str.replace("Z", "+00:00"))
+    except Exception:
         dt = NOW
     if not dt.tzinfo:
         dt = dt.replace(tzinfo=timezone.utc)
