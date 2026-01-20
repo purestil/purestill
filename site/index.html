@@ -37,39 +37,54 @@ body{
   line-height:1.65;
 }
 
+/* ===== HEADER ===== */
 header{
-  text-align:center;
-  padding:28px 0;
-  border-bottom:1px solid var(--border)
+  border-bottom:1px solid var(--border);
+  padding:22px 0 18px;
+  position:relative;
 }
 .brand{
+  text-align:center;
   font-family:Georgia,serif;
   font-size:34px;
-  font-weight:600
+  font-weight:600;
 }
 nav{
   margin-top:14px;
-  font-size:14px
+  text-align:center;
+  font-size:14px;
 }
 nav a{
   margin:0 10px;
   color:var(--muted);
-  text-decoration:none
+  text-decoration:none;
 }
 
+/* 🌙 THEME TOGGLE */
+.theme-toggle{
+  position:absolute;
+  top:18px;
+  right:18px;
+  border:1px solid var(--border);
+  background:var(--card);
+  padding:6px 10px;
+  font-size:14px;
+  cursor:pointer;
+  border-radius:6px;
+}
+
+/* ===== MAIN LAYOUT ===== */
 .container{
   max-width:1200px;
   margin:0 auto;
-  padding:56px 20px 120px
+  padding:56px 20px 120px;
 }
-
 .section{
-  margin-top:80px
+  margin-top:80px;
 }
 .section h2{
   font-family:Georgia,serif;
   font-size:26px;
-  margin-bottom:10px
 }
 .section-note{
   font-size:14px;
@@ -80,7 +95,7 @@ nav a{
 /* ===== CARD GRID ===== */
 .card-grid{
   display:grid;
-  gap:32px
+  gap:32px;
 }
 @media(min-width:1024px){
   .card-grid{grid-template-columns:repeat(3,1fr)}
@@ -88,52 +103,41 @@ nav a{
 @media(max-width:1023px){
   .card-grid{grid-template-columns:1fr}
 }
-
 .card{
   border:1px solid var(--border);
   background:var(--card);
-  padding:24px
+  padding:24px;
 }
 .card h3{
   font-family:Georgia,serif;
-  font-size:20px;
-  margin:0 0 10px
 }
 .card p{
-  font-size:16px;
-  color:var(--muted)
-}
-.read-more a{
-  color:var(--accent);
-  text-decoration:underline
+  color:var(--muted);
 }
 
 /* ===== LIVE BREAKING ===== */
 .live-breaking{
   border-left:4px solid #d93025;
-  padding-left:20px
+  padding-left:20px;
 }
 .live-item{
   padding:14px 0;
-  border-bottom:1px dashed var(--border)
+  border-bottom:1px dashed var(--border);
 }
 .live-item:last-child{border-bottom:none}
 .live-badge{
-  display:inline-block;
-  font-size:12px;
   color:#d93025;
   font-weight:600;
-  margin-right:8px
+  font-size:12px;
+  margin-right:6px;
 }
 .live-age{
   font-size:12px;
   color:var(--muted);
-  margin-left:6px
 }
 .live-empty{
-  color:var(--muted);
   font-size:14px;
-  padding:12px 0
+  color:var(--muted);
 }
 
 /* ===== FOOTER ===== */
@@ -142,36 +146,20 @@ footer{
   border-top:1px solid var(--border);
   padding-top:40px;
   font-size:14px;
-  color:var(--muted)
+  color:var(--muted);
 }
 .footer-links a{
   margin-right:14px;
   color:var(--muted);
-  text-decoration:none
+  text-decoration:none;
 }
 .footer-note{
   max-width:900px;
   font-size:13px;
   line-height:1.6;
-  margin-top:12px
+  margin-top:12px;
 }
 </style>
-
-<!-- 🔄 SAFE LIVE AUTO-REFRESH (NO SEO RISK) -->
-<script>
-setInterval(function(){
-  fetch("/index.html",{cache:"no-store"})
-    .then(r=>r.text())
-    .then(html=>{
-      const doc=new DOMParser().parseFromString(html,"text/html");
-      const live=doc.querySelector(".live-breaking");
-      if(live){
-        document.querySelector(".live-breaking").innerHTML=live.innerHTML;
-      }
-    })
-    .catch(()=>{});
-}, 180000); // every 3 minutes
-</script>
 
 </head>
 
@@ -179,115 +167,115 @@ setInterval(function(){
 
 <header>
   <div class="brand">PureStill</div>
+
+  <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+
   <nav>
     <a href="/">Home</a>
     <a href="/articles/">Articles</a>
     <a href="/topics/">Topics</a>
     <a href="/about.html">About</a>
+    <a href="/terms.html">Terms</a>
+    <a href="/privacy-policy.html">Privacy</a>
     <a href="/contact.html">Contact</a>
+    <a href="/disclaimer.html">Disclaimer</a>
   </nav>
 </header>
 
 <main class="container">
 
-<!-- 🔴 LIVE BREAKING -->
 <section class="section">
   <h2>Live Breaking</h2>
   <div class="section-note">Real-time global developments as they happen</div>
   <div class="live-breaking">
+    <div class='live-empty'>No breaking developments.</div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Trending Now</h2>
+  <div class="section-note">Most discussed global topics this hour</div>
+  <div class="card-grid">
     
-    <div class="live-item">
-      <span class="live-badge">LIVE</span>
-      <a href="/articles/indian-vibe-coding-startup-emergent-raises-70m-at-300m-valuation-from-softbank-khosla-ventures.html">Indian vibe-coding startup Emergent raises $70M at $300M valuation from SoftBank, Khosla Ventures</a>
-      <small class="live-age">1h ago</small>
+    <div class="card">
+      <h3><a href="/articles/uk-defends-chagos-deal-after-trump-calls-it-act-of-great-stupidity.html">UK defends Chagos deal after Trump calls it 'act of great stupidity'</a></h3>
+      <p>An independent analysis of recent developments regarding UK defends Chagos deal after Trump calls it 'act of great stupidity'.</p>
+      <div class="read-more">
+        <a href="/articles/uk-defends-chagos-deal-after-trump-calls-it-act-of-great-stupidity.html">Read analysis →</a>
+      </div>
     </div>
     
-    <div class="live-item">
-      <span class="live-badge">LIVE</span>
-      <a href="/articles/netflix-revises-offer-to-pay-all-cash-for-warner-bros-to-stave-off-paramount.html">Netflix revises offer to pay all cash for Warner Bros to stave off Paramount</a>
-      <small class="live-age">1h ago</small>
+    <div class="card">
+      <h3><a href="/articles/prince-harry-clutching-at-straws-with-claim-against-mail-publisher-court-told.html">Prince Harry 'clutching at straws' with claim against Mail publisher, court told</a></h3>
+      <p>An independent analysis of recent developments regarding Prince Harry 'clutching at straws' with claim against Mail publisher, court told.</p>
+      <div class="read-more">
+        <a href="/articles/prince-harry-clutching-at-straws-with-claim-against-mail-publisher-court-told.html">Read analysis →</a>
+      </div>
     </div>
     
-    <div class="live-item">
-      <span class="live-badge">LIVE</span>
-      <a href="/articles/ray-dalio-fears-capital-wars-could-follow-trump-s-actions-with-countries-dumping-u-s-assets.html">Ray Dalio fears 'capital wars' could follow Trump's actions with countries dumping U.S. assets</a>
-      <small class="live-age">1h ago</small>
+    <div class="card">
+      <h3><a href="/articles/jellyfish-inspired-outfit-steals-show-in-osaka-s-australian-open-win.html">Jellyfish-inspired outfit steals show in Osaka's Australian Open win</a></h3>
+      <p>An independent analysis of recent developments regarding Jellyfish-inspired outfit steals show in Osaka's Australian Open win.</p>
+      <div class="read-more">
+        <a href="/articles/jellyfish-inspired-outfit-steals-show-in-osaka-s-australian-open-win.html">Read analysis →</a>
+      </div>
     </div>
     
-    <div class="live-item">
-      <span class="live-badge">LIVE</span>
-      <a href="/articles/tech-stocks-lead-wall-street-sell-off-as-tensions-over-greenland-escalate.html">Tech stocks lead Wall Street sell-off as tensions over Greenland escalate</a>
-      <small class="live-age">1h ago</small>
+    <div class="card">
+      <h3><a href="/articles/europe-to-suspend-approval-of-us-tariffs-deal.html">Europe to suspend approval of US tariffs deal</a></h3>
+      <p>An independent analysis of recent developments regarding Europe to suspend approval of US tariffs deal.</p>
+      <div class="read-more">
+        <a href="/articles/europe-to-suspend-approval-of-us-tariffs-deal.html">Read analysis →</a>
+      </div>
     </div>
     
-    <div class="live-item">
-      <span class="live-badge">LIVE</span>
-      <a href="/articles/this-is-sell-america-u-s-dollar-treasury-prices-tumble-and-gold-spikes-as-globe-flees-u-s-assets.html">'This is sell America' — U.S. dollar, Treasury prices tumble and gold spikes as globe flees U.S. assets</a>
-      <small class="live-age">1h ago</small>
+    <div class="card">
+      <h3><a href="/articles/tech-stocks-lead-wall-street-sell-off-as-tensions-over-greenland-escalate.html">Tech stocks lead Wall Street sell-off as tensions over Greenland escalate</a></h3>
+      <p>An independent analysis based on recent public information regarding Tech stocks lead Wall Street sell-off as tensions over Greenland escalate. This summary highlights context, implications, and relevance for the United States.</p>
+      <div class="read-more">
+        <a href="/articles/tech-stocks-lead-wall-street-sell-off-as-tensions-over-greenland-escalate.html">Read analysis →</a>
+      </div>
     </div>
     
-    <div class="live-item">
-      <span class="live-badge">LIVE</span>
-      <a href="/articles/trump-labels-uk-chagos-islands-plan-he-once-backed-great-stupidity.html">Trump labels UK-Chagos Islands plan he once backed 'great stupidity'</a>
-      <small class="live-age">1h ago</small>
-    </div>
-    
-    <div class="live-item">
-      <span class="live-badge">LIVE</span>
-      <a href="/articles/live-updates-trump-doubles-down-on-greenland-threats-supreme-court-to-release-opinions.html">Live updates: Trump doubles down on Greenland threats; Supreme Court to release opinions</a>
-      <small class="live-age">1h ago</small>
-    </div>
-    
-    <div class="live-item">
-      <span class="live-badge">LIVE</span>
-      <a href="/articles/a-right-to-disconnect-is-the-next-step-for-the-american-worker.html">A ‘Right to Disconnect’ is the next step for the American worker</a>
-      <small class="live-age">1h ago</small>
-    </div>
-    
-    <div class="live-item">
-      <span class="live-badge">LIVE</span>
-      <a href="/articles/elon-musk-s-x-to-block-ai-chatbot-grok-from-making-explicit-images-of-real-people.html">Elon Musk's X to block AI chatbot Grok from making explicit images of real people</a>
-      <small class="live-age">1h ago</small>
-    </div>
-    
-    <div class="live-item">
-      <span class="live-badge">LIVE</span>
-      <a href="/articles/they-quit-their-day-jobs-to-bet-on-current-events-a-look-inside-the-prediction-market-mania.html">They quit their day jobs to bet on current events. A look inside the prediction market mania</a>
-      <small class="live-age">1h ago</small>
-    </div>
-    
-    <div class="live-item">
-      <span class="live-badge">LIVE</span>
-      <a href="/articles/do-phone-sleep-trackers-work.html">Do phone sleep trackers work?</a>
-      <small class="live-age">1h ago</small>
-    </div>
-    
-    <div class="live-item">
-      <span class="live-badge">LIVE</span>
-      <a href="/articles/trump-s-board-of-peace-has-several-invited-leaders-trying-to-figure-out-how-it-ll-work.html">Trump's Board of Peace has several invited leaders trying to figure out how it'll work</a>
-      <small class="live-age">1h ago</small>
-    </div>
-    
-    <div class="live-item">
-      <span class="live-badge">LIVE</span>
-      <a href="/articles/trump-leaks-world-leaders-messages-and-indiana-wins-its-first-national-title.html">Trump leaks world leaders' messages. And, Indiana wins its first national title</a>
-      <small class="live-age">1h ago</small>
-    </div>
-    
-    <div class="live-item">
-      <span class="live-badge">LIVE</span>
-      <a href="/articles/the-divorce-between-the-u-s-and-who-is-final-this-week-or-is-it.html">The divorce between the U.S. and WHO is final this week. Or is it?</a>
-      <small class="live-age">1h ago</small>
+    <div class="card">
+      <h3><a href="/articles/they-quit-their-day-jobs-to-bet-on-current-events-a-look-inside-the-prediction-market-mania.html">They quit their day jobs to bet on current events. A look inside the prediction market mania</a></h3>
+      <p>An independent analysis based on recent public information regarding They quit their day jobs to bet on current events. A look inside the prediction market mania. This summary highlights context, implications, and relevance for the United States.</p>
+      <div class="read-more">
+        <a href="/articles/they-quit-their-day-jobs-to-bet-on-current-events-a-look-inside-the-prediction-market-mania.html">Read analysis →</a>
+      </div>
     </div>
     
   </div>
 </section>
 
-<!-- 🔥 TRENDING -->
 <section class="section">
-  <h2>Trending Now</h2>
-  <div class="section-note">Most discussed global topics this hour</div>
+  <h2>Top Stories</h2>
+  <div class="section-note">High-impact analysis with global relevance</div>
   <div class="card-grid">
+    
+    <div class="card">
+      <h3><a href="/articles/indian-vibe-coding-startup-emergent-raises-70m-at-300m-valuation-from-softbank-khosla-ventures.html">Indian vibe-coding startup Emergent raises $70M at $300M valuation from SoftBank, Khosla Ventures</a></h3>
+      <p>An independent analysis based on recent public information regarding Indian vibe-coding startup Emergent raises $70M at $300M valuation from SoftBank, Khosla Ventures. This summary highlights context, implications, and relevance for the United States.</p>
+      <div class="read-more">
+        <a href="/articles/indian-vibe-coding-startup-emergent-raises-70m-at-300m-valuation-from-softbank-khosla-ventures.html">Read analysis →</a>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3><a href="/articles/elon-musk-s-x-to-block-ai-chatbot-grok-from-making-explicit-images-of-real-people.html">Elon Musk's X to block AI chatbot Grok from making explicit images of real people</a></h3>
+      <p>An independent analysis based on recent public information regarding Elon Musk's X to block AI chatbot Grok from making explicit images of real people. This summary highlights context, implications, and relevance for the United States.</p>
+      <div class="read-more">
+        <a href="/articles/elon-musk-s-x-to-block-ai-chatbot-grok-from-making-explicit-images-of-real-people.html">Read analysis →</a>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3><a href="/articles/live-updates-trump-doubles-down-on-greenland-threats-supreme-court-to-release-opinions.html">Live updates: Trump doubles down on Greenland threats; Supreme Court to release opinions</a></h3>
+      <p>An independent analysis based on recent public information regarding Live updates: Trump doubles down on Greenland threats; Supreme Court to release opinions. This summary highlights context, implications, and relevance for the United States.</p>
+      <div class="read-more">
+        <a href="/articles/live-updates-trump-doubles-down-on-greenland-threats-supreme-court-to-release-opinions.html">Read analysis →</a>
+      </div>
+    </div>
     
     <div class="card">
       <h3><a href="/articles/lucy-letby-will-not-face-further-criminal-charges.html">Lucy Letby will not face further criminal charges</a></h3>
@@ -313,11 +301,110 @@ setInterval(function(){
       </div>
     </div>
     
+  </div>
+</section>
+
+<section class="section">
+  <h2>Featured Analysis</h2>
+  
+    <div class="card">
+      <h3><a href="/articles/uk-defends-chagos-deal-after-trump-calls-it-act-of-great-stupidity.html">UK defends Chagos deal after Trump calls it 'act of great stupidity'</a></h3>
+      <p>An independent analysis of recent developments regarding UK defends Chagos deal after Trump calls it 'act of great stupidity'.</p>
+      <div class="read-more">
+        <a href="/articles/uk-defends-chagos-deal-after-trump-calls-it-act-of-great-stupidity.html">Read analysis →</a>
+      </div>
+    </div>
+    
+</section>
+
+<section class="section">
+  <h2>Recent Analysis</h2>
+  <div class="card-grid">
+    
     <div class="card">
       <h3><a href="/articles/russell-brand-granted-bail-after-two-further-sexual-offence-charges.html">Russell Brand granted bail after two further sexual offence charges</a></h3>
       <p>An independent analysis of recent developments regarding Russell Brand granted bail after two further sexual offence charges.</p>
       <div class="read-more">
         <a href="/articles/russell-brand-granted-bail-after-two-further-sexual-offence-charges.html">Read analysis →</a>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3><a href="/articles/netflix-revises-offer-to-pay-all-cash-for-warner-bros-to-stave-off-paramount.html">Netflix revises offer to pay all cash for Warner Bros to stave off Paramount</a></h3>
+      <p>An independent analysis based on recent public information regarding Netflix revises offer to pay all cash for Warner Bros to stave off Paramount. This summary highlights context, implications, and relevance for the United States.</p>
+      <div class="read-more">
+        <a href="/articles/netflix-revises-offer-to-pay-all-cash-for-warner-bros-to-stave-off-paramount.html">Read analysis →</a>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3><a href="/articles/ray-dalio-fears-capital-wars-could-follow-trump-s-actions-with-countries-dumping-u-s-assets.html">Ray Dalio fears 'capital wars' could follow Trump's actions with countries dumping U.S. assets</a></h3>
+      <p>An independent analysis based on recent public information regarding Ray Dalio fears 'capital wars' could follow Trump's actions with countries dumping U.S. assets. This summary highlights context, implications, and relevance for the United States.</p>
+      <div class="read-more">
+        <a href="/articles/ray-dalio-fears-capital-wars-could-follow-trump-s-actions-with-countries-dumping-u-s-assets.html">Read analysis →</a>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3><a href="/articles/this-is-sell-america-u-s-dollar-treasury-prices-tumble-and-gold-spikes-as-globe-flees-u-s-assets.html">'This is sell America' — U.S. dollar, Treasury prices tumble and gold spikes as globe flees U.S. assets</a></h3>
+      <p>An independent analysis based on recent public information regarding 'This is sell America' — U.S. dollar, Treasury prices tumble and gold spikes as globe flees U.S. assets. This summary highlights context, implications, and relevance for the United States.</p>
+      <div class="read-more">
+        <a href="/articles/this-is-sell-america-u-s-dollar-treasury-prices-tumble-and-gold-spikes-as-globe-flees-u-s-assets.html">Read analysis →</a>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3><a href="/articles/trump-labels-uk-chagos-islands-plan-he-once-backed-great-stupidity.html">Trump labels UK-Chagos Islands plan he once backed 'great stupidity'</a></h3>
+      <p>An independent analysis based on recent public information regarding Trump labels UK-Chagos Islands plan he once backed 'great stupidity'. This summary highlights context, implications, and relevance for the United States.</p>
+      <div class="read-more">
+        <a href="/articles/trump-labels-uk-chagos-islands-plan-he-once-backed-great-stupidity.html">Read analysis →</a>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3><a href="/articles/a-right-to-disconnect-is-the-next-step-for-the-american-worker.html">A ‘Right to Disconnect’ is the next step for the American worker</a></h3>
+      <p>An independent analysis based on recent public information regarding A ‘Right to Disconnect’ is the next step for the American worker. This summary highlights context, implications, and relevance for the United States.</p>
+      <div class="read-more">
+        <a href="/articles/a-right-to-disconnect-is-the-next-step-for-the-american-worker.html">Read analysis →</a>
+      </div>
+    </div>
+    
+  </div>
+</section>
+
+<section class="section">
+  <h2>Earlier Analysis</h2>
+  <div class="card-grid">
+    
+    <div class="card">
+      <h3><a href="/articles/do-phone-sleep-trackers-work.html">Do phone sleep trackers work?</a></h3>
+      <p>An independent analysis based on recent public information regarding Do phone sleep trackers work?. This summary highlights context, implications, and relevance for the United States.</p>
+      <div class="read-more">
+        <a href="/articles/do-phone-sleep-trackers-work.html">Read analysis →</a>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3><a href="/articles/trump-s-board-of-peace-has-several-invited-leaders-trying-to-figure-out-how-it-ll-work.html">Trump's Board of Peace has several invited leaders trying to figure out how it'll work</a></h3>
+      <p>An independent analysis based on recent public information regarding Trump's Board of Peace has several invited leaders trying to figure out how it'll work. This summary highlights context, implications, and relevance for the United States.</p>
+      <div class="read-more">
+        <a href="/articles/trump-s-board-of-peace-has-several-invited-leaders-trying-to-figure-out-how-it-ll-work.html">Read analysis →</a>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3><a href="/articles/trump-leaks-world-leaders-messages-and-indiana-wins-its-first-national-title.html">Trump leaks world leaders' messages. And, Indiana wins its first national title</a></h3>
+      <p>An independent analysis based on recent public information regarding Trump leaks world leaders' messages. And, Indiana wins its first national title. This summary highlights context, implications, and relevance for the United States.</p>
+      <div class="read-more">
+        <a href="/articles/trump-leaks-world-leaders-messages-and-indiana-wins-its-first-national-title.html">Read analysis →</a>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3><a href="/articles/the-divorce-between-the-u-s-and-who-is-final-this-week-or-is-it.html">The divorce between the U.S. and WHO is final this week. Or is it?</a></h3>
+      <p>An independent analysis based on recent public information regarding The divorce between the U.S. and WHO is final this week. Or is it?. This summary highlights context, implications, and relevance for the United States.</p>
+      <div class="read-more">
+        <a href="/articles/the-divorce-between-the-u-s-and-who-is-final-this-week-or-is-it.html">Read analysis →</a>
       </div>
     </div>
     
@@ -340,84 +427,7 @@ setInterval(function(){
   </div>
 </section>
 
-<!-- 💎 TOP STORIES -->
-<section class="section">
-  <h2>Top Stories</h2>
-  <div class="section-note">High-impact analysis with global relevance</div>
-  <div class="card-grid">
-    
-    <div class="card">
-      <h3><a href="/articles/full-messages-shared-between-trump-and-european-leaders.html">Full messages shared between Trump and European leaders</a></h3>
-      <p>An independent analysis of recent developments regarding Full messages shared between Trump and European leaders.</p>
-      <div class="read-more">
-        <a href="/articles/full-messages-shared-between-trump-and-european-leaders.html">Read analysis →</a>
-      </div>
-    </div>
-    
-    <div class="card">
-      <h3><a href="/articles/greenland-will-stay-greenland-former-trump-adviser-declares.html">Greenland 'will stay Greenland', former Trump adviser declares</a></h3>
-      <p>An independent analysis of recent developments regarding Greenland 'will stay Greenland', former Trump adviser declares.</p>
-      <div class="read-more">
-        <a href="/articles/greenland-will-stay-greenland-former-trump-adviser-declares.html">Read analysis →</a>
-      </div>
-    </div>
-    
-    <div class="card">
-      <h3><a href="/articles/us-job-growth-shows-signs-of-moderation.html">US Job Growth Shows Signs of Moderation</a></h3>
-      <p>An independent analysis of recent labor market data, examining signs of moderating job growth and what this trend could mean for the broader US economy.</p>
-      <div class="read-more">
-        <a href="/articles/us-job-growth-shows-signs-of-moderation.html">Read analysis →</a>
-      </div>
-    </div>
-    
-    <div class="card">
-      <h3><a href="/articles/federal-reserve-signals-cautious-policy-stance-amid-economic-uncertainty.html">Federal Reserve Signals Cautious Policy Stance Amid Economic Uncertainty</a></h3>
-      <p>An independent analysis of recent Federal Reserve communications, examining the broader economic context, policy implications, and what cautious messaging may signal for the United States economy.</p>
-      <div class="read-more">
-        <a href="/articles/federal-reserve-signals-cautious-policy-stance-amid-economic-uncertainty.html">Read analysis →</a>
-      </div>
-    </div>
-    
-    <div class="card">
-      <h3><a href="/articles/consumer-spending-patterns-shift-as-inflation-pressures-ease.html">Consumer Spending Patterns Shift as Inflation Pressures Ease</a></h3>
-      <p>An independent analysis of evolving consumer spending behavior as inflation pressures show signs of easing across the US economy.</p>
-      <div class="read-more">
-        <a href="/articles/consumer-spending-patterns-shift-as-inflation-pressures-ease.html">Read analysis →</a>
-      </div>
-    </div>
-    
-  </div>
-</section>
-
-<!-- ⭐ FEATURED -->
-<section class="section">
-  <h2>Featured Analysis</h2>
-  
-    <div class="card">
-      <h3><a href="/articles/lucy-letby-will-not-face-further-criminal-charges.html">Lucy Letby will not face further criminal charges</a></h3>
-      <p>An independent analysis of recent developments regarding Lucy Letby will not face further criminal charges.</p>
-      <div class="read-more">
-        <a href="/articles/lucy-letby-will-not-face-further-criminal-charges.html">Read analysis →</a>
-      </div>
-    </div>
-    
-</section>
-
-<!-- 📰 RECENT -->
-<section class="section">
-  <h2>Recent Analysis</h2>
-  <div class="card-grid">
-    
-  </div>
-</section>
-
-<!-- 🗂️ OLDER -->
-<section class="section">
-  <h2>Earlier Analysis</h2>
-  <div class="card-grid">
-    
-  </div>
-</section>
+</main>
 
 <footer>
   <div class="footer-links">
@@ -436,6 +446,13 @@ setInterval(function(){
   <div class="footer-note">© PureStill</div>
 </footer>
 
-</main>
+<script>
+function toggleTheme(){
+  const h=document.documentElement;
+  const d=h.classList.toggle("dark");
+  localStorage.setItem("purestill-theme",d?"dark":"light");
+}
+</script>
+
 </body>
 </html>
