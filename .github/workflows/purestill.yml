@@ -1,7 +1,10 @@
-name: PureStill Automation
+name: PureStill Build
 
 on:
+  # Manual run (VERY IMPORTANT for testing)
   workflow_dispatch:
+
+  # Automatic hourly run (safe start)
   schedule:
     - cron: "0 * * * *"
 
@@ -10,16 +13,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ Checkout your repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      # 2️⃣ Setup Python (Cloudflare-compatible)
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Show repo files (debug)
-        run: ls -la
+      # 3️⃣ Debug – show files (prevents silent git errors)
+      - name: Show repository structure
+        run: |
+          echo "Repo root:"
+          ls -la
+          echo "Site folder:"
+          ls -la site || true
 
-      - name: Run generator
+      # 4️⃣ Run your generator (THIS IS YOUR SCRIPT)
+      - name: Run PureStill generator
         run: python generate_pages.py
+
+      # 5️⃣ Confirm output exists
+      - name: Verify build output
+        run: |
+          echo "Generated files:"
+          ls -la site
+          ls -la site/articles || true
