@@ -7,8 +7,8 @@ from datetime import datetime, timezone
 DATA_FILE = "data.json"
 FEEDS_FILE = "feeds.txt"
 
-MAX_ITEMS_PER_FEED = 3        # max per feed per run
-MAX_ITEMS_PER_RUN = 20        # total per run (safe: 15–25)
+MAX_ITEMS_PER_FEED = 3        # per feed per run
+MAX_ITEMS_PER_RUN = 20        # hard daily safety cap
 
 NOW = datetime.now(timezone.utc)
 TODAY = NOW.strftime("%Y-%m-%d")
@@ -19,7 +19,7 @@ if os.path.exists(DATA_FILE):
         with open(DATA_FILE, encoding="utf-8") as f:
             data = json.load(f)
         if not isinstance(data, list):
-            print("⚠️ data.json invalid, resetting to empty list")
+            print("⚠️ data.json invalid, resetting")
             data = []
     except Exception as e:
         print("⚠️ Failed to read data.json, resetting:", e)
@@ -55,7 +55,7 @@ with open(FEEDS_FILE, encoding="utf-8") as f:
         weight = int(parts[1]) if len(parts) > 1 and parts[1].isdigit() else 1
         feeds.append((url, weight))
 
-# Higher weight first (gov / Reuters > others)
+# Higher weight = higher priority (Reuters / Gov first)
 feeds.sort(key=lambda x: x[1], reverse=True)
 
 # ================= CATEGORY DETECTION =================
@@ -84,7 +84,7 @@ for feed_url, weight in feeds:
     print(f"🔍 Fetching: {feed_url}")
     feed = feedparser.parse(feed_url)
 
-    # ---- FEED SAFETY CHECKS ----
+    # ---- SAFETY CHECKS ----
     if getattr(feed, "bozo", False):
         paused_feeds.append(feed_url)
         print("⚠️ Feed parse error, skipped")
@@ -94,7 +94,7 @@ for feed_url, weight in feeds:
         paused_feeds.append(feed_url)
         print("⚠️ Empty feed, skipped")
         continue
-    # ----------------------------
+    # -----------------------
 
     feed_count = 0
 
@@ -114,24 +114,33 @@ for feed_url, weight in feeds:
         if link in existing_links:
             continue
 
-        # ✅ Original summary (copyright-safe)
+        # ✅ copyright-safe summary
         summary = (
             f"An independent analysis based on recent public information regarding "
-            f"{title}. This summary highlights context, implications, and relevance "
-            f"for the United States."
+            f"{title}. This summary highlights context, implications, and relevance."
         )
 
         item = {
-            "title": title,
-            "summary": summary,
-            "content": "",                  # expanded later by generate_pages.py
-            "category": detect_category(title),
-            "date": NOW.isoformat(),         # FULL ISO (critical)
-            "source": link,
+            # 🔑 REQUIRED BY generate_pages.py
+            "TITLE": title,
+            "SUMMARY": summary,
+            "CONTENT": "",
+            "CATEGORY": detect_category(title),
+            "DATE": NOW.isoformat(),
+            "SOURCE": link,
 
-            # 🔥 NEW FIELDS (used by homepage logic)
-            "IS_BREAKING": True,             # all fresh feed items start as breaking
-            "PUBLISH_GROUP": "breaking"
+            # 🔴 LIVE CONTROL (CRITICAL)
+            "IS_BREAKING": True,                 # LIVE at ingest
+            "PUBLISH_GROUP": "breaking",
+
+            # 🧠 DISCOVER / OPTIMIZATION
+            "HEADLINE_VARIANTS": [],
+            "HEADLINE_ACTIVE": 0,
+            "DISCOVER_SIGNAL": 0,
+            "VISIBILITY": "normal",
+
+            # 🌍 COUNTRY (for RPM logic later)
+            "COUNTRY": "GLOBAL"
         }
 
         data.insert(0, item)
