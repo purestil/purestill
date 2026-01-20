@@ -14,12 +14,13 @@
 })();
 </script>
 
-<title>PureStill | Independent Global Analysis</title>
+<title>{{TITLE}} | PureStill</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Independent analysis of global business, technology, policy, and economic developments.">
+<meta name="description" content="{{SUMMARY}}">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://purestill.pages.dev/">
+<link rel="canonical" href="{{CANONICAL_URL}}">
+<meta http-equiv="content-language" content="en-us">
 
 <!-- ===== PURESTILL GENERATEPRESS-STYLE THEME ===== -->
 <style>
@@ -34,7 +35,6 @@
   --accent:#c9b26b;
   --accent-hover:#d4af37;
 
-  --max-width:1200px;
   --reading-width:720px;
 }
 
@@ -53,16 +53,16 @@ body{
   font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
   background:var(--bg);
   color:var(--text);
-  line-height:1.7;
+  line-height:1.85;
   -webkit-font-smoothing:antialiased;
 }
 a{
   color:var(--accent);
-  text-decoration:none;
+  text-decoration:underline;
 }
 a:hover{color:var(--accent-hover)}
 
-/* ================= HEADER ================= */
+/* ================= HEADER (MATCH INDEX) ================= */
 header{
   border-bottom:1px solid var(--border);
   padding:26px 0 18px;
@@ -71,7 +71,7 @@ header{
 .brand{
   text-align:center;
   font-family:"Playfair Display",Georgia,serif;
-  font-size:36px;
+  font-size:32px;
   font-weight:600;
   letter-spacing:.3px;
 }
@@ -83,6 +83,7 @@ nav{
 nav a{
   margin:0 12px;
   color:var(--muted);
+  text-decoration:none;
 }
 nav a:hover{color:var(--accent)}
 
@@ -98,107 +99,116 @@ nav a:hover{color:var(--accent)}
   border-radius:6px;
 }
 
-/* ================= LAYOUT ================= */
-.container{
-  max-width:var(--max-width);
+/* ================= ARTICLE LAYOUT ================= */
+.article-wrap{
+  max-width:var(--reading-width);
   margin:0 auto;
   padding:64px 20px 120px;
 }
-.section{
-  margin-top:96px;
-}
-.section h2{
-  font-family:"Playfair Display",Georgia,serif;
-  font-size:28px;
-  margin-bottom:6px;
-}
-.section-note{
-  font-size:14px;
+.category{
+  font-size:13px;
   color:var(--muted);
-  margin-bottom:32px;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  margin-bottom:14px;
+}
+.category a{
+  color:var(--muted);
+  text-decoration:none;
+}
+.category a:hover{color:var(--accent)}
+
+h1{
+  font-family:"Playfair Display",Georgia,serif;
+  font-size:clamp(30px,4vw,44px);
+  line-height:1.25;
+  margin:0;
 }
 
-/* ================= CARD GRID ================= */
-.card-grid{
-  display:grid;
-  gap:36px;
+.subhead{
+  font-size:19px;
+  color:var(--muted);
+  margin:22px 0 30px;
 }
-@media(min-width:1024px){
-  .card-grid{grid-template-columns:repeat(3,1fr)}
+
+.meta{
+  font-size:13px;
+  color:var(--muted);
+  margin-bottom:44px;
 }
-@media(max-width:1023px){
-  .card-grid{grid-template-columns:1fr}
+
+/* ================= CONTENT ================= */
+article{
+  font-size:18.5px;
 }
-.card{
-  border:1px solid var(--border);
+article p{
+  margin-bottom:28px;
+}
+article h2{
+  font-family:"Playfair Display",Georgia,serif;
+  font-size:1.55em;
+  margin:72px 0 26px;
+}
+article h3{
+  font-family:"Playfair Display",Georgia,serif;
+  font-size:1.3em;
+  margin:56px 0 22px;
+}
+
+/* ================= PULL QUOTE ================= */
+.pull-quote{
+  margin:48px 0;
+  padding:28px 32px;
+  border-left:4px solid var(--accent);
   background:var(--card);
-  padding:28px;
-  transition:transform .15s ease,border-color .15s ease;
-}
-.card:hover{
-  transform:translateY(-2px);
-  border-color:var(--accent);
-}
-.card h3{
   font-family:"Playfair Display",Georgia,serif;
-  font-size:20px;
-  margin-top:0;
-}
-.card p{
-  color:var(--muted);
-  font-size:15px;
+  font-size:22px;
+  line-height:1.5;
 }
 
-/* ================= LIVE BREAKING ================= */
-.live-breaking{
-  max-width:var(--reading-width);
-  border-left:3px solid #d93025;
-  padding-left:22px;
-}
-.live-item{
-  padding:14px 0;
-  border-bottom:1px dashed var(--border);
-}
-.live-item:last-child{border-bottom:none}
-.live-badge{
-  color:#d93025;
-  font-weight:600;
-  font-size:12px;
-  margin-right:6px;
-}
-.live-age{
-  font-size:12px;
-  color:var(--muted);
-}
-.live-empty{
+/* ================= SOURCE ================= */
+.source{
+  margin-top:64px;
+  padding-top:22px;
+  border-top:1px solid var(--border);
   font-size:14px;
   color:var(--muted);
 }
 
-/* ================= FEATURED ================= */
-.featured-wrap{
-  max-width:var(--reading-width);
+/* ================= INTERNAL LINKS ================= */
+.internal-links{
+  margin-top:90px;
+  padding-top:44px;
+  border-top:1px solid var(--border);
 }
+.internal-links h2{
+  font-family:"Playfair Display",Georgia,serif;
+  font-size:22px;
+  margin-bottom:28px;
+}
+.internal-links a{
+  display:block;
+  font-size:16px;
+  margin-bottom:14px;
+  color:var(--text);
+  text-decoration:none;
+}
+.internal-links a:hover{text-decoration:underline}
 
 /* ================= FOOTER ================= */
 footer{
-  margin-top:140px;
+  margin-top:120px;
   border-top:1px solid var(--border);
   padding-top:48px;
   font-size:14px;
   color:var(--muted);
 }
-.footer-links a{
+footer a{
   margin-right:16px;
   color:var(--muted);
+  text-decoration:none;
 }
-.footer-links a:hover{color:var(--accent)}
-.footer-note{
-  max-width:900px;
-  font-size:13px;
-  line-height:1.6;
-  margin-top:14px;
-}
+footer a:hover{color:var(--accent)}
 </style>
 
 </head>
@@ -212,7 +222,6 @@ footer{
 
   <nav>
     <a href="/">Home</a>
-    <a href="/articles/">Articles</a>
     <a href="/topics/">Topics</a>
     <a href="/about.html">About</a>
     <a href="/terms.html">Terms</a>
@@ -222,71 +231,43 @@ footer{
   </nav>
 </header>
 
-<main class="container">
+<main class="article-wrap">
 
-<section class="section">
-  <h2>Live Breaking</h2>
-  <div class="section-note">Real-time global developments as they happen</div>
-  <div class="live-breaking">
-    {{LIVE_BREAKING}}
-  </div>
+<div class="category">
+  <a href="/topics/{{TOPIC_SLUG}}.html">{{TOPIC}}</a>
+</div>
+
+<h1>{{TITLE}}</h1>
+
+<div class="subhead">{{SUMMARY}}</div>
+
+<div class="meta">
+  Published {{DATE}} · <span id="updatedText"></span>
+</div>
+
+<article>
+{{CONTENT}}
+</article>
+
+<div class="source" id="sourceBlock">
+  <strong>Source:</strong> {{SOURCE}}
+</div>
+
+<section class="internal-links">
+  <h2>More Analysis</h2>
+  {{RELATED_LINKS}}
 </section>
-
-<section class="section">
-  <h2>Trending Now</h2>
-  <div class="section-note">Most discussed global topics this hour</div>
-  <div class="card-grid">
-    {{TRENDING_ARTICLES}}
-  </div>
-</section>
-
-<section class="section">
-  <h2>Top Stories</h2>
-  <div class="section-note">High-impact analysis with global relevance</div>
-  <div class="card-grid">
-    {{TOP_ARTICLES}}
-  </div>
-</section>
-
-<section class="section">
-  <h2>Featured Analysis</h2>
-  <div class="featured-wrap">
-    {{FEATURED_ARTICLE}}
-  </div>
-</section>
-
-<section class="section">
-  <h2>Recent Analysis</h2>
-  <div class="card-grid">
-    {{RECENT_ARTICLES}}
-  </div>
-</section>
-
-<section class="section">
-  <h2>Earlier Analysis</h2>
-  <div class="card-grid">
-    {{OLDER_ARTICLES}}
-  </div>
-</section>
-
-</main>
 
 <footer>
-  <div class="footer-links">
-    <a href="/about.html">About</a>
-    <a href="/contact.html">Contact</a>
-    <a href="/privacy-policy.html">Privacy</a>
-    <a href="/terms.html">Terms</a>
-    <a href="/disclaimer.html">Disclaimer</a>
-  </div>
-
-  <div class="footer-note">
-    PureStill is an independent analysis platform that summarizes and contextualizes
-    publicly available information. Content is for informational purposes only.
-  </div>
-
-  <div class="footer-note">© PureStill</div>
+  <a href="/about.html">About</a>
+  <a href="/contact.html">Contact</a>
+  <a href="/privacy-policy.html">Privacy</a>
+  <a href="/terms.html">Terms</a>
+  <a href="/disclaimer.html">Disclaimer</a><br><br>
+  © PureStill
 </footer>
+
+</main>
 
 <script>
 function toggleTheme(){
@@ -294,6 +275,17 @@ function toggleTheme(){
   const isDark=h.classList.toggle("dark");
   localStorage.setItem("purestill-theme",isDark?"dark":"light");
 }
+
+/* Updated X minutes ago from live_feed.json */
+fetch("/signals/live_feed.json",{cache:"no-store"})
+.then(r=>r.json())
+.then(data=>{
+  const m=data.find(i=>i.url===location.pathname);
+  if(m){
+    document.getElementById("updatedText").textContent =
+      "Updated " + m.minutes_ago + " minutes ago";
+  }
+});
 </script>
 
 </body>
