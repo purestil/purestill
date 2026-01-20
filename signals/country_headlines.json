@@ -1,0 +1,17 @@
+{
+  "US": [
+    "{title}: What It Means for the U.S.",
+    "Why {title} Matters Now",
+    "{title} Could Impact Markets"
+  ],
+  "UK": [
+    "{title}: What Changed",
+    "Explained: {title}",
+    "What {title} Means for Policy"
+  ],
+  "CA": [
+    "{title}: Key Implications",
+    "Understanding {title}",
+    "{title} Explained Simply"
+  ]
+}
