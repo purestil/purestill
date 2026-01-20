@@ -1,0 +1,31 @@
+import json, os
+
+TREND_FILE = "signals/hourly_trends.json"
+RPM_FILE = "signals/rpm_map.json"
+
+os.makedirs("signals", exist_ok=True)
+
+# Example trend input (replace later with Trends / News API)
+RAW_TOPICS = [
+  {"topic": "Federal Reserve policy outlook", "category": "Economy", "trend_score": 85, "countries": ["US","CA","UK"]},
+  {"topic": "AI regulation update", "category": "Technology", "trend_score": 80, "countries": ["US","EU"]},
+]
+
+with open(RPM_FILE) as f:
+    rpm = json.load(f)
+
+final = []
+for t in RAW_TOPICS:
+    rpm_score = max(rpm.get(c, 40) for c in t["countries"])
+    final.append({
+        "topic": t["topic"],
+        "category": t["category"],
+        "trend_score": t["trend_score"],
+        "target_countries": t["countries"],
+        "rpm_score": rpm_score
+    })
+
+with open(TREND_FILE, "w", encoding="utf-8") as f:
+    json.dump(final, f, indent=2)
+
+print("Hourly trends updated")
