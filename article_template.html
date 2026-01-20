@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 
-<!-- Universal theme sync -->
+<!-- 🌙 Universal theme sync (CLS-safe) -->
 <script>
 (function(){
   const KEY="purestill-theme";
   const saved=localStorage.getItem(KEY);
   const hour=new Date().getHours();
-  let mode=saved||(hour>=19||hour<=5?"dark":"light");
+  const mode=saved||(hour>=19||hour<=5?"dark":"light");
   if(mode==="dark") document.documentElement.classList.add("dark");
 })();
 </script>
@@ -27,90 +27,128 @@
 <meta property="article:modified_time" content="{{DATE}}">
 
 <style>
-/* ================= THEME ================= */
+/* ================= PURESTILL DESIGN TOKENS ================= */
 :root{
   --bg:#ffffff;
-  --text:#111;
-  --muted:#666;
-  --border:#e5e5e5;
-  --link:#1a0dab;
+  --text:#111111;
+  --muted:#6b7280;
+  --border:#e5e7eb;
   --card:#fafafa;
+
+  --accent:#c9b26b;
+  --accent-hover:#d4af37;
+
+  --reading-width:720px;
 }
+
 html.dark{
   --bg:#0e0e10;
-  --text:#eaeaea;
-  --muted:#aaa;
-  --border:#2a2a2a;
-  --link:#8ab4f8;
+  --text:#eae6da;
+  --muted:#9ca3af;
+  --border:#2a2a2e;
   --card:#16161a;
 }
+
+/* ================= BASE ================= */
+*{box-sizing:border-box}
 body{
   margin:0;
-  font-family:Inter, Arial, sans-serif;
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
   background:var(--bg);
   color:var(--text);
   line-height:1.8;
+  -webkit-font-smoothing:antialiased;
 }
+a{
+  color:var(--accent);
+  text-decoration:underline;
+}
+a:hover{color:var(--accent-hover)}
 
 /* ================= HEADER ================= */
 header{
   text-align:center;
-  padding:22px 0;
+  padding:26px 0;
   border-bottom:1px solid var(--border);
 }
 .brand a{
-  font-family:Georgia, serif;
-  font-size:28px;
+  font-family:"Playfair Display",Georgia,serif;
+  font-size:30px;
   font-weight:600;
+  letter-spacing:.3px;
   color:var(--text);
   text-decoration:none;
 }
 
+/* ================= PROGRESS BAR ================= */
+#reading-progress{
+  position:fixed;
+  top:0;
+  left:0;
+  height:3px;
+  width:0;
+  background:var(--accent);
+  z-index:9999;
+}
+
 /* ================= ARTICLE ================= */
 .article-wrap{
-  max-width:860px;
+  max-width:var(--reading-width);
   margin:0 auto;
-  padding:52px 20px 110px;
+  padding:64px 20px 120px;
 }
 .category{
   font-size:13px;
   color:var(--muted);
-  margin-bottom:10px;
+  margin-bottom:12px;
+  text-transform:uppercase;
+  letter-spacing:.04em;
 }
 h1{
-  font-family:Georgia, serif;
-  font-size:clamp(28px,4vw,40px);
+  font-family:"Playfair Display",Georgia,serif;
+  font-size:clamp(30px,4vw,42px);
   line-height:1.25;
+  margin:0;
 }
 .subhead{
-  font-size:18px;
+  font-size:19px;
   color:var(--muted);
-  margin:18px 0 28px;
+  margin:22px 0 30px;
 }
 .meta{
   font-size:13px;
   color:var(--muted);
-  margin-bottom:40px;
+  margin-bottom:44px;
 }
+
+/* ================= CONTENT ================= */
 article{
   font-size:18px;
 }
 article p{
-  margin-bottom:22px;
+  margin-bottom:26px;
 }
 article h2{
-  font-family:Georgia, serif;
+  font-family:"Playfair Display",Georgia,serif;
   font-size:1.55em;
-  margin:60px 0 22px;
+  margin:70px 0 26px;
 }
-article a{
-  color:var(--link);
-  text-decoration:underline;
+article h3{
+  font-family:"Playfair Display",Georgia,serif;
+  font-size:1.25em;
+  margin:56px 0 22px;
+}
+
+/* ================= ADS ================= */
+.ad{
+  margin:64px 0;
 }
 
 /* ================= SOURCE ================= */
 .source{
-  margin-top:48px;
+  margin-top:56px;
+  padding-top:22px;
+  border-top:1px solid var(--border);
   font-size:14px;
   color:var(--muted);
 }
@@ -118,66 +156,60 @@ article a{
   display:inline-flex;
   align-items:center;
   gap:6px;
-  margin-right:14px;
-  color:var(--link);
+  margin-right:16px;
+  margin-top:10px;
+  color:var(--accent);
   text-decoration:none;
 }
 .sources img{
   width:16px;
   height:16px;
-  border-radius:2px;
-}
-
-/* ================= ADS ================= */
-.ad{
-  margin:56px 0;
+  border-radius:3px;
 }
 
 /* ================= RELATED ================= */
 .related{
-  margin-top:90px;
-  padding-top:40px;
+  margin-top:100px;
+  padding-top:44px;
   border-top:1px solid var(--border);
 }
 .related h2{
-  font-family:Georgia, serif;
+  font-family:"Playfair Display",Georgia,serif;
   font-size:22px;
-  margin-bottom:26px;
+  margin-bottom:28px;
 }
 .related ul{
   padding-left:18px;
 }
 .related li{
-  margin-bottom:12px;
+  margin-bottom:14px;
 }
 .related a{
   color:var(--text);
   text-decoration:none;
 }
-.related a:hover{
-  text-decoration:underline;
-}
+.related a:hover{text-decoration:underline}
 
 /* ================= FOOTER ================= */
 footer{
-  margin-top:110px;
-  padding-top:30px;
+  margin-top:120px;
+  padding-top:34px;
   border-top:1px solid var(--border);
   font-size:14px;
   color:var(--muted);
 }
 footer a{
-  margin-right:14px;
+  margin-right:16px;
   color:var(--muted);
   text-decoration:none;
 }
-footer a:hover{
-  text-decoration:underline;
-}
+footer a:hover{text-decoration:underline}
 </style>
 </head>
 
 <body>
+
+<div id="reading-progress"></div>
 
 <header>
   <div class="brand"><a href="/">PureStill</a></div>
@@ -191,20 +223,19 @@ footer a:hover{
 
 <div class="subhead">{{SUMMARY}}</div>
 
-<div class="meta">
-  Published {{DATE}}
-</div>
+<div class="meta">Published {{DATE}}</div>
 
 <article>
 {{CONTENT}}
 </article>
+
+{{AD_MID}}
 
 <div class="source" id="sourceBlock">
   <strong>Source:</strong>
   <span class="sources" data-sources="{{SOURCE}}"></span>
 </div>
 
-{{AD_MID}}
 {{AD_BOTTOM}}
 
 <section class="related">
@@ -226,7 +257,14 @@ footer a:hover{
 </main>
 
 <script>
-/* Source name + favicon (safe attribution) */
+/* Reading progress */
+window.addEventListener("scroll",()=>{
+  const h=document.documentElement;
+  const p=(h.scrollTop/(h.scrollHeight-h.clientHeight))*100;
+  document.getElementById("reading-progress").style.width=p+"%";
+});
+
+/* Source attribution with favicon */
 const wrap=document.querySelector(".sources");
 const raw=wrap?.dataset.sources;
 if(!raw){
@@ -240,7 +278,8 @@ if(!raw){
       a.href=url;
       a.target="_blank";
       a.rel="nofollow noopener";
-      a.innerHTML=`<img src="https://www.google.com/s2/favicons?domain=${host}&sz=32">${host}`;
+      a.innerHTML=
+        `<img src="https://www.google.com/s2/favicons?domain=${host}&sz=32">${host}`;
       wrap.appendChild(a);
     }catch(e){}
   });
