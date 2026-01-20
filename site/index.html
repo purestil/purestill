@@ -1,302 +1,401 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG0KQL8BCE"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-YG0KQL8BCE');
-</script>
-
 <meta charset="UTF-8">
 
-<!-- ✅ UNIVERSAL THEME SNIPPET (DO NOT TOUCH) -->
 <script>
 (function(){
-  const KEY = "purestill-theme";
-  const saved = localStorage.getItem(KEY);
-  const hour = new Date().getHours();
-
-  let mode = saved;
-  if(!mode){
-    mode = (hour >= 19 || hour <= 5) ? "dark" : "light";
-  }
-
-  if(mode === "dark"){
-    document.documentElement.classList.add("dark");
-  }
+  const KEY="purestill-theme";
+  const saved=localStorage.getItem(KEY);
+  const hour=new Date().getHours();
+  let mode=saved||(hour>=19||hour<=5?"dark":"light");
+  if(mode==="dark") document.documentElement.classList.add("dark");
 })();
 </script>
 
 <title>PureStill | Independent Global Analysis</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Independent analysis of business, technology, and economic developments with a focus on the United States.">
+<meta name="description" content="Independent analysis of global business, technology, policy, and economic developments.">
 <meta name="robots" content="index, follow">
-<meta http-equiv="content-language" content="en-us">
+<link rel="canonical" href="https://purestill.pages.dev/">
 
 <style>
-/* ===== THEME VARIABLES ===== */
 :root{
-  --bg:#ffffff;
-  --text:#111;
-  --muted:#555;
-  --border:#ddd;
-  --link:#111;
+  --bg:#fff;--text:#111;--muted:#666;--border:#e5e5e5;
+  --link:#1a0dab;--card:#fafafa;--accent:#1a0dab;
 }
-
 html.dark{
-  --bg:#0e0e10;
-  --text:#eaeaea;
-  --muted:#aaa;
-  --border:#2a2a2a;
-  --link:#8ab4f8;
+  --bg:#0e0e10;--text:#eaeaea;--muted:#aaa;
+  --border:#2a2a2a;--link:#8ab4f8;--card:#16161a;
 }
-
-/* ================= BASE ================= */
 body{
   margin:0;
   font-family:Inter,Arial,sans-serif;
   background:var(--bg);
   color:var(--text);
-}
-
-.container{
-  max-width:1000px;
-  margin:0 auto;
-  padding:40px 20px 80px;
+  line-height:1.65;
 }
 
 header{
   text-align:center;
-  margin-bottom:40px;
+  padding:28px 0;
+  border-bottom:1px solid var(--border)
 }
-
 .brand{
   font-family:Georgia,serif;
-  font-size:36px;
-  font-weight:500;
+  font-size:34px;
+  font-weight:600
 }
-
 nav{
-  margin-top:20px;
-  font-size:14px;
+  margin-top:14px;
+  font-size:14px
 }
-
 nav a{
   margin:0 10px;
-  color:var(--text);
-  text-decoration:none;
+  color:var(--muted);
+  text-decoration:none
 }
 
-nav a:hover{
-  text-decoration:underline;
+.container{
+  max-width:1200px;
+  margin:0 auto;
+  padding:56px 20px 120px
 }
 
 .section{
-  margin-top:60px;
+  margin-top:80px
 }
-
 .section h2{
   font-family:Georgia,serif;
-  font-size:24px;
-  margin-bottom:25px;
+  font-size:26px;
+  margin-bottom:10px
 }
-
-.featured h1{
-  font-family:Georgia,serif;
-  font-size:30px;
-  margin-bottom:10px;
-}
-
-.meta{
-  font-size:13px;
+.section-note{
+  font-size:14px;
   color:var(--muted);
-  margin-bottom:10px;
+  margin-bottom:28px;
 }
 
+/* ===== CARD GRID ===== */
 .card-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:30px;
+  gap:32px
+}
+@media(min-width:1024px){
+  .card-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:1023px){
+  .card-grid{grid-template-columns:1fr}
 }
 
 .card{
   border:1px solid var(--border);
-  padding:20px;
+  background:var(--card);
+  padding:24px
 }
-
 .card h3{
   font-family:Georgia,serif;
-  font-size:18px;
-  margin:0 0 8px;
+  font-size:20px;
+  margin:0 0 10px
 }
-
 .card p{
-  font-size:14px;
-  color:var(--text);
+  font-size:16px;
+  color:var(--muted)
 }
-
-.read-more{
-  font-size:14px;
-}
-
 .read-more a{
-  color:var(--link);
-  text-decoration:underline;
+  color:var(--accent);
+  text-decoration:underline
 }
 
-footer{
-  margin-top:80px;
-  padding-top:30px;
-  border-top:1px solid var(--border);
+/* ===== LIVE BREAKING ===== */
+.live-breaking{
+  border-left:4px solid #d93025;
+  padding-left:20px
+}
+.live-item{
+  padding:14px 0;
+  border-bottom:1px dashed var(--border)
+}
+.live-item:last-child{border-bottom:none}
+.live-badge{
+  display:inline-block;
+  font-size:12px;
+  color:#d93025;
+  font-weight:600;
+  margin-right:8px
+}
+.live-age{
+  font-size:12px;
+  color:var(--muted);
+  margin-left:6px
+}
+.live-empty{
+  color:var(--muted);
   font-size:14px;
-  color:var(--muted);
-  text-align:center;
+  padding:12px 0
 }
 
-footer a{
-  margin:0 8px;
+/* ===== FOOTER ===== */
+footer{
+  margin-top:120px;
+  border-top:1px solid var(--border);
+  padding-top:40px;
+  font-size:14px;
+  color:var(--muted)
+}
+.footer-links a{
+  margin-right:14px;
   color:var(--muted);
+  text-decoration:none
+}
+.footer-note{
+  max-width:900px;
+  font-size:13px;
+  line-height:1.6;
+  margin-top:12px
 }
 </style>
+
+<!-- 🔄 SAFE LIVE AUTO-REFRESH (NO SEO RISK) -->
+<script>
+setInterval(function(){
+  fetch("/index.html",{cache:"no-store"})
+    .then(r=>r.text())
+    .then(html=>{
+      const doc=new DOMParser().parseFromString(html,"text/html");
+      const live=doc.querySelector(".live-breaking");
+      if(live){
+        document.querySelector(".live-breaking").innerHTML=live.innerHTML;
+      }
+    })
+    .catch(()=>{});
+}, 180000); // every 3 minutes
+</script>
+
 </head>
 
 <body>
-
-<div class="container">
 
 <header>
   <div class="brand">PureStill</div>
   <nav>
     <a href="/">Home</a>
-    <a href="/articles/article-1.html">Articles</a>
-    <a href="/topics/economy.html">Topics</a>
+    <a href="/articles/">Articles</a>
+    <a href="/topics/">Topics</a>
     <a href="/about.html">About</a>
-    <a href="/terms.html">Terms</a>
-    <a href="/privacy-policy.html">Privacy</a>
     <a href="/contact.html">Contact</a>
-    <a href="/disclaimer.html">Disclaimer</a>
   </nav>
 </header>
 
-<!-- ===== FEATURED ARTICLE ===== -->
-<section class="section featured">
-  <h2>Featured Analysis</h2>
-  <h1>
-    <a href="/articles/article-1.html">
-      Major shifts shaping the United States economic outlook
-    </a>
-  </h1>
-  <div class="meta">Published July 19, 2026</div>
-  <p>
-    An independent analysis examining recent economic indicators, policy signals,
-    and long-term trends influencing business and market confidence.
-  </p>
-  <p class="read-more">
-    <a href="/articles/article-1.html">Read more →</a>
-  </p>
+<main class="container">
+
+<!-- 🔴 LIVE BREAKING -->
+<section class="section">
+  <h2>Live Breaking</h2>
+  <div class="section-note">Real-time global developments as they happen</div>
+  <div class="live-breaking">
+    
+    <div class="live-item">
+      <span class="live-badge">LIVE</span>
+      <a href="/articles/indian-vibe-coding-startup-emergent-raises-70m-at-300m-valuation-from-softbank-khosla-ventures.html">Indian vibe-coding startup Emergent raises $70M at $300M valuation from SoftBank, Khosla Ventures</a>
+      <small class="live-age">0m ago</small>
+    </div>
+    
+    <div class="live-item">
+      <span class="live-badge">LIVE</span>
+      <a href="/articles/netflix-revises-offer-to-pay-all-cash-for-warner-bros-to-stave-off-paramount.html">Netflix revises offer to pay all cash for Warner Bros to stave off Paramount</a>
+      <small class="live-age">0m ago</small>
+    </div>
+    
+    <div class="live-item">
+      <span class="live-badge">LIVE</span>
+      <a href="/articles/ray-dalio-fears-capital-wars-could-follow-trump-s-actions-with-countries-dumping-u-s-assets.html">Ray Dalio fears 'capital wars' could follow Trump's actions with countries dumping U.S. assets</a>
+      <small class="live-age">0m ago</small>
+    </div>
+    
+    <div class="live-item">
+      <span class="live-badge">LIVE</span>
+      <a href="/articles/tech-stocks-lead-wall-street-sell-off-as-tensions-over-greenland-escalate.html">Tech stocks lead Wall Street sell-off as tensions over Greenland escalate</a>
+      <small class="live-age">0m ago</small>
+    </div>
+    
+    <div class="live-item">
+      <span class="live-badge">LIVE</span>
+      <a href="/articles/this-is-sell-america-u-s-dollar-treasury-prices-tumble-and-gold-spikes-as-globe-flees-u-s-assets.html">'This is sell America' — U.S. dollar, Treasury prices tumble and gold spikes as globe flees U.S. assets</a>
+      <small class="live-age">0m ago</small>
+    </div>
+    
+    <div class="live-item">
+      <span class="live-badge">LIVE</span>
+      <a href="/articles/trump-labels-uk-chagos-islands-plan-he-once-backed-great-stupidity.html">Trump labels UK-Chagos Islands plan he once backed 'great stupidity'</a>
+      <small class="live-age">0m ago</small>
+    </div>
+    
+    <div class="live-item">
+      <span class="live-badge">LIVE</span>
+      <a href="/articles/live-updates-trump-doubles-down-on-greenland-threats-supreme-court-to-release-opinions.html">Live updates: Trump doubles down on Greenland threats; Supreme Court to release opinions</a>
+      <small class="live-age">0m ago</small>
+    </div>
+    
+    <div class="live-item">
+      <span class="live-badge">LIVE</span>
+      <a href="/articles/a-right-to-disconnect-is-the-next-step-for-the-american-worker.html">A ‘Right to Disconnect’ is the next step for the American worker</a>
+      <small class="live-age">0m ago</small>
+    </div>
+    
+    <div class="live-item">
+      <span class="live-badge">LIVE</span>
+      <a href="/articles/elon-musk-s-x-to-block-ai-chatbot-grok-from-making-explicit-images-of-real-people.html">Elon Musk's X to block AI chatbot Grok from making explicit images of real people</a>
+      <small class="live-age">0m ago</small>
+    </div>
+    
+    <div class="live-item">
+      <span class="live-badge">LIVE</span>
+      <a href="/articles/they-quit-their-day-jobs-to-bet-on-current-events-a-look-inside-the-prediction-market-mania.html">They quit their day jobs to bet on current events. A look inside the prediction market mania</a>
+      <small class="live-age">0m ago</small>
+    </div>
+    
+    <div class="live-item">
+      <span class="live-badge">LIVE</span>
+      <a href="/articles/do-phone-sleep-trackers-work.html">Do phone sleep trackers work?</a>
+      <small class="live-age">0m ago</small>
+    </div>
+    
+    <div class="live-item">
+      <span class="live-badge">LIVE</span>
+      <a href="/articles/trump-s-board-of-peace-has-several-invited-leaders-trying-to-figure-out-how-it-ll-work.html">Trump's Board of Peace has several invited leaders trying to figure out how it'll work</a>
+      <small class="live-age">0m ago</small>
+    </div>
+    
+    <div class="live-item">
+      <span class="live-badge">LIVE</span>
+      <a href="/articles/trump-leaks-world-leaders-messages-and-indiana-wins-its-first-national-title.html">Trump leaks world leaders' messages. And, Indiana wins its first national title</a>
+      <small class="live-age">0m ago</small>
+    </div>
+    
+    <div class="live-item">
+      <span class="live-badge">LIVE</span>
+      <a href="/articles/the-divorce-between-the-u-s-and-who-is-final-this-week-or-is-it.html">The divorce between the U.S. and WHO is final this week. Or is it?</a>
+      <small class="live-age">0m ago</small>
+    </div>
+    
+    <div class="live-item">
+      <span class="live-badge">LIVE</span>
+      <a href="/articles/doctor-accused-of-sex-assaults-on-38-patients.html">Doctor accused of sex assaults on 38 patients</a>
+      <small class="live-age">0m ago</small>
+    </div>
+    
+    <div class="live-item">
+      <span class="live-badge">LIVE</span>
+      <a href="/articles/russian-strikes-again-leave-half-of-kyiv-with-no-heating-in-winter-cold-snap.html">Russian strikes again leave half of Kyiv with no heating in winter cold snap</a>
+      <small class="live-age">0m ago</small>
+    </div>
+    
+    <div class="live-item">
+      <span class="live-badge">LIVE</span>
+      <a href="/articles/full-messages-shared-between-trump-and-european-leaders.html">Full messages shared between Trump and European leaders</a>
+      <small class="live-age">0m ago</small>
+    </div>
+    
+    <div class="live-item">
+      <span class="live-badge">LIVE</span>
+      <a href="/articles/greenland-will-stay-greenland-former-trump-adviser-declares.html">Greenland 'will stay Greenland', former Trump adviser declares</a>
+      <small class="live-age">0m ago</small>
+    </div>
+    
+  </div>
 </section>
 
-<!-- ===== RECENT ARTICLES ===== -->
+<!-- 🔥 TRENDING -->
+<section class="section">
+  <h2>Trending Now</h2>
+  <div class="section-note">Most discussed global topics this hour</div>
+  <div class="card-grid">
+    
+    <div class="card">
+      <h3><a href="/articles/us-job-growth-shows-signs-of-moderation.html">US Job Growth Shows Signs of Moderation</a></h3>
+      <p>An independent analysis of recent labor market data, examining signs of moderating job growth and what this trend could mean for the broader US economy.</p>
+      <div class="read-more">
+        <a href="/articles/us-job-growth-shows-signs-of-moderation.html">Read analysis →</a>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3><a href="/articles/federal-reserve-signals-cautious-policy-stance-amid-economic-uncertainty.html">Federal Reserve Signals Cautious Policy Stance Amid Economic Uncertainty</a></h3>
+      <p>An independent analysis of recent Federal Reserve communications, examining the broader economic context, policy implications, and what cautious messaging may signal for the United States economy.</p>
+      <div class="read-more">
+        <a href="/articles/federal-reserve-signals-cautious-policy-stance-amid-economic-uncertainty.html">Read analysis →</a>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3><a href="/articles/consumer-spending-patterns-shift-as-inflation-pressures-ease.html">Consumer Spending Patterns Shift as Inflation Pressures Ease</a></h3>
+      <p>An independent analysis of evolving consumer spending behavior as inflation pressures show signs of easing across the US economy.</p>
+      <div class="read-more">
+        <a href="/articles/consumer-spending-patterns-shift-as-inflation-pressures-ease.html">Read analysis →</a>
+      </div>
+    </div>
+    
+  </div>
+</section>
+
+<!-- 💎 TOP STORIES -->
+<section class="section">
+  <h2>Top Stories</h2>
+  <div class="section-note">High-impact analysis with global relevance</div>
+  <div class="card-grid">
+    
+  </div>
+</section>
+
+<!-- ⭐ FEATURED -->
+<section class="section">
+  <h2>Featured Analysis</h2>
+  
+    <div class="card">
+      <h3><a href="/articles/tech-stocks-lead-wall-street-sell-off-as-tensions-over-greenland-escalate.html">Tech stocks lead Wall Street sell-off as tensions over Greenland escalate</a></h3>
+      <p>An independent analysis based on recent public information regarding Tech stocks lead Wall Street sell-off as tensions over Greenland escalate. This summary highlights context, implications, and relevance for the United States.</p>
+      <div class="read-more">
+        <a href="/articles/tech-stocks-lead-wall-street-sell-off-as-tensions-over-greenland-escalate.html">Read analysis →</a>
+      </div>
+    </div>
+    
+</section>
+
+<!-- 📰 RECENT -->
 <section class="section">
   <h2>Recent Analysis</h2>
   <div class="card-grid">
-
-    <div class="card">
-      <h3><a href="/articles/article-2.html">Technology investment trends and productivity</a></h3>
-      <div class="meta">Published July 18, 2026</div>
-      <p>How capital allocation and innovation cycles are influencing long-term productivity.</p>
-      <p class="read-more"><a href="/articles/article-2.html">Read more →</a></p>
-    </div>
-
-    <div class="card">
-      <h3><a href="/articles/article-3.html">Federal policy signals markets are watching</a></h3>
-      <div class="meta">Published July 18, 2026</div>
-      <p>An overview of recent policy communications and their potential economic impact.</p>
-      <p class="read-more"><a href="/articles/article-3.html">Read more →</a></p>
-    </div>
-
-    <div class="card">
-      <h3><a href="/articles/article-4.html">AI adoption and workforce implications</a></h3>
-      <div class="meta">Published July 17, 2026</div>
-      <p>Understanding how automation and AI are reshaping employment patterns.</p>
-      <p class="read-more"><a href="/articles/article-4.html">Read more →</a></p>
-    </div>
-
+    
   </div>
 </section>
 
-<!-- ===== TOP ARTICLES ===== -->
-<section class="section">
-  <h2>Top Articles</h2>
-  <div class="card-grid">
-
-    <div class="card">
-      <h3><a href="/articles/article-5.html">Inflation data: what matters and what doesn’t</a></h3>
-      <div class="meta">Published July 16, 2026</div>
-      <p>A breakdown of key inflation metrics and why some signals are misleading.</p>
-      <p class="read-more"><a href="/articles/article-5.html">Read more →</a></p>
-    </div>
-
-    <div class="card">
-      <h3><a href="/articles/article-6.html">Corporate earnings as an economic signal</a></h3>
-      <div class="meta">Published July 15, 2026</div>
-      <p>What earnings trends reveal about broader economic conditions.</p>
-      <p class="read-more"><a href="/articles/article-6.html">Read more →</a></p>
-    </div>
-
-    <div class="card">
-      <h3><a href="/articles/article-7.html">Labor market trends and resilience</a></h3>
-      <div class="meta">Published July 14, 2026</div>
-      <p>An analysis of employment data and long-term workforce stability.</p>
-      <p class="read-more"><a href="/articles/article-7.html">Read more →</a></p>
-    </div>
-
-  </div>
-</section>
-
-<!-- ===== OLDER ARTICLES ===== -->
+<!-- 🗂️ OLDER -->
 <section class="section">
   <h2>Earlier Analysis</h2>
   <div class="card-grid">
-
-    <div class="card">
-      <h3><a href="/articles/article-8.html">Financial conditions and long-term risks</a></h3>
-      <div class="meta">Published July 12, 2026</div>
-      <p>Examining tightening conditions and their implications for growth.</p>
-      <p class="read-more"><a href="/articles/article-8.html">Read more →</a></p>
-    </div>
-
-    <div class="card">
-      <h3><a href="/articles/article-9.html">Global growth outlook amid policy shifts</a></h3>
-      <div class="meta">Published July 11, 2026</div>
-      <p>A global perspective on economic momentum and uncertainty.</p>
-      <p class="read-more"><a href="/articles/article-9.html">Read more →</a></p>
-    </div>
-
-    <div class="card">
-      <h3><a href="/articles/article-10.html">Why long-term investors remain cautious</a></h3>
-      <div class="meta">Published July 10, 2026</div>
-      <p>Understanding risk sentiment and capital preservation strategies.</p>
-      <p class="read-more"><a href="/articles/article-10.html">Read more →</a></p>
-    </div>
-
+    
   </div>
 </section>
 
 <footer>
-  <a href="/about.html">About</a>
-  <a href="/terms.html">Terms</a>
-  <a href="/privacy-policy.html">Privacy</a>
-  <a href="/contact.html">Contact</a>
-  <a href="/disclaimer.html">Disclaimer</a><br><br>
-  © PureStill
+  <div class="footer-links">
+    <a href="/about.html">About</a>
+    <a href="/contact.html">Contact</a>
+    <a href="/privacy-policy.html">Privacy</a>
+    <a href="/terms.html">Terms</a>
+    <a href="/disclaimer.html">Disclaimer</a>
+  </div>
+
+  <div class="footer-note">
+    PureStill is an independent analysis platform that summarizes and contextualizes
+    publicly available information. Content is for informational purposes only.
+  </div>
+
+  <div class="footer-note">© PureStill</div>
 </footer>
 
-</div>
-
+</main>
 </body>
 </html>
