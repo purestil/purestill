@@ -3,497 +3,113 @@
 <head>
 <meta charset="UTF-8">
 
-<!-- 🌙 THEME BOOTSTRAP (FAST, CLS-SAFE) -->
-<script>
-(function(){
-  const KEY="purestill-theme";
-  const saved=localStorage.getItem(KEY);
-  const hour=new Date().getHours();
-  const mode=saved||(hour>=19||hour<=5?"dark":"light");
-  if(mode==="dark") document.documentElement.classList.add("dark");
-})();
-</script>
-
 <title>PureStill | Independent Global Analysis</title>
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Independent analysis of global business, technology, policy, and economic developments.">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://purestill.pages.dev/">
 
-<!-- ===== PURESTILL GENERATEPRESS-STYLE THEME ===== -->
 <style>
-/* ================= ROOT TOKENS ================= */
-:root{
-  --bg:#ffffff;
-  --text:#111111;
-  --muted:#6b7280;
-  --border:#e5e7eb;
-  --card:#fafafa;
-
-  --accent:#c9b26b;
-  --accent-hover:#d4af37;
-
-  --max-width:1200px;
-  --reading-width:720px;
-}
-
-html.dark{
-  --bg:#0e0e10;
-  --text:#eae6da;
-  --muted:#9ca3af;
-  --border:#2a2a2e;
-  --card:#16161a;
-}
-
-/* ================= BASE ================= */
-*{box-sizing:border-box}
 body{
   margin:0;
-  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  line-height:1.7;
-  -webkit-font-smoothing:antialiased;
+  font-family:Inter,system-ui,sans-serif;
+  background:#fff;
+  color:#111;
 }
-a{
-  color:var(--accent);
-  text-decoration:none;
-}
-a:hover{color:var(--accent-hover)}
-
-/* ================= HEADER ================= */
 header{
-  border-bottom:1px solid var(--border);
-  padding:26px 0 18px;
-  position:relative;
-}
-.brand{
   text-align:center;
-  font-family:"Playfair Display",Georgia,serif;
-  font-size:36px;
-  font-weight:600;
-  letter-spacing:.3px;
+  padding:28px 0;
+  border-bottom:1px solid #eee;
 }
-nav{
-  margin-top:14px;
-  text-align:center;
-  font-size:14px;
+header h1{
+  font-family:Georgia,serif;
+  font-size:34px;
 }
 nav a{
   margin:0 12px;
-  color:var(--muted);
+  color:#555;
+  text-decoration:none;
 }
-nav a:hover{color:var(--accent)}
-
-.theme-toggle{
-  position:absolute;
-  top:22px;
-  right:22px;
-  border:1px solid var(--border);
-  background:var(--card);
-  padding:6px 10px;
-  font-size:14px;
-  cursor:pointer;
-  border-radius:6px;
-}
-
-/* ================= LAYOUT ================= */
-.container{
-  max-width:var(--max-width);
-  margin:0 auto;
-  padding:64px 20px 120px;
+main{
+  max-width:1200px;
+  margin:auto;
+  padding:60px 20px;
 }
 .section{
-  margin-top:96px;
+  margin-top:80px;
 }
 .section h2{
-  font-family:"Playfair Display",Georgia,serif;
-  font-size:28px;
-  margin-bottom:6px;
+  font-family:Georgia,serif;
+  font-size:26px;
 }
-.section-note{
-  font-size:14px;
-  color:var(--muted);
-  margin-bottom:32px;
-}
-
-/* ================= CARD GRID ================= */
-.card-grid{
+.grid{
   display:grid;
-  gap:36px;
+  gap:30px;
 }
 @media(min-width:1024px){
-  .card-grid{grid-template-columns:repeat(3,1fr)}
-}
-@media(max-width:1023px){
-  .card-grid{grid-template-columns:1fr}
+  .grid{grid-template-columns:repeat(3,1fr)}
 }
 .card{
-  border:1px solid var(--border);
-  background:var(--card);
-  padding:28px;
-  transition:transform .15s ease,border-color .15s ease;
+  border:1px solid #eee;
+  padding:24px;
 }
-.card:hover{
-  transform:translateY(-2px);
-  border-color:var(--accent);
+.card a{
+  font-size:18px;
+  color:#111;
+  text-decoration:none;
 }
-.card h3{
-  font-family:"Playfair Display",Georgia,serif;
-  font-size:20px;
-  margin-top:0;
-}
+.card a:hover{text-decoration:underline}
 .card p{
-  color:var(--muted);
-  font-size:15px;
-}
-
-/* ================= LIVE BREAKING ================= */
-.live-breaking{
-  max-width:var(--reading-width);
-  border-left:3px solid #d93025;
-  padding-left:22px;
-}
-.live-item{
-  padding:14px 0;
-  border-bottom:1px dashed var(--border);
-}
-.live-item:last-child{border-bottom:none}
-.live-badge{
-  color:#d93025;
-  font-weight:600;
-  font-size:12px;
-  margin-right:6px;
-}
-.live-age{
-  font-size:12px;
-  color:var(--muted);
-}
-.live-empty{
   font-size:14px;
-  color:var(--muted);
+  color:#666;
 }
-
-/* ================= FEATURED ================= */
-.featured-wrap{
-  max-width:var(--reading-width);
-}
-
-/* ================= FOOTER ================= */
 footer{
-  margin-top:140px;
-  border-top:1px solid var(--border);
-  padding-top:48px;
+  margin-top:120px;
+  border-top:1px solid #eee;
+  padding-top:40px;
   font-size:14px;
-  color:var(--muted);
-}
-.footer-links a{
-  margin-right:16px;
-  color:var(--muted);
-}
-.footer-links a:hover{color:var(--accent)}
-.footer-note{
-  max-width:900px;
-  font-size:13px;
-  line-height:1.6;
-  margin-top:14px;
+  color:#777;
 }
 </style>
-
 </head>
 
 <body>
 
 <header>
-  <div class="brand">PureStill</div>
-
-  <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
-
+  <h1>PureStill</h1>
   <nav>
     <a href="/">Home</a>
-    <a href="/articles/">Articles</a>
-    <a href="/topics/">Topics</a>
+    <a href="/topics/ai.html">Topics</a>
     <a href="/about.html">About</a>
-    <a href="/terms.html">Terms</a>
-    <a href="/privacy-policy.html">Privacy</a>
-    <a href="/contact.html">Contact</a>
-    <a href="/disclaimer.html">Disclaimer</a>
   </nav>
 </header>
 
-<main class="container">
+<main>
 
 <section class="section">
-  <h2>Live Breaking</h2>
-  <div class="section-note">Real-time global developments as they happen</div>
-  <div class="live-breaking">
-    <div class='live-empty'>No breaking developments.</div>
-  </div>
-</section>
-
-<section class="section">
-  <h2>Trending Now</h2>
-  <div class="section-note">Most discussed global topics this hour</div>
-  <div class="card-grid">
-    
-    <div class="card">
-      <h3><a href="/articles/the-bombshell-claims-in-brooklyn-beckham-s-post-from-wedding-dress-drama-to-hijacked-first-dance.html">The bombshell claims in Brooklyn Beckham's post - from wedding dress drama to 'hijacked' first dance</a></h3>
-      <p>An independent analysis of recent developments regarding The bombshell claims in Brooklyn Beckham's post - from wedding dress drama to 'hijacked' first dance.</p>
-      <div class="read-more">
-        <a href="/articles/the-bombshell-claims-in-brooklyn-beckham-s-post-from-wedding-dress-drama-to-hijacked-first-dance.html">Read analysis →</a>
-      </div>
-    </div>
-    
-    <div class="card">
-      <h3><a href="/articles/watch-cow-astonishes-scientists-with-rare-use-of-tools.html">Watch: Cow astonishes scientists with rare use of tools</a></h3>
-      <p>An independent analysis of recent developments regarding Watch: Cow astonishes scientists with rare use of tools.</p>
-      <div class="read-more">
-        <a href="/articles/watch-cow-astonishes-scientists-with-rare-use-of-tools.html">Read analysis →</a>
-      </div>
-    </div>
-    
-    <div class="card">
-      <h3><a href="/articles/chinese-mega-embassy-approved-by-government-after-debate-over-security-risks.html">Chinese mega-embassy approved by government after debate over security risks</a></h3>
-      <p>An independent analysis of recent developments regarding Chinese mega-embassy approved by government after debate over security risks.</p>
-      <div class="read-more">
-        <a href="/articles/chinese-mega-embassy-approved-by-government-after-debate-over-security-risks.html">Read analysis →</a>
-      </div>
-    </div>
-    
-    <div class="card">
-      <h3><a href="/articles/shock-and-confusion-as-spain-struggles-for-answers-after-deadly-train-crash.html">Shock and confusion as Spain struggles for answers after deadly train crash</a></h3>
-      <p>An independent analysis of recent developments regarding Shock and confusion as Spain struggles for answers after deadly train crash.</p>
-      <div class="read-more">
-        <a href="/articles/shock-and-confusion-as-spain-struggles-for-answers-after-deadly-train-crash.html">Read analysis →</a>
-      </div>
-    </div>
-    
-    <div class="card">
-      <h3><a href="/articles/lucy-letby-will-not-face-further-criminal-charges.html">Lucy Letby will not face further criminal charges</a></h3>
-      <p>An independent analysis of recent developments regarding Lucy Letby will not face further criminal charges.</p>
-      <div class="read-more">
-        <a href="/articles/lucy-letby-will-not-face-further-criminal-charges.html">Read analysis →</a>
-      </div>
-    </div>
-    
-    <div class="card">
-      <h3><a href="/articles/prison-officer-jailed-for-having-sex-with-inmate.html">Prison officer jailed for having sex with inmate</a></h3>
-      <p>An independent analysis of recent developments regarding Prison officer jailed for having sex with inmate.</p>
-      <div class="read-more">
-        <a href="/articles/prison-officer-jailed-for-having-sex-with-inmate.html">Read analysis →</a>
-      </div>
-    </div>
-    
-  </div>
-</section>
-
-<section class="section">
-  <h2>Top Stories</h2>
-  <div class="section-note">High-impact analysis with global relevance</div>
-  <div class="card-grid">
-    
-    <div class="card">
-      <h3><a href="/articles/uk-defends-chagos-deal-after-trump-calls-it-act-of-great-stupidity.html">UK defends Chagos deal after Trump calls it 'act of great stupidity'</a></h3>
-      <p>An independent analysis of recent developments regarding UK defends Chagos deal after Trump calls it 'act of great stupidity'.</p>
-      <div class="read-more">
-        <a href="/articles/uk-defends-chagos-deal-after-trump-calls-it-act-of-great-stupidity.html">Read analysis →</a>
-      </div>
-    </div>
-    
-    <div class="card">
-      <h3><a href="/articles/prince-harry-clutching-at-straws-with-claim-against-mail-publisher-court-told.html">Prince Harry 'clutching at straws' with claim against Mail publisher, court told</a></h3>
-      <p>An independent analysis of recent developments regarding Prince Harry 'clutching at straws' with claim against Mail publisher, court told.</p>
-      <div class="read-more">
-        <a href="/articles/prince-harry-clutching-at-straws-with-claim-against-mail-publisher-court-told.html">Read analysis →</a>
-      </div>
-    </div>
-    
-    <div class="card">
-      <h3><a href="/articles/jellyfish-inspired-outfit-steals-show-in-osaka-s-australian-open-win.html">Jellyfish-inspired outfit steals show in Osaka's Australian Open win</a></h3>
-      <p>An independent analysis of recent developments regarding Jellyfish-inspired outfit steals show in Osaka's Australian Open win.</p>
-      <div class="read-more">
-        <a href="/articles/jellyfish-inspired-outfit-steals-show-in-osaka-s-australian-open-win.html">Read analysis →</a>
-      </div>
-    </div>
-    
-    <div class="card">
-      <h3><a href="/articles/europe-to-suspend-approval-of-us-tariffs-deal.html">Europe to suspend approval of US tariffs deal</a></h3>
-      <p>An independent analysis of recent developments regarding Europe to suspend approval of US tariffs deal.</p>
-      <div class="read-more">
-        <a href="/articles/europe-to-suspend-approval-of-us-tariffs-deal.html">Read analysis →</a>
-      </div>
-    </div>
-    
-    <div class="card">
-      <h3><a href="/articles/tech-stocks-lead-wall-street-sell-off-as-tensions-over-greenland-escalate.html">Tech stocks lead Wall Street sell-off as tensions over Greenland escalate</a></h3>
-      <p>An independent analysis based on recent public information regarding Tech stocks lead Wall Street sell-off as tensions over Greenland escalate. This summary highlights context, implications, and relevance for the United States.</p>
-      <div class="read-more">
-        <a href="/articles/tech-stocks-lead-wall-street-sell-off-as-tensions-over-greenland-escalate.html">Read analysis →</a>
-      </div>
-    </div>
-    
-    <div class="card">
-      <h3><a href="/articles/they-quit-their-day-jobs-to-bet-on-current-events-a-look-inside-the-prediction-market-mania.html">They quit their day jobs to bet on current events. A look inside the prediction market mania</a></h3>
-      <p>An independent analysis based on recent public information regarding They quit their day jobs to bet on current events. A look inside the prediction market mania. This summary highlights context, implications, and relevance for the United States.</p>
-      <div class="read-more">
-        <a href="/articles/they-quit-their-day-jobs-to-bet-on-current-events-a-look-inside-the-prediction-market-mania.html">Read analysis →</a>
-      </div>
-    </div>
-    
-  </div>
-</section>
-
-<section class="section">
-  <h2>Featured Analysis</h2>
-  <div class="featured-wrap">
-    
-    <div class="card">
-      <h3><a href="/articles/the-bombshell-claims-in-brooklyn-beckham-s-post-from-wedding-dress-drama-to-hijacked-first-dance.html">The bombshell claims in Brooklyn Beckham's post - from wedding dress drama to 'hijacked' first dance</a></h3>
-      <p>An independent analysis of recent developments regarding The bombshell claims in Brooklyn Beckham's post - from wedding dress drama to 'hijacked' first dance.</p>
-      <div class="read-more">
-        <a href="/articles/the-bombshell-claims-in-brooklyn-beckham-s-post-from-wedding-dress-drama-to-hijacked-first-dance.html">Read analysis →</a>
-      </div>
-    </div>
-    
-  </div>
-</section>
-
-<section class="section">
-  <h2>Recent Analysis</h2>
-  <div class="card-grid">
-    
-    <div class="card">
-      <h3><a href="/articles/bbc-visits-un-compound-israel-is-demolishing-in-east-jerusalem.html">BBC visits UN compound Israel is demolishing in East Jerusalem</a></h3>
-      <p>An independent analysis of recent developments regarding BBC visits UN compound Israel is demolishing in East Jerusalem.</p>
-      <div class="read-more">
-        <a href="/articles/bbc-visits-un-compound-israel-is-demolishing-in-east-jerusalem.html">Read analysis →</a>
-      </div>
-    </div>
-    
-    <div class="card">
-      <h3><a href="/articles/russell-brand-granted-bail-after-two-further-sexual-offence-charges.html">Russell Brand granted bail after two further sexual offence charges</a></h3>
-      <p>An independent analysis of recent developments regarding Russell Brand granted bail after two further sexual offence charges.</p>
-      <div class="read-more">
-        <a href="/articles/russell-brand-granted-bail-after-two-further-sexual-offence-charges.html">Read analysis →</a>
-      </div>
-    </div>
-    
-    <div class="card">
-      <h3><a href="/articles/indian-vibe-coding-startup-emergent-raises-70m-at-300m-valuation-from-softbank-khosla-ventures.html">Indian vibe-coding startup Emergent raises $70M at $300M valuation from SoftBank, Khosla Ventures</a></h3>
-      <p>An independent analysis based on recent public information regarding Indian vibe-coding startup Emergent raises $70M at $300M valuation from SoftBank, Khosla Ventures. This summary highlights context, implications, and relevance for the United States.</p>
-      <div class="read-more">
-        <a href="/articles/indian-vibe-coding-startup-emergent-raises-70m-at-300m-valuation-from-softbank-khosla-ventures.html">Read analysis →</a>
-      </div>
-    </div>
-    
-    <div class="card">
-      <h3><a href="/articles/netflix-revises-offer-to-pay-all-cash-for-warner-bros-to-stave-off-paramount.html">Netflix revises offer to pay all cash for Warner Bros to stave off Paramount</a></h3>
-      <p>An independent analysis based on recent public information regarding Netflix revises offer to pay all cash for Warner Bros to stave off Paramount. This summary highlights context, implications, and relevance for the United States.</p>
-      <div class="read-more">
-        <a href="/articles/netflix-revises-offer-to-pay-all-cash-for-warner-bros-to-stave-off-paramount.html">Read analysis →</a>
-      </div>
-    </div>
-    
-    <div class="card">
-      <h3><a href="/articles/ray-dalio-fears-capital-wars-could-follow-trump-s-actions-with-countries-dumping-u-s-assets.html">Ray Dalio fears 'capital wars' could follow Trump's actions with countries dumping U.S. assets</a></h3>
-      <p>An independent analysis based on recent public information regarding Ray Dalio fears 'capital wars' could follow Trump's actions with countries dumping U.S. assets. This summary highlights context, implications, and relevance for the United States.</p>
-      <div class="read-more">
-        <a href="/articles/ray-dalio-fears-capital-wars-could-follow-trump-s-actions-with-countries-dumping-u-s-assets.html">Read analysis →</a>
-      </div>
-    </div>
-    
-    <div class="card">
-      <h3><a href="/articles/this-is-sell-america-u-s-dollar-treasury-prices-tumble-and-gold-spikes-as-globe-flees-u-s-assets.html">'This is sell America' — U.S. dollar, Treasury prices tumble and gold spikes as globe flees U.S. assets</a></h3>
-      <p>An independent analysis based on recent public information regarding 'This is sell America' — U.S. dollar, Treasury prices tumble and gold spikes as globe flees U.S. assets. This summary highlights context, implications, and relevance for the United States.</p>
-      <div class="read-more">
-        <a href="/articles/this-is-sell-america-u-s-dollar-treasury-prices-tumble-and-gold-spikes-as-globe-flees-u-s-assets.html">Read analysis →</a>
-      </div>
-    </div>
-    
-  </div>
-</section>
-
-<section class="section">
-  <h2>Earlier Analysis</h2>
-  <div class="card-grid">
-    
-    <div class="card">
-      <h3><a href="/articles/trump-labels-uk-chagos-islands-plan-he-once-backed-great-stupidity.html">Trump labels UK-Chagos Islands plan he once backed 'great stupidity'</a></h3>
-      <p>An independent analysis based on recent public information regarding Trump labels UK-Chagos Islands plan he once backed 'great stupidity'. This summary highlights context, implications, and relevance for the United States.</p>
-      <div class="read-more">
-        <a href="/articles/trump-labels-uk-chagos-islands-plan-he-once-backed-great-stupidity.html">Read analysis →</a>
-      </div>
-    </div>
-    
-    <div class="card">
-      <h3><a href="/articles/live-updates-trump-doubles-down-on-greenland-threats-supreme-court-to-release-opinions.html">Live updates: Trump doubles down on Greenland threats; Supreme Court to release opinions</a></h3>
-      <p>An independent analysis based on recent public information regarding Live updates: Trump doubles down on Greenland threats; Supreme Court to release opinions. This summary highlights context, implications, and relevance for the United States.</p>
-      <div class="read-more">
-        <a href="/articles/live-updates-trump-doubles-down-on-greenland-threats-supreme-court-to-release-opinions.html">Read analysis →</a>
-      </div>
-    </div>
-    
-    <div class="card">
-      <h3><a href="/articles/a-right-to-disconnect-is-the-next-step-for-the-american-worker.html">A ‘Right to Disconnect’ is the next step for the American worker</a></h3>
-      <p>An independent analysis based on recent public information regarding A ‘Right to Disconnect’ is the next step for the American worker. This summary highlights context, implications, and relevance for the United States.</p>
-      <div class="read-more">
-        <a href="/articles/a-right-to-disconnect-is-the-next-step-for-the-american-worker.html">Read analysis →</a>
-      </div>
-    </div>
-    
-    <div class="card">
-      <h3><a href="/articles/elon-musk-s-x-to-block-ai-chatbot-grok-from-making-explicit-images-of-real-people.html">Elon Musk's X to block AI chatbot Grok from making explicit images of real people</a></h3>
-      <p>An independent analysis based on recent public information regarding Elon Musk's X to block AI chatbot Grok from making explicit images of real people. This summary highlights context, implications, and relevance for the United States.</p>
-      <div class="read-more">
-        <a href="/articles/elon-musk-s-x-to-block-ai-chatbot-grok-from-making-explicit-images-of-real-people.html">Read analysis →</a>
-      </div>
-    </div>
-    
-    <div class="card">
-      <h3><a href="/articles/do-phone-sleep-trackers-work.html">Do phone sleep trackers work?</a></h3>
-      <p>An independent analysis based on recent public information regarding Do phone sleep trackers work?. This summary highlights context, implications, and relevance for the United States.</p>
-      <div class="read-more">
-        <a href="/articles/do-phone-sleep-trackers-work.html">Read analysis →</a>
-      </div>
-    </div>
-    
-    <div class="card">
-      <h3><a href="/articles/trump-s-board-of-peace-has-several-invited-leaders-trying-to-figure-out-how-it-ll-work.html">Trump's Board of Peace has several invited leaders trying to figure out how it'll work</a></h3>
-      <p>An independent analysis based on recent public information regarding Trump's Board of Peace has several invited leaders trying to figure out how it'll work. This summary highlights context, implications, and relevance for the United States.</p>
-      <div class="read-more">
-        <a href="/articles/trump-s-board-of-peace-has-several-invited-leaders-trying-to-figure-out-how-it-ll-work.html">Read analysis →</a>
-      </div>
-    </div>
-    
-  </div>
+  <h2>Latest Analysis</h2>
+  <div class="grid" id="latest"></div>
 </section>
 
 </main>
 
 <footer>
-  <div class="footer-links">
-    <a href="/about.html">About</a>
-    <a href="/contact.html">Contact</a>
-    <a href="/privacy-policy.html">Privacy</a>
-    <a href="/terms.html">Terms</a>
-    <a href="/disclaimer.html">Disclaimer</a>
-  </div>
-
-  <div class="footer-note">
-    PureStill is an independent analysis platform that summarizes and contextualizes
-    publicly available information. Content is for informational purposes only.
-  </div>
-
-  <div class="footer-note">© PureStill</div>
+  © PureStill · Updated hourly
 </footer>
 
 <script>
-function toggleTheme(){
-  const h=document.documentElement;
-  const isDark=h.classList.toggle("dark");
-  localStorage.setItem("purestill-theme",isDark?"dark":"light");
-}
+fetch("/signals/articles_index.json",{cache:"no-store"})
+.then(r=>r.json())
+.then(data=>{
+  const wrap=document.getElementById("latest");
+  data.slice(0,9).forEach(a=>{
+    const div=document.createElement("div");
+    div.className="card";
+    div.innerHTML=`
+      <a href="${a.url}">${a.title}</a>
+      <p>Updated ${new Date(a.updated).toLocaleString()}</p>
+    `;
+    wrap.appendChild(div);
+  });
+});
 </script>
 
 </body>
