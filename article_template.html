@@ -3,14 +3,16 @@
 <head>
 <meta charset="UTF-8">
 
-<!-- PURESTILL UNIVERSAL THEME -->
+<!-- PURESTILL UNIVERSAL THEME (EARLY, NO FLASH) -->
 <script>
 (function(){
-  const KEY="purestill-theme";
-  const saved=localStorage.getItem(KEY);
-  const hour=new Date().getHours();
-  let mode=saved||(hour>=19||hour<=5?"dark":"light");
-  if(mode==="dark") document.documentElement.classList.add("dark");
+  try{
+    const KEY="purestill-theme";
+    const saved=localStorage.getItem(KEY);
+    const hour=new Date().getHours();
+    const mode=saved || ((hour>=19||hour<=5) ? "dark" : "light");
+    if(mode==="dark") document.documentElement.classList.add("dark");
+  }catch(e){}
 })();
 </script>
 
@@ -20,6 +22,7 @@
 <meta name="description" content="{{SUMMARY}}">
 <meta name="robots" content="index, follow">
 <meta http-equiv="content-language" content="en-us">
+
 <link rel="canonical" href="{{CANONICAL_URL}}">
 
 <meta name="news_keywords" content="{{CATEGORY}}">
@@ -28,19 +31,31 @@
 
 <style>
 :root{
-  --bg:#fff;--text:#111;--muted:#666;--border:#e5e5e5;
-  --link:#1a0dab;--card:#fafafa;--accent:#1a0dab;
+  --bg:#ffffff;
+  --text:#111111;
+  --muted:#666666;
+  --border:#e5e5e5;
+  --link:#1a0dab;
+  --card:#fafafa;
+  --accent:#1a0dab;
 }
 html.dark{
-  --bg:#0e0e10;--text:#eaeaea;--muted:#aaa;
-  --border:#2a2a2a;--link:#8ab4f8;--card:#16161a;
+  --bg:#0e0e10;
+  --text:#eaeaea;
+  --muted:#aaaaaa;
+  --border:#2a2a2a;
+  --link:#8ab4f8;
+  --card:#16161a;
 }
 body{
-  margin:0;font-family:Inter,Arial,sans-serif;
-  background:var(--bg);color:var(--text);line-height:1.8;
+  margin:0;
+  font-family:Inter,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.8;
 }
 
-/* ===== BACK BUTTON (NEW) ===== */
+/* BACK BUTTON */
 .back-btn{
   position:fixed;
   top:14px;
@@ -52,13 +67,10 @@ body{
   border:1px solid var(--border);
   border-radius:4px;
   cursor:pointer;
-  color:var(--text);
 }
-.back-btn:hover{
-  background:var(--bg);
-}
+.back-btn:hover{opacity:.85}
 
-/* ===== HEADER ===== */
+/* HEADER */
 header{
   text-align:center;
   padding:22px 0;
@@ -72,22 +84,22 @@ header{
   text-decoration:none;
 }
 
-/* ===== ARTICLE ===== */
+/* ARTICLE */
 .article-wrap{
   max-width:1000px;
   margin:0 auto;
   padding:48px 20px 100px;
 }
-.category{font-size:13px;color:var(--muted);}
-h1{font-family:Georgia,serif;font-size:clamp(26px,4vw,38px);}
-.subhead{font-size:18px;color:var(--muted);margin:18px 0;}
-.reading-meta{font-size:13px;color:var(--muted);margin-bottom:30px;}
-article{font-size:17px;}
-article h2{margin-top:56px;font-family:Georgia,serif;}
-article a{color:var(--accent);}
+.category{font-size:13px;color:var(--muted)}
+h1{font-family:Georgia,serif;font-size:clamp(26px,4vw,38px)}
+.subhead{font-size:18px;color:var(--muted);margin:18px 0}
+.reading-meta{font-size:13px;color:var(--muted);margin-bottom:30px}
+article{font-size:17px}
+article h2{margin-top:56px;font-family:Georgia,serif}
+article a{color:var(--accent)}
 
-/* ===== SOURCE ===== */
-.source{margin-top:40px;font-size:14px;color:var(--muted);}
+/* SOURCE */
+.source{margin-top:40px;font-size:14px;color:var(--muted)}
 .sources a{
   display:inline-flex;
   align-items:center;
@@ -98,7 +110,7 @@ article a{color:var(--accent);}
 }
 .sources img{width:16px;height:16px;border-radius:2px}
 
-/* ===== COMMENTS ===== */
+/* COMMENTS */
 .comments{
   margin-top:80px;
   border-top:1px solid var(--border);
@@ -117,10 +129,10 @@ article a{color:var(--accent);}
   padding:8px 14px;
   border:1px solid var(--border);
   background:var(--card);
-  cursor:pointer;
+  cursor:not-allowed;
 }
 
-/* ===== SUBSCRIBE ===== */
+/* SUBSCRIBE */
 .subscribe{
   margin-top:60px;
   padding:20px;
@@ -132,10 +144,9 @@ article a{color:var(--accent);}
   width:100%;
   max-width:320px;
   border:1px solid var(--border);
-  background:#fff;
 }
 
-/* ===== FOOTER ===== */
+/* FOOTER */
 footer{
   margin-top:100px;
   border-top:1px solid var(--border);
@@ -148,7 +159,7 @@ footer{
   color:var(--muted);
   text-decoration:none;
 }
-.footer-links a:hover{text-decoration:underline;}
+.footer-links a:hover{text-decoration:underline}
 .footer-note{
   max-width:800px;
   font-size:13px;
@@ -160,7 +171,6 @@ footer{
 
 <body>
 
-<!-- 🔙 BACK BUTTON -->
 <div class="back-btn" onclick="goBack()">← Back</div>
 
 <header>
@@ -195,7 +205,7 @@ footer{
 <section class="comments">
   <h2>Reader Feedback</h2>
   <p>Your comments help improve our analysis. Please keep feedback respectful.</p>
-  <textarea placeholder="Share your thoughts…"></textarea>
+  <textarea placeholder="Share your thoughts…" aria-label="Comment text"></textarea>
   <button disabled>Submit (coming soon)</button>
 </section>
 
@@ -203,7 +213,7 @@ footer{
   <strong>Get new analysis updates</strong><br>
   Receive occasional summaries. No spam.
   <br><br>
-  <input type="email" placeholder="Your email address" disabled>
+  <input type="email" placeholder="Your email address" aria-label="Email address" disabled>
 </section>
 
 <footer>
@@ -227,26 +237,35 @@ footer{
 </main>
 
 <script>
-/* ===== BACK BUTTON LOGIC ===== */
+/* BACK */
 function goBack(){
-  if(history.length > 1){
-    history.back();
-  }else{
-    location.href="/";
-  }
+  try{
+    if(history.length>1){history.back()}
+    else{location.href="/"}
+  }catch(e){location.href="/"}
 }
 
-/* ===== READING META ===== */
-const words=document.querySelector("article").innerText.split(/\s+/).length;
-readingTime.innerText=Math.max(1,Math.round(words/200))+" min read";
-readingLevel.innerText=words<600?"Easy":words<1200?"Medium":"Advanced";
+/* READING META (SAFE) */
+(function(){
+  try{
+    const text=document.querySelector("article").innerText||"";
+    const words=text.trim().split(/\s+/).length;
+    document.getElementById("readingTime").textContent=
+      Math.max(1,Math.round(words/200))+" min read";
+    document.getElementById("readingLevel").textContent=
+      words<600?"Easy":words<1200?"Medium":"Advanced";
+  }catch(e){}
+})();
 
-/* ===== SOURCE HANDLING ===== */
-const wrap=document.querySelector(".sources");
-const raw=wrap.dataset.sources;
-if(!raw){
-  sourceBlock.style.display="none";
-}else{
+/* SOURCE HANDLING (SAFE) */
+(function(){
+  const wrap=document.querySelector(".sources");
+  const raw=wrap?.dataset?.sources;
+  if(!raw){
+    const sb=document.getElementById("sourceBlock");
+    if(sb) sb.style.display="none";
+    return;
+  }
   raw.split(",").forEach(u=>{
     try{
       const url=new URL(u.trim());
@@ -256,12 +275,12 @@ if(!raw){
       a.target="_blank";
       a.rel="nofollow noopener";
       a.innerHTML=
-        `<img src="https://www.google.com/s2/favicons?domain=${host}&sz=32">
+        `<img src="https://www.google.com/s2/favicons?domain=${host}&sz=32" alt="">
          ${host.split(".")[0]}`;
       wrap.appendChild(a);
     }catch(e){}
   });
-}
+})();
 </script>
 
 </body>
