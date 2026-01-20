@@ -1,36 +1,46 @@
 name: PureStill Auto Post
 
 on:
-  schedule:
-    - cron: "0 3 * * *"   # runs daily (UTC)
   workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * *"   # daily UTC
 
 jobs:
-  build:
+  autopost:
     runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v4
+    permissions:
+      contents: write   # REQUIRED for git push
 
+    steps:
+      # 1️⃣ Checkout repo
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2️⃣ Setup Python
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Install dependencies
-        run: pip install feedparser
+      # 3️⃣ Show files (debug safety)
+      - name: Show repo files
+        run: ls -la
 
+      # 4️⃣ Fetch news (SAFE SCRIPT)
       - name: Fetch new content
         run: python fetch_news.py
 
+      # 5️⃣ Generate site
       - name: Generate site
         run: python generate_pages.py
 
-      - name: Commit and push
+      # 6️⃣ Commit & push only if changed
+      - name: Commit and push changes
         run: |
           git config user.name "purestill-bot"
           git config user.email "purestill.official@gmail.com"
-          git add .
-          git commit -m "Daily auto post" || echo "No changes"
+          git status
+          git add data.json site || true
+          git diff --cached --quiet || git commit -m "Auto post update"
           git push
-
