@@ -1,7 +1,8 @@
 print("Starting PureStill generator…")
 
 import json, os, re
-from datetime import datetime
+from datetime import datetime, timezone
+from dateutil.parser import parse as parse_date
 
 # ================= CONFIG =================
 BASE_URL = "https://purestill.pages.dev"
@@ -24,6 +25,8 @@ with open("article_template.html", encoding="utf-8") as f:
 with open("index_template.html", encoding="utf-8") as f:
     INDEX_TEMPLATE = f.read()
 
+NOW = datetime.now(timezone.utc)
+
 # ================= HELPERS =================
 def slugify(text):
     return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
@@ -34,47 +37,86 @@ def safe(item, *keys, default=""):
             return str(item[k])
     return default
 
-# ================= AUTO EXPAND CONTENT =================
+def hours_old(date_str):
+    try:
+        dt = parse_date(date_str)
+    except:
+        dt = NOW
+    if not dt.tzinfo:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return (NOW - dt).total_seconds() / 3600
+
+# ================= SCORING =================
+CATEGORY_WEIGHT = {
+    "Policy": 85,
+    "Economy": 90,
+    "Business": 95,
+    "Technology": 88,
+    "AI": 90,
+    "Sports": 60,
+    "General": 70
+}
+
+def final_score(article):
+    freshness = max(0, 100 - article["age_hours"] * 6)
+    category_score = CATEGORY_WEIGHT.get(article["category"], 70)
+    return round(freshness * 0.6 + category_score * 0.4, 2)
+
+# ================= AUTO EXPAND =================
 def auto_expand_article(title, summary, category):
     return f"""
 <h2>Context</h2>
-<p>{summary} This development reflects broader trends shaping the {category.lower()} landscape in the United States. Recent data and public statements suggest a period of reassessment rather than abrupt change.</p>
+<p>{summary} This development reflects broader trends shaping the {category.lower()} landscape in the United States.</p>
 
 <h2>Background</h2>
-<p>Over recent months, economic and policy conditions have been influenced by shifting expectations, tighter financial conditions, and evolving regulatory considerations. Historical patterns indicate that similar phases often involve gradual adjustment.</p>
+<p>Recent months have seen gradual shifts influenced by economic conditions, policy expectations, and institutional responses.</p>
 
 <h2>Key Developments</h2>
-<p>Available information points to measured responses by institutions and market participants. Decisions appear driven by caution, with emphasis placed on data dependency and risk management.</p>
+<p>Available information suggests a measured approach, with emphasis on data-driven assessment rather than abrupt changes.</p>
 
 <h2>Why This Matters</h2>
-<p>Even incremental developments can have wide-ranging implications. Borrowing costs, investment planning, and consumer confidence are all sensitive to changes in outlook, making these signals relevant beyond their immediate context.</p>
+<p>Even incremental signals can influence financial markets, borrowing costs, and broader economic confidence.</p>
 
-<h2>Implications for the United States</h2>
-<p>For the US economy, the outcome of current trends will influence growth, employment conditions, and longer-term stability. Policymakers aim to balance resilience with the need to avoid unnecessary disruption.</p>
+<h2>Implications</h2>
+<p>The outcome of these trends will shape growth expectations and longer-term stability.</p>
 
 <h2>What to Watch Next</h2>
-<p>Upcoming reports, official communications, and economic indicators will provide further clarity. Observers will focus on consistency across signals to determine whether current patterns are strengthening or stabilizing.</p>
+<p>Upcoming data releases and official statements will provide further clarity.</p>
 """
 
-# ================= GENERATE ARTICLES =================
-cards = []
+# ================= ARTICLE GENERATION =================
+articles = []
 
 for item in raw_data:
     title = safe(item, "TITLE", "title")
     if not title:
-        continue  # skip broken entry safely
+        continue
 
     summary = safe(item, "SUMMARY", "summary")
     raw_content = safe(item, "CONTENT", "content")
     category = safe(item, "CATEGORY", "category", default="General")
     source = safe(item, "SOURCE", "source")
-    date = safe(item, "DATE", "date", default=datetime.utcnow().isoformat())
+    date = safe(item, "DATE", "date", default=NOW.isoformat())
 
-    # AUTO-EXPAND IF CONTENT EMPTY
     content = raw_content if raw_content.strip() else auto_expand_article(title, summary, category)
 
     slug = slugify(title)
     canonical = f"{BASE_URL}/articles/{slug}.html"
+
+    age = hours_old(date)
+    is_breaking = age <= 2
+
+    article = {
+        "title": title,
+        "summary": summary,
+        "category": category,
+        "date": date,
+        "slug": slug,
+        "age_hours": age,
+        "is_breaking": is_breaking
+    }
+
+    article["final_score"] = final_score(article)
 
     html = ARTICLE_TEMPLATE
     html = html.replace("{{TITLE}}", title)
@@ -88,34 +130,71 @@ for item in raw_data:
     html = html.replace("{{AD_MID}}", "")
     html = html.replace("{{AD_BOTTOM}}", "")
 
-    out_path = os.path.join(ARTICLES_DIR, f"{slug}.html")
-    with open(out_path, "w", encoding="utf-8") as f:
+    with open(os.path.join(ARTICLES_DIR, f"{slug}.html"), "w", encoding="utf-8") as f:
         f.write(html)
 
-    cards.append(f"""
-      <div class="card">
-        <h3><a href="/articles/{slug}.html">{title}</a></h3>
-        <p>{summary}</p>
-        <div class="read-more">
-          <a href="/articles/{slug}.html">Read analysis →</a>
-        </div>
+    articles.append(article)
+
+print(f"Generated {len(articles)} articles")
+
+# ================= CARD RENDERERS =================
+def render_card(a):
+    return f"""
+    <div class="card">
+      <h3><a href="/articles/{a['slug']}.html">{a['title']}</a></h3>
+      <p>{a['summary']}</p>
+      <div class="read-more">
+        <a href="/articles/{a['slug']}.html">Read analysis →</a>
       </div>
-    """)
+    </div>
+    """
 
-print(f"Generated {len(cards)} articles")
+def render_live(a):
+    return f"""
+    <div class="live-item">
+      <span class="live-badge">LIVE</span>
+      <a href="/articles/{a['slug']}.html">{a['title']}</a>
+    </div>
+    """
 
-# ================= GENERATE INDEX =================
-if not cards:
-    raise Exception("No articles generated")
+# ================= HOMEPAGE BUILD =================
+used = set()
+
+live = [a for a in articles if a["is_breaking"]]
+live.sort(key=lambda x: x["age_hours"])
+
+live_html = "".join(render_live(a) for a in live)
+used.update(a["slug"] for a in live)
+
+remaining = [a for a in articles if a["slug"] not in used]
+
+trending = sorted(remaining, key=lambda x: x["final_score"], reverse=True)[:6]
+used.update(a["slug"] for a in trending)
+
+remaining = [a for a in remaining if a["slug"] not in used]
+
+top = sorted(remaining, key=lambda x: x["final_score"], reverse=True)[:6]
+used.update(a["slug"] for a in top)
+
+remaining = [a for a in remaining if a["slug"] not in used]
+
+recent = sorted(remaining, key=lambda x: x["date"], reverse=True)[:6]
+used.update(a["slug"] for a in recent)
+
+older = [a for a in articles if a["slug"] not in used][:6]
+
+featured = max(articles, key=lambda x: x["final_score"])
 
 index_html = INDEX_TEMPLATE
-index_html = index_html.replace("{{FEATURED_ARTICLE}}", cards[0])
-index_html = index_html.replace("{{RECENT_ARTICLES}}", "\n".join(cards))
-index_html = index_html.replace("{{TOP_ARTICLES}}", "")
-index_html = index_html.replace("{{OLDER_ARTICLES}}", "")
+index_html = index_html.replace("{{LIVE_BREAKING}}", live_html)
+index_html = index_html.replace("{{TRENDING_ARTICLES}}", "".join(render_card(a) for a in trending))
+index_html = index_html.replace("{{TOP_ARTICLES}}", "".join(render_card(a) for a in top))
+index_html = index_html.replace("{{FEATURED_ARTICLE}}", render_card(featured))
+index_html = index_html.replace("{{RECENT_ARTICLES}}", "".join(render_card(a) for a in recent))
+index_html = index_html.replace("{{OLDER_ARTICLES}}", "".join(render_card(a) for a in older))
 
 with open(os.path.join(SITE_DIR, "index.html"), "w", encoding="utf-8") as f:
     f.write(index_html)
 
 print("Index generated")
-print("PureStill build complete")
+print("PureStill build complete ✅")
