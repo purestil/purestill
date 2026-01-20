@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 
-<!-- Universal theme sync -->
+<!-- 🌙 Universal theme sync -->
 <script>
 (function(){
   const KEY="purestill-theme";
   const saved=localStorage.getItem(KEY);
   const hour=new Date().getHours();
-  let mode=saved||(hour>=19||hour<=5?"dark":"light");
+  const mode=saved||(hour>=19||hour<=5?"dark":"light");
   if(mode==="dark") document.documentElement.classList.add("dark");
 })();
 </script>
@@ -27,157 +27,232 @@
 <meta property="article:modified_time" content="2026-01-19">
 
 <style>
-/* ================= THEME ================= */
+/* ================= CORE TOKENS ================= */
 :root{
   --bg:#ffffff;
-  --text:#111;
-  --muted:#666;
-  --border:#e5e5e5;
-  --link:#1a0dab;
-  --card:#fafafa;
+  --text:#111111;
+  --muted:#5f6368;
+  --border:#e5e7eb;
+  --accent:#c9b26b;
+  --accent-hover:#d4af37;
+
+  --reading-max:860px;
 }
+
 html.dark{
   --bg:#0e0e10;
-  --text:#eaeaea;
-  --muted:#aaa;
-  --border:#2a2a2a;
-  --link:#8ab4f8;
-  --card:#16161a;
+  --text:#eae6da;
+  --muted:#9ca3af;
+  --border:#2a2a2e;
 }
+
+/* ================= BASE ================= */
+*{box-sizing:border-box}
 body{
   margin:0;
-  font-family:Inter, Arial, sans-serif;
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
   background:var(--bg);
   color:var(--text);
-  line-height:1.8;
+  line-height:1.95;
 }
+a{color:var(--accent);text-decoration:underline}
+a:hover{color:var(--accent-hover)}
 
 /* ================= HEADER ================= */
 header{
   text-align:center;
-  padding:22px 0;
+  padding:clamp(22px,4vw,30px) 0;
   border-bottom:1px solid var(--border);
 }
 .brand a{
-  font-family:Georgia, serif;
-  font-size:28px;
+  font-family:Georgia,serif;
+  font-size:clamp(26px,4vw,32px);
   font-weight:600;
   color:var(--text);
   text-decoration:none;
 }
 
-/* ================= ARTICLE ================= */
-.article-wrap{
-  max-width:860px;
-  margin:0 auto;
-  padding:52px 20px 110px;
+/* ================= PROGRESS ================= */
+#reading-progress{
+  position:fixed;
+  top:0;
+  left:0;
+  height:3px;
+  width:0;
+  background:var(--accent);
+  z-index:9999;
 }
+
+/* ================= ARTICLE WRAP ================= */
+.article-wrap{
+  max-width:var(--reading-max);
+  margin:0 auto;
+  padding:
+    clamp(56px,8vw,88px)
+    clamp(18px,5vw,28px)
+    clamp(100px,12vw,150px);
+}
+
+/* ================= META ================= */
 .category{
-  font-size:13px;
+  font-size:12px;
+  letter-spacing:.05em;
+  text-transform:uppercase;
   color:var(--muted);
-  margin-bottom:10px;
+  margin-bottom:18px;
 }
 h1{
-  font-family:Georgia, serif;
-  font-size:clamp(28px,4vw,40px);
-  line-height:1.25;
+  font-family:Georgia,serif;
+  font-size:clamp(34px,6vw,48px);
+  line-height:1.22;
 }
 .subhead{
-  font-size:18px;
+  font-size:clamp(18px,4vw,21px);
   color:var(--muted);
-  margin:18px 0 28px;
+  margin:24px 0 36px;
 }
 .meta{
   font-size:13px;
   color:var(--muted);
-  margin-bottom:40px;
-}
-article{
-  font-size:18px;
-}
-article p{
-  margin-bottom:22px;
-}
-article h2{
-  font-family:Georgia, serif;
-  font-size:1.55em;
-  margin:60px 0 22px;
-}
-article a{
-  color:var(--link);
-  text-decoration:underline;
+  margin-bottom:56px;
 }
 
-/* ================= SOURCE ================= */
-.source{
-  margin-top:48px;
-  font-size:14px;
-  color:var(--muted);
+/* ================= TOC ================= */
+.toc{
+  border-left:3px solid var(--accent);
+  padding-left:18px;
+  margin-bottom:64px;
 }
-.sources a{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  margin-right:14px;
-  color:var(--link);
+.toc h2{
+  font-family:Georgia,serif;
+  font-size:18px;
+  margin-bottom:14px;
+}
+.toc a{
+  display:block;
+  font-size:14px;
+  margin-bottom:8px;
+  color:var(--text);
   text-decoration:none;
 }
-.sources img{
-  width:16px;
-  height:16px;
-  border-radius:2px;
+.toc a:hover{text-decoration:underline}
+
+/* ================= ARTICLE CONTENT ================= */
+article{
+  font-size:clamp(18.5px,3.6vw,20px);
+}
+article p{
+  margin-bottom:clamp(28px,5vw,38px);
+  letter-spacing:.15px;
+}
+article h2{
+  font-family:Georgia,serif;
+  font-size:clamp(24px,5vw,30px);
+  margin:clamp(70px,10vw,100px) 0 34px;
+}
+article h3{
+  font-family:Georgia,serif;
+  font-size:clamp(20px,4.5vw,24px);
+  margin:clamp(52px,8vw,72px) 0 28px;
+}
+
+/* ================= PULL QUOTES ================= */
+.pull-quote{
+  font-family:Georgia,serif;
+  font-size:clamp(20px,4vw,24px);
+  line-height:1.6;
+  margin:clamp(60px,10vw,90px) 0;
+  padding-left:22px;
+  border-left:4px solid var(--accent);
+  color:var(--text);
 }
 
 /* ================= ADS ================= */
 .ad{
-  margin:56px 0;
+  margin:clamp(80px,12vw,110px) 0;
 }
 
-/* ================= RELATED ================= */
-.related{
-  margin-top:90px;
-  padding-top:40px;
-  border-top:1px solid var(--border);
-}
-.related h2{
-  font-family:Georgia, serif;
-  font-size:22px;
-  margin-bottom:26px;
-}
-.related ul{
-  padding-left:18px;
-}
-.related li{
-  margin-bottom:12px;
-}
-.related a{
-  color:var(--text);
-  text-decoration:none;
-}
-.related a:hover{
-  text-decoration:underline;
-}
-
-/* ================= FOOTER ================= */
-footer{
-  margin-top:110px;
+/* ================= SOURCE ================= */
+.source{
+  margin-top:clamp(80px,12vw,110px);
   padding-top:30px;
   border-top:1px solid var(--border);
   font-size:14px;
   color:var(--muted);
 }
+
+/* ================= INTERNAL LINKS ================= */
+.internal-links{
+  margin-top:clamp(120px,16vw,160px);
+  padding-top:56px;
+  border-top:1px solid var(--border);
+}
+.internal-links h2{
+  font-family:Georgia,serif;
+  font-size:clamp(22px,4.5vw,26px);
+  margin-bottom:32px;
+}
+.link-list{display:grid;gap:24px}
+.link-item a{
+  font-size:clamp(16px,3.5vw,18px);
+  font-weight:600;
+  color:var(--text);
+  text-decoration:none;
+}
+.link-item a::after{
+  content:" →";
+  opacity:0;
+  transition:opacity .2s ease;
+}
+.link-item a:hover::after{opacity:1}
+.link-item span{
+  display:block;
+  font-size:14px;
+  color:var(--muted);
+  margin-top:6px;
+}
+
+/* ================= PAGINATION ================= */
+.article-pagination{
+  display:flex;
+  justify-content:space-between;
+  gap:24px;
+  margin-top:clamp(110px,16vw,150px);
+  padding-top:44px;
+  border-top:1px solid var(--border);
+}
+.article-pagination a{
+  max-width:48%;
+  font-size:15px;
+  color:var(--text);
+  text-decoration:none;
+}
+.article-pagination span{
+  display:block;
+  font-size:12px;
+  color:var(--muted);
+}
+
+/* ================= FOOTER ================= */
+footer{
+  margin-top:clamp(140px,18vw,180px);
+  padding-top:44px;
+  border-top:1px solid var(--border);
+  font-size:14px;
+  color:var(--muted);
+}
 footer a{
-  margin-right:14px;
+  margin-right:18px;
   color:var(--muted);
   text-decoration:none;
 }
-footer a:hover{
-  text-decoration:underline;
-}
+footer a:hover{text-decoration:underline}
 </style>
 </head>
 
 <body>
+
+<div id="reading-progress"></div>
 
 <header>
   <div class="brand"><a href="/">PureStill</a></div>
@@ -186,18 +261,20 @@ footer a:hover{
 <main class="article-wrap">
 
 <div class="category">Economy</div>
-
 <h1>Consumer Spending Patterns Shift as Inflation Pressures Ease</h1>
-
 <div class="subhead">An independent analysis of evolving consumer spending behavior as inflation pressures show signs of easing across the US economy.</div>
+<div class="meta">Published 2026-01-19</div>
 
-<div class="meta">
-  Published 2026-01-19
-</div>
+<!-- 📌 AUTO TABLE OF CONTENTS -->
+<nav class="toc" id="toc">
+  <h2>On this page</h2>
+</nav>
 
-<article>
+<article id="articleContent">
 <h2>Context</h2><p>Consumer spending has been a key driver of economic activity throughout periods of elevated inflation. As price pressures begin to ease, spending patterns are showing signs of adjustment.</p><p>Households appear to be reallocating budgets as essential costs stabilize.</p><h2>Recent Developments</h2><p>Data indicates a gradual shift toward discretionary spending, particularly in services. Retail sales growth has moderated, while demand for experiences has increased.</p><p>These trends suggest consumers are adapting to changing economic conditions.</p><h2>Why This Matters</h2><p>Consumer behavior influences business investment and employment decisions. Shifts in spending patterns can signal broader economic transitions.</p><p>Understanding these dynamics helps policymakers assess economic momentum.</p><h2>Key Signals</h2><p>Inflation-adjusted spending, savings rates, and credit usage provide insight into household financial health.</p><p>Continued easing of inflation could further support spending flexibility.</p><h2>Broader Implications</h2><p>Stabilizing prices may contribute to more balanced growth, though risks remain if economic conditions deteriorate.</p><p>Businesses will need to adapt strategies to align with evolving consumer preferences.</p><h2>What to Watch</h2><p>Future inflation data and consumer sentiment surveys will help determine whether these shifts persist.</p>
 </article>
+
+
 
 <div class="source" id="sourceBlock">
   <strong>Source:</strong>
@@ -206,13 +283,12 @@ footer a:hover{
 
 
 
-
-<section class="related">
-  <h2>Related Analysis</h2>
-  <ul>
-    
-  </ul>
+<section class="internal-links">
+  <h2>More Analysis</h2>
+  <div class="link-list" id="autoLinks"></div>
 </section>
+
+<nav class="article-pagination" id="articlePagination"></nav>
 
 <footer>
   <a href="/about.html">About</a>
@@ -226,25 +302,52 @@ footer a:hover{
 </main>
 
 <script>
-/* Source name + favicon (safe attribution) */
-const wrap=document.querySelector(".sources");
-const raw=wrap?.dataset.sources;
-if(!raw){
-  document.getElementById("sourceBlock").style.display="none";
-}else{
-  raw.split(",").forEach(u=>{
-    try{
-      const url=new URL(u.trim());
-      const host=url.hostname.replace("www.","");
-      const a=document.createElement("a");
-      a.href=url;
-      a.target="_blank";
-      a.rel="nofollow noopener";
-      a.innerHTML=`<img src="https://www.google.com/s2/favicons?domain=${host}&sz=32">${host}`;
-      wrap.appendChild(a);
-    }catch(e){}
+/* Reading progress */
+window.addEventListener("scroll",()=>{
+  const h=document.documentElement;
+  document.getElementById("reading-progress").style.width =
+    (h.scrollTop/(h.scrollHeight-h.clientHeight))*100 + "%";
+});
+
+/* Auto TOC */
+const toc=document.getElementById("toc");
+document.querySelectorAll("#articleContent h2, #articleContent h3").forEach((h,i)=>{
+  const id="sec-"+i;
+  h.id=id;
+  const a=document.createElement("a");
+  a.href="#"+id;
+  a.textContent=h.textContent;
+  toc.appendChild(a);
+});
+
+/* Auto internal links + pagination */
+fetch('/data.json')
+.then(r=>r.json())
+.then(data=>{
+  const articles=data.articles;
+  const current=location.pathname;
+
+  articles.filter(a=>a.url!==current).slice(0,3).forEach(a=>{
+    const d=document.createElement('div');
+    d.className='link-item';
+    d.innerHTML=`<a href="${a.url}">${a.title}</a><span>${a.summary}</span>`;
+    document.getElementById('autoLinks').appendChild(d);
   });
-}
+
+  const idx=articles.findIndex(a=>a.url===current);
+  const nav=document.getElementById('articlePagination');
+
+  if(idx>0){
+    nav.innerHTML+=`<a href="${articles[idx-1].url}">
+      <span>← Previous</span>${articles[idx-1].title}
+    </a>`;
+  }
+  if(idx<articles.length-1){
+    nav.innerHTML+=`<a href="${articles[idx+1].url}">
+      <span>Next →</span>${articles[idx+1].title}
+    </a>`;
+  }
+});
 </script>
 
 </body>
