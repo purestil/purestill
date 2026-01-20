@@ -3,16 +3,14 @@
 <head>
 <meta charset="UTF-8">
 
-<!-- PURESTILL UNIVERSAL THEME (NO FLASH) -->
+<!-- Universal theme sync -->
 <script>
 (function(){
-  try{
-    const KEY="purestill-theme";
-    const saved=localStorage.getItem(KEY);
-    const hour=new Date().getHours();
-    const mode=saved || ((hour>=19||hour<=5) ? "dark" : "light");
-    if(mode==="dark") document.documentElement.classList.add("dark");
-  }catch(e){}
+  const KEY="purestill-theme";
+  const saved=localStorage.getItem(KEY);
+  const hour=new Date().getHours();
+  let mode=saved||(hour>=19||hour<=5?"dark":"light");
+  if(mode==="dark") document.documentElement.classList.add("dark");
 })();
 </script>
 
@@ -22,7 +20,6 @@
 <meta name="description" content="{{SUMMARY}}">
 <meta name="robots" content="index, follow">
 <meta http-equiv="content-language" content="en-us">
-
 <link rel="canonical" href="{{CANONICAL_URL}}">
 
 <meta name="news_keywords" content="{{CATEGORY}}">
@@ -30,160 +27,157 @@
 <meta property="article:modified_time" content="{{DATE}}">
 
 <style>
+/* ================= THEME ================= */
 :root{
   --bg:#ffffff;
-  --text:#111111;
-  --muted:#666666;
+  --text:#111;
+  --muted:#666;
   --border:#e5e5e5;
   --link:#1a0dab;
   --card:#fafafa;
-  --accent:#1a0dab;
 }
 html.dark{
   --bg:#0e0e10;
   --text:#eaeaea;
-  --muted:#aaaaaa;
+  --muted:#aaa;
   --border:#2a2a2a;
   --link:#8ab4f8;
   --card:#16161a;
 }
 body{
   margin:0;
-  font-family:Inter,Arial,sans-serif;
+  font-family:Inter, Arial, sans-serif;
   background:var(--bg);
   color:var(--text);
   line-height:1.8;
 }
 
-/* PROGRESS BAR */
-.progress-bar{
-  position:fixed;
-  top:0;
-  left:0;
-  height:3px;
-  width:0%;
-  background:var(--accent);
-  z-index:99999;
-}
-
-/* BACK BUTTON */
-.back-btn{
-  position:fixed;
-  top:14px;
-  left:14px;
-  z-index:10000;
-  font-size:13px;
-  padding:6px 10px;
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:4px;
-  cursor:pointer;
-}
-
-/* HEADER */
+/* ================= HEADER ================= */
 header{
   text-align:center;
   padding:22px 0;
   border-bottom:1px solid var(--border);
 }
 .brand a{
-  font-family:Georgia,serif;
+  font-family:Georgia, serif;
   font-size:28px;
   font-weight:600;
   color:var(--text);
   text-decoration:none;
 }
 
-/* ARTICLE */
+/* ================= ARTICLE ================= */
 .article-wrap{
-  max-width:1000px;
+  max-width:860px;
   margin:0 auto;
-  padding:48px 20px 100px;
+  padding:52px 20px 110px;
 }
-.category{font-size:13px;color:var(--muted)}
-h1{font-family:Georgia,serif;font-size:clamp(26px,4vw,38px)}
-.subhead{font-size:18px;color:var(--muted);margin:18px 0}
-.reading-meta{font-size:13px;color:var(--muted);margin-bottom:30px}
-article{font-size:17px}
-article h2{margin-top:56px;font-family:Georgia,serif}
-article a{color:var(--accent)}
+.category{
+  font-size:13px;
+  color:var(--muted);
+  margin-bottom:10px;
+}
+h1{
+  font-family:Georgia, serif;
+  font-size:clamp(28px,4vw,40px);
+  line-height:1.25;
+}
+.subhead{
+  font-size:18px;
+  color:var(--muted);
+  margin:18px 0 28px;
+}
+.meta{
+  font-size:13px;
+  color:var(--muted);
+  margin-bottom:40px;
+}
+article{
+  font-size:18px;
+}
+article p{
+  margin-bottom:22px;
+}
+article h2{
+  font-family:Georgia, serif;
+  font-size:1.55em;
+  margin:60px 0 22px;
+}
+article a{
+  color:var(--link);
+  text-decoration:underline;
+}
 
-/* SOURCE */
-.source{margin-top:40px;font-size:14px;color:var(--muted)}
+/* ================= SOURCE ================= */
+.source{
+  margin-top:48px;
+  font-size:14px;
+  color:var(--muted);
+}
 .sources a{
   display:inline-flex;
   align-items:center;
   gap:6px;
-  margin-right:12px;
-  color:var(--accent);
+  margin-right:14px;
+  color:var(--link);
   text-decoration:none;
 }
-.sources img{width:16px;height:16px;border-radius:2px}
-
-/* COMMENTS */
-.comments{
-  margin-top:80px;
-  border-top:1px solid var(--border);
-  padding-top:30px;
+.sources img{
+  width:16px;
+  height:16px;
+  border-radius:2px;
 }
-.comments textarea{
-  width:100%;
-  min-height:90px;
-  padding:10px;
-  border:1px solid var(--border);
-  background:var(--card);
+
+/* ================= ADS ================= */
+.ad{
+  margin:56px 0;
+}
+
+/* ================= RELATED ================= */
+.related{
+  margin-top:90px;
+  padding-top:40px;
+  border-top:1px solid var(--border);
+}
+.related h2{
+  font-family:Georgia, serif;
+  font-size:22px;
+  margin-bottom:26px;
+}
+.related ul{
+  padding-left:18px;
+}
+.related li{
+  margin-bottom:12px;
+}
+.related a{
   color:var(--text);
+  text-decoration:none;
 }
-.comments button{
-  margin-top:10px;
-  padding:8px 14px;
-  border:1px solid var(--border);
-  background:var(--card);
-  cursor:not-allowed;
+.related a:hover{
+  text-decoration:underline;
 }
 
-/* SUBSCRIBE */
-.subscribe{
-  margin-top:60px;
-  padding:20px;
-  border:1px solid var(--border);
-  background:var(--card);
-}
-.subscribe input{
-  padding:8px;
-  width:100%;
-  max-width:320px;
-  border:1px solid var(--border);
-}
-
-/* FOOTER */
+/* ================= FOOTER ================= */
 footer{
-  margin-top:100px;
-  border-top:1px solid var(--border);
+  margin-top:110px;
   padding-top:30px;
+  border-top:1px solid var(--border);
   font-size:14px;
   color:var(--muted);
 }
-.footer-links a{
+footer a{
   margin-right:14px;
   color:var(--muted);
   text-decoration:none;
 }
-.footer-links a:hover{text-decoration:underline}
-.footer-note{
-  max-width:800px;
-  font-size:13px;
-  line-height:1.6;
-  margin-top:10px;
+footer a:hover{
+  text-decoration:underline;
 }
 </style>
 </head>
 
 <body>
-
-<div class="progress-bar" id="progressBar"></div>
-
-<div class="back-btn" onclick="goBack()">← Back</div>
 
 <header>
   <div class="brand"><a href="/">PureStill</a></div>
@@ -191,15 +185,19 @@ footer{
 
 <main class="article-wrap">
 
-<div class="category" id="cat">{{CATEGORY}}</div>
+<div class="category">{{CATEGORY}}</div>
+
 <h1>{{TITLE}}</h1>
+
 <div class="subhead">{{SUMMARY}}</div>
 
-<div class="reading-meta">
-  <span id="readingTime"></span> · <span id="readingLevel"></span>
+<div class="meta">
+  Published {{DATE}}
 </div>
 
-<article>{{CONTENT}}</article>
+<article>
+{{CONTENT}}
+</article>
 
 <div class="source" id="sourceBlock">
   <strong>Source:</strong>
@@ -211,73 +209,29 @@ footer{
 
 <section class="related">
   <h2>Related Analysis</h2>
-  <ul>{{RELATED_LINKS}}</ul>
-</section>
-
-<section class="comments">
-  <h2>Reader Feedback</h2>
-  <p>Your comments help improve our analysis. Please keep feedback respectful.</p>
-  <textarea placeholder="Share your thoughts…" aria-label="Comment text"></textarea>
-  <button disabled>Submit (coming soon)</button>
-</section>
-
-<section class="subscribe">
-  <strong>Get new analysis updates</strong><br>
-  Receive occasional summaries. No spam.
-  <br><br>
-  <input type="email" placeholder="Your email address" aria-label="Email address" disabled>
+  <ul>
+    {{RELATED_LINKS}}
+  </ul>
 </section>
 
 <footer>
-  <div class="footer-links">
-    <a href="/about.html">About</a>
-    <a href="/contact.html">Contact</a>
-    <a href="/privacy-policy.html">Privacy</a>
-    <a href="/terms.html">Terms</a>
-    <a href="/disclaimer.html">Disclaimer</a>
-  </div>
-
-  <div class="footer-note">
-    PureStill is an independent analysis platform that summarizes and contextualizes
-    publicly available information related to business, technology, and economic developments.
-    Content is provided for general informational purposes only.
-  </div>
-
-  <div class="footer-note">© PureStill</div>
+  <a href="/about.html">About</a>
+  <a href="/privacy-policy.html">Privacy</a>
+  <a href="/terms.html">Terms</a>
+  <a href="/disclaimer.html">Disclaimer</a>
+  <a href="/contact.html">Contact</a><br><br>
+  © PureStill
 </footer>
 
 </main>
 
 <script>
-/* BACK */
-function goBack(){
-  try{
-    if(history.length>1){history.back()}
-    else{location.href="/"}
-  }catch(e){location.href="/"}
-}
-
-/* READING META (SAFE) */
-(function(){
-  try{
-    const text=document.querySelector("article").innerText||"";
-    const words=text.trim().split(/\s+/).length;
-    document.getElementById("readingTime").textContent=
-      Math.max(1,Math.round(words/200))+" min read";
-    document.getElementById("readingLevel").textContent=
-      words<600?"Easy":words<1200?"Medium":"Advanced";
-  }catch(e){}
-})();
-
-/* SOURCE HANDLING (SAFE) */
-(function(){
-  const wrap=document.querySelector(".sources");
-  const raw=wrap?.dataset?.sources;
-  if(!raw){
-    const sb=document.getElementById("sourceBlock");
-    if(sb) sb.style.display="none";
-    return;
-  }
+/* Source name + favicon (safe attribution) */
+const wrap=document.querySelector(".sources");
+const raw=wrap?.dataset.sources;
+if(!raw){
+  document.getElementById("sourceBlock").style.display="none";
+}else{
   raw.split(",").forEach(u=>{
     try{
       const url=new URL(u.trim());
@@ -286,24 +240,11 @@ function goBack(){
       a.href=url;
       a.target="_blank";
       a.rel="nofollow noopener";
-      a.innerHTML=
-        `<img src="https://www.google.com/s2/favicons?domain=${host}&sz=32" alt="">
-         ${host.split(".")[0]}`;
+      a.innerHTML=`<img src="https://www.google.com/s2/favicons?domain=${host}&sz=32">${host}`;
       wrap.appendChild(a);
     }catch(e){}
   });
-})();
-
-/* PROGRESS BAR */
-(function(){
-  const bar=document.getElementById("progressBar");
-  if(!bar) return;
-  window.addEventListener("scroll",()=>{
-    const d=document.documentElement;
-    const sc=(d.scrollTop)/(d.scrollHeight-d.clientHeight)*100;
-    bar.style.width=sc+"%";
-  });
-})();
+}
 </script>
 
 </body>
