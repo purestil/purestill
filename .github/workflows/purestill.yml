@@ -1,0 +1,20 @@
+name: PureStill Automation
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+    - cron: "0 * * * *"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - run: python generators/fetch_breaking.py
+      - run: python generators/fetch_hourly.py
+      - run: python generators/breaking_writer.py
+      - run: python generators/hourly_writer.py
+      - run: python generate_pages.py
