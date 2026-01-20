@@ -8,7 +8,7 @@ BASE_URL = "https://purestill.pages.dev"
 SITE_DIR = "site"
 ARTICLES_DIR = os.path.join(SITE_DIR, "articles")
 
-# 🔥 BREAKING WINDOW (HOURS)
+# 🔥 Breaking window (hours)
 BREAKING_WINDOW_HOURS = 12
 
 os.makedirs(ARTICLES_DIR, exist_ok=True)
@@ -68,19 +68,16 @@ def final_score(article):
 def auto_expand_article(title, summary, category):
     return f"""
 <h2>Context</h2>
-<p>{summary} This development reflects broader trends shaping the {category.lower()} landscape in the United States.</p>
+<p>{summary} This development reflects broader trends shaping the {category.lower()} landscape.</p>
 
 <h2>Background</h2>
 <p>Recent months have seen gradual shifts influenced by economic conditions, policy expectations, and institutional responses.</p>
 
 <h2>Key Developments</h2>
-<p>Available information suggests a measured approach, with emphasis on data-driven assessment rather than abrupt changes.</p>
+<p>Available information suggests a measured approach, with emphasis on data-driven assessment.</p>
 
 <h2>Why This Matters</h2>
-<p>Even incremental signals can influence financial markets, borrowing costs, and broader economic confidence.</p>
-
-<h2>Implications</h2>
-<p>The outcome of these trends will shape growth expectations and longer-term stability.</p>
+<p>Even incremental signals can influence markets, public confidence, and long-term outcomes.</p>
 
 <h2>What to Watch Next</h2>
 <p>Upcoming data releases and official statements will provide further clarity.</p>
@@ -100,14 +97,16 @@ for item in raw_data:
     source = safe(item, "SOURCE", "source")
     date = safe(item, "DATE", "date", default=NOW.isoformat())
 
-    content = raw_content if raw_content.strip() else auto_expand_article(title, summary, category)
+    content = raw_content.strip() if raw_content and raw_content.strip() else auto_expand_article(
+        title, summary, category
+    )
 
     slug = slugify(title)
     canonical = f"{BASE_URL}/articles/{slug}.html"
 
     age = hours_old(date)
 
-    # ✅ BREAKING LOGIC (EXPLICIT FLAG OR TIME WINDOW)
+    # 🔴 BREAKING LOGIC
     is_breaking = (
         item.get("IS_BREAKING", False) is True
         or age <= BREAKING_WINDOW_HOURS
@@ -157,24 +156,25 @@ def render_card(a):
     """
 
 def render_live(a):
-    hours = int(a["age_hours"])
+    minutes = int(a["age_hours"] * 60)
+    label = f"{minutes}m ago" if minutes < 60 else f"{int(a['age_hours'])}h ago"
     return f"""
     <div class="live-item">
       <span class="live-badge">LIVE</span>
       <a href="/articles/{a['slug']}.html">{a['title']}</a>
-      <small class="live-age">{hours}h ago</small>
+      <small class="live-age">{label}</small>
     </div>
     """
 
 # ================= HOMEPAGE BUILD =================
 used = set()
 
-# 🔴 LIVE BREAKING
+# 🔴 LIVE BREAKING (TOP, UNLIMITED)
 live = [a for a in articles if a["is_breaking"]]
 live.sort(key=lambda x: x["age_hours"])
 
 if live:
-    live_html = "".join(render_live(a) for a in live)
+    live_html = "".join(render_live(a) for a in live[:20])
 else:
     live_html = """
     <div class="live-empty">
@@ -184,12 +184,12 @@ else:
 
 used.update(a["slug"] for a in live)
 
-# 🔵 TRENDING
+# 🔵 TRENDING NOW (HOURLY BEST)
 remaining = [a for a in articles if a["slug"] not in used]
 trending = sorted(remaining, key=lambda x: x["final_score"], reverse=True)[:6]
 used.update(a["slug"] for a in trending)
 
-# 🟢 TOP
+# 🟢 TOP STORIES (RPM + SCORE)
 remaining = [a for a in remaining if a["slug"] not in used]
 top = sorted(remaining, key=lambda x: x["final_score"], reverse=True)[:6]
 used.update(a["slug"] for a in top)
@@ -205,6 +205,7 @@ older = [a for a in articles if a["slug"] not in used][:6]
 # ⭐ FEATURED
 featured = max(articles, key=lambda x: x["final_score"])
 
+# ================= RENDER INDEX =================
 index_html = INDEX_TEMPLATE
 index_html = index_html.replace("{{LIVE_BREAKING}}", live_html)
 index_html = index_html.replace("{{TRENDING_ARTICLES}}", "".join(render_card(a) for a in trending))
