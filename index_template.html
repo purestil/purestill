@@ -16,9 +16,8 @@
 <title>PureStill | Independent Global Analysis</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Independent analysis of business, technology, and economic developments.">
+<meta name="description" content="Independent analysis of global business, technology, policy, and economic developments.">
 <meta name="robots" content="index, follow">
-
 <link rel="canonical" href="https://purestill.pages.dev/">
 
 <style>
@@ -30,31 +29,123 @@ html.dark{
   --bg:#0e0e10;--text:#eaeaea;--muted:#aaa;
   --border:#2a2a2a;--link:#8ab4f8;--card:#16161a;
 }
-body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text)}
+body{
+  margin:0;
+  font-family:Inter,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.65;
+}
 
-header{text-align:center;padding:28px 0;border-bottom:1px solid var(--border)}
-.brand{font-family:Georgia,serif;font-size:34px;font-weight:600}
-nav{margin-top:14px;font-size:14px}
-nav a{margin:0 10px;color:var(--muted);text-decoration:none}
+header{
+  text-align:center;
+  padding:28px 0;
+  border-bottom:1px solid var(--border)
+}
+.brand{
+  font-family:Georgia,serif;
+  font-size:34px;
+  font-weight:600
+}
+nav{
+  margin-top:14px;
+  font-size:14px
+}
+nav a{
+  margin:0 10px;
+  color:var(--muted);
+  text-decoration:none
+}
 
-.container{max-width:1200px;margin:0 auto;padding:56px 20px 100px}
+.container{
+  max-width:1200px;
+  margin:0 auto;
+  padding:56px 20px 120px
+}
 
-.section{margin-top:80px}
-.section h2{font-family:Georgia,serif;font-size:26px;margin-bottom:32px}
+.section{
+  margin-top:80px
+}
+.section h2{
+  font-family:Georgia,serif;
+  font-size:26px;
+  margin-bottom:28px
+}
+.section-note{
+  font-size:14px;
+  color:var(--muted);
+  margin-top:-16px;
+  margin-bottom:28px;
+}
 
-.card-grid{display:grid;gap:32px}
-@media(min-width:1024px){.card-grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:1023px){.card-grid{grid-template-columns:1fr}}
+/* ===== CARD GRID ===== */
+.card-grid{
+  display:grid;
+  gap:32px
+}
+@media(min-width:1024px){
+  .card-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:1023px){
+  .card-grid{grid-template-columns:1fr}
+}
 
-.card{border:1px solid var(--border);background:var(--card);padding:24px}
-.card h3{font-family:Georgia,serif;font-size:20px;margin:0 0 10px}
-.card p{font-size:16px;color:var(--muted)}
+.card{
+  border:1px solid var(--border);
+  background:var(--card);
+  padding:24px
+}
+.card h3{
+  font-family:Georgia,serif;
+  font-size:20px;
+  margin:0 0 10px
+}
+.card p{
+  font-size:16px;
+  color:var(--muted)
+}
+.read-more a{
+  color:var(--accent);
+  text-decoration:underline
+}
 
-.read-more a{color:var(--accent);text-decoration:underline}
+/* ===== LIVE BREAKING ===== */
+.live-breaking{
+  border-left:4px solid #d93025;
+  padding-left:20px
+}
+.live-item{
+  padding:14px 0;
+  border-bottom:1px dashed var(--border)
+}
+.live-item:last-child{border-bottom:none}
+.live-badge{
+  display:inline-block;
+  font-size:12px;
+  color:#d93025;
+  font-weight:600;
+  margin-right:8px
+}
 
-footer{margin-top:120px;border-top:1px solid var(--border);padding-top:40px;font-size:14px;color:var(--muted)}
-.footer-links a{margin-right:14px;color:var(--muted);text-decoration:none}
-.footer-note{max-width:900px;font-size:13px;line-height:1.6;margin-top:12px}
+/* ===== FOOTER ===== */
+footer{
+  margin-top:120px;
+  border-top:1px solid var(--border);
+  padding-top:40px;
+  font-size:14px;
+  color:var(--muted)
+}
+.footer-links a{
+  margin-right:14px;
+  color:var(--muted);
+  text-decoration:none
+}
+.footer-note{
+  max-width:900px;
+  font-size:13px;
+  line-height:1.6;
+  margin-top:12px
+}
 </style>
 </head>
 
@@ -73,11 +164,40 @@ footer{margin-top:120px;border-top:1px solid var(--border);padding-top:40px;font
 
 <main class="container">
 
+<!-- 🔴 LIVE BREAKING NEWS -->
+<section class="section">
+  <h2>Live Breaking</h2>
+  <div class="section-note">Real-time global developments as they happen</div>
+  <div class="live-breaking">
+    {{LIVE_BREAKING}}
+  </div>
+</section>
+
+<!-- 🔥 TRENDING NOW -->
+<section class="section">
+  <h2>Trending Now</h2>
+  <div class="section-note">Most discussed global topics this hour</div>
+  <div class="card-grid">
+    {{TRENDING_ARTICLES}}
+  </div>
+</section>
+
+<!-- 💎 HIGH RPM / TOP STORIES -->
+<section class="section">
+  <h2>Top Stories</h2>
+  <div class="section-note">High-impact analysis with global relevance</div>
+  <div class="card-grid">
+    {{TOP_ARTICLES}}
+  </div>
+</section>
+
+<!-- ⭐ FEATURED -->
 <section class="section">
   <h2>Featured Analysis</h2>
   {{FEATURED_ARTICLE}}
 </section>
 
+<!-- 📰 RECENT -->
 <section class="section">
   <h2>Recent Analysis</h2>
   <div class="card-grid">
@@ -85,13 +205,7 @@ footer{margin-top:120px;border-top:1px solid var(--border);padding-top:40px;font
   </div>
 </section>
 
-<section class="section">
-  <h2>Top Articles</h2>
-  <div class="card-grid">
-    {{TOP_ARTICLES}}
-  </div>
-</section>
-
+<!-- 🗂️ OLDER -->
 <section class="section">
   <h2>Earlier Analysis</h2>
   <div class="card-grid">
