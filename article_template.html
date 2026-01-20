@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 
-<!-- ✅ PURESTILL UNIVERSAL THEME -->
+<!-- PURESTILL UNIVERSAL THEME -->
 <script>
 (function(){
   const KEY="purestill-theme";
   const saved=localStorage.getItem(KEY);
   const hour=new Date().getHours();
-  let mode=saved||((hour>=19||hour<=5)?"dark":"light");
+  let mode=saved||(hour>=19||hour<=5?"dark":"light");
   if(mode==="dark") document.documentElement.classList.add("dark");
 })();
 </script>
@@ -28,98 +28,69 @@
 
 <style>
 :root{
-  --bg:#ffffff; --text:#111; --muted:#666; --border:#e5e5e5;
-  --link:#1a0dab; --card:#fafafa; --accent:#1a0dab;
+  --bg:#fff;--text:#111;--muted:#666;--border:#e5e5e5;
+  --link:#1a0dab;--card:#fafafa;--accent:#1a0dab;
 }
 html.dark{
-  --bg:#0e0e10; --text:#eaeaea; --muted:#aaa;
-  --border:#2a2a2a; --link:#8ab4f8; --card:#16161a;
+  --bg:#0e0e10;--text:#eaeaea;--muted:#aaa;
+  --border:#2a2a2a;--link:#8ab4f8;--card:#16161a;
 }
 body{
-  margin:0; font-family:Inter, Arial, sans-serif;
-  background:var(--bg); color:var(--text); line-height:1.8;
+  margin:0;font-family:Inter,Arial,sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.8;
 }
-header{
-  text-align:center; padding:22px 0; border-bottom:1px solid var(--border);
-}
-.brand a{
-  font-family:Georgia, serif; font-size:28px; font-weight:600;
-  color:var(--text); text-decoration:none;
-}
-.back-btn{
-  position:fixed; top:14px; left:14px;
-  background:var(--card); border:1px solid var(--border);
-  padding:6px 10px; font-size:13px; cursor:pointer; z-index:10000;
-}
-.article-wrap{
-  max-width:1000px; margin:0 auto; padding:48px 20px 120px;
-}
-.category{ font-size:13px; color:var(--muted); }
-h1{ font-family:Georgia, serif; font-size:clamp(26px,4vw,38px); }
-.subhead{ font-size:18px; color:var(--muted); margin:18px 0; }
-.reading-meta{ font-size:13px; color:var(--muted); margin-bottom:30px; }
-article{ font-size:17px; }
-article h2{ margin-top:56px; font-family:Georgia, serif; }
-article a{ color:var(--accent); }
+header{text-align:center;padding:22px 0;border-bottom:1px solid var(--border);}
+.brand a{font-family:Georgia,serif;font-size:28px;font-weight:600;color:var(--text);text-decoration:none;}
+.article-wrap{max-width:1000px;margin:0 auto;padding:48px 20px 100px;}
+.category{font-size:13px;color:var(--muted);}
+h1{font-family:Georgia,serif;font-size:clamp(26px,4vw,38px);}
+.subhead{font-size:18px;color:var(--muted);margin:18px 0;}
+.reading-meta{font-size:13px;color:var(--muted);margin-bottom:30px;}
+article{font-size:17px;}
+article h2{margin-top:56px;font-family:Georgia,serif;}
+article a{color:var(--accent);}
 
-/* ===== SOURCE ===== */
-.source{
-  margin-top:40px; font-size:14px; color:var(--muted);
-}
+/* SOURCE */
+.source{margin-top:40px;font-size:14px;color:var(--muted);}
 .sources a{
-  display:inline-flex; align-items:center; gap:6px;
-  margin-right:14px; color:var(--accent); text-decoration:none;
+  display:inline-flex;align-items:center;gap:6px;
+  margin-right:12px;color:var(--accent);text-decoration:none;
 }
-.sources img{ width:16px; height:16px; border-radius:2px; }
+.sources img{width:16px;height:16px;border-radius:2px}
 
-/* ===== COMMENTS ===== */
-.comments{
-  margin-top:80px; border-top:1px solid var(--border); padding-top:30px;
-}
+/* COMMENTS */
+.comments{margin-top:80px;border-top:1px solid var(--border);padding-top:30px;}
 .comments textarea{
-  width:100%; min-height:90px; padding:10px;
-  font-family:inherit; font-size:14px;
-  border:1px solid var(--border); background:var(--card);
-  color:var(--text);
+  width:100%;min-height:90px;padding:10px;
+  border:1px solid var(--border);background:var(--card);color:var(--text);
 }
 .comments button{
-  margin-top:10px; padding:8px 14px;
-  border:1px solid var(--border); background:var(--card);
-  cursor:pointer;
+  margin-top:10px;padding:8px 14px;
+  border:1px solid var(--border);background:var(--card);cursor:pointer;
 }
-.comments-note{ font-size:13px; color:var(--muted); margin-top:8px; }
 
-/* ===== SUBSCRIBE ===== */
+/* SUBSCRIBE */
 .subscribe{
-  margin-top:60px; padding:20px;
-  border:1px solid var(--border); background:var(--card);
+  margin-top:60px;padding:20px;border:1px solid var(--border);
+  background:var(--card);
 }
 .subscribe input{
-  width:100%; padding:10px; margin-top:10px;
-  border:1px solid var(--border);
-}
-.subscribe button{
-  margin-top:10px; padding:8px 14px;
-  border:1px solid var(--border); background:var(--bg);
-  cursor:pointer;
+  padding:8px;width:100%;max-width:320px;
+  border:1px solid var(--border);background:#fff;
 }
 
-/* ===== FOOTER ===== */
+/* FOOTER */
 footer{
-  margin-top:100px; border-top:1px solid var(--border);
-  padding-top:30px; font-size:14px; color:var(--muted);
+  margin-top:100px;border-top:1px solid var(--border);
+  padding-top:30px;font-size:14px;color:var(--muted);
 }
-.footer-links a{
-  margin-right:14px; color:var(--muted); text-decoration:none;
-}
-.footer-links a:hover{ text-decoration:underline; }
-.footer-note{ max-width:800px; font-size:13px; line-height:1.6; }
+.footer-links a{margin-right:14px;color:var(--muted);text-decoration:none;}
+.footer-links a:hover{text-decoration:underline;}
+.footer-note{max-width:800px;font-size:13px;line-height:1.6;margin-top:10px;}
 </style>
 </head>
 
 <body>
-
-<div class="back-btn" onclick="goBack()">← Back</div>
 
 <header>
   <div class="brand"><a href="/">PureStill</a></div>
@@ -137,7 +108,7 @@ footer{
 
 <article>{{CONTENT}}</article>
 
-<!-- ===== SOURCE BLOCK ===== -->
+<!-- SOURCE -->
 <div class="source" id="sourceBlock">
   <strong>Source:</strong>
   <span class="sources" data-sources="{{SOURCE}}"></span>
@@ -146,23 +117,26 @@ footer{
 {{AD_MID}}
 {{AD_BOTTOM}}
 
-<!-- ===== SUBSCRIBE ===== -->
-<div class="subscribe">
-  <strong>Get new analysis updates</strong>
-  <p class="comments-note">Occasional emails. No spam.</p>
-  <input type="email" placeholder="Your email address">
-  <button disabled>Subscribe (coming soon)</button>
-</div>
+<section class="related">
+  <h2>Related Analysis</h2>
+  <ul>{{RELATED_LINKS}}</ul>
+</section>
 
-<!-- ===== COMMENTS ===== -->
-<div class="comments">
-  <h2>Comments</h2>
-  <textarea placeholder="Share your thoughts (comments are moderated)"></textarea>
-  <button disabled>Post comment</button>
-  <div class="comments-note">
-    Comments are moderated for quality and relevance. No promotional content.
-  </div>
-</div>
+<!-- COMMENTS -->
+<section class="comments">
+  <h2>Reader Feedback</h2>
+  <p>Your comments help improve our analysis. Please keep feedback respectful.</p>
+  <textarea placeholder="Share your thoughts…"></textarea>
+  <button disabled>Submit (coming soon)</button>
+</section>
+
+<!-- SUBSCRIBE -->
+<section class="subscribe">
+  <strong>Get new analysis updates</strong><br>
+  Receive occasional summaries. No spam.
+  <br><br>
+  <input type="email" placeholder="Your email address" disabled>
+</section>
 
 <footer>
   <div class="footer-links">
@@ -172,61 +146,50 @@ footer{
     <a href="/terms.html">Terms</a>
     <a href="/disclaimer.html">Disclaimer</a>
   </div>
+
   <div class="footer-note">
     PureStill is an independent analysis platform that summarizes and contextualizes
     publicly available information related to business, technology, and economic developments.
-    Content is provided for general informational purposes only.
+    Content is provided for general informational purposes only and does not constitute
+    professional advice.
   </div>
-  <div class="footer-note" style="margin-top:8px;">© PureStill</div>
+
+  <div class="footer-note">© PureStill</div>
 </footer>
 
 </main>
 
-<script>
-/* ===== BACK ===== */
-function goBack(){ history.length>1 ? history.back() : location.href="/"; }
+<!-- AUTO COPYRIGHT-FREE AMBIENT AUDIO -->
+<audio id="ambient" loop muted autoplay>
+  <source src="https://cdn.pixabay.com/audio/2022/10/03/audio_4e0e3f1e7c.mp3" type="audio/mpeg">
+</audio>
 
-/* ===== READING META ===== */
+<script>
+/* Reading time */
 const words=document.querySelector("article").innerText.split(/\s+/).length;
 readingTime.innerText=Math.max(1,Math.round(words/200))+" min read";
 readingLevel.innerText=words<600?"Easy":words<1200?"Medium":"Advanced";
 
-/* ===== SOURCE LOGIC (GOOGLE FAVICON SAFE) ===== */
+/* Source handling */
 const wrap=document.querySelector(".sources");
-const raw=wrap?.dataset.sources;
-if(!raw){ sourceBlock.style.display="none"; }
-else{
-  raw.split(",").forEach(url=>{
-    try{
-      const u=new URL(url.trim());
-      const host=u.hostname.replace("www.","");
-      const name=host.split(".")[0].replace(/^\w/,c=>c.toUpperCase());
-      const a=document.createElement("a");
-      a.href=url; a.target="_blank"; a.rel="nofollow noopener";
-      a.innerHTML=`<img src="https://www.google.com/s2/favicons?domain=${host}&sz=32">${name}`;
-      wrap.appendChild(a);
-    }catch(e){}
-  });
-}
-
-/* ===== AUTO AMBIENT SOUND (COPYRIGHT FREE) ===== */
-let ctx,osc,gain;
-function startAmbient(){
-  ctx=new (window.AudioContext||window.webkitAudioContext)();
-  osc=ctx.createOscillator(); gain=ctx.createGain();
-  const map={ economy:90, markets:80, technology:130, policy:70 };
-  const cat=document.getElementById("cat").innerText.toLowerCase();
-  osc.frequency.value=map[cat]||100;
-  gain.gain.value=0.015;
-  osc.connect(gain); gain.connect(ctx.destination); osc.start();
-}
-document.addEventListener("click",()=>{
-  if(!ctx){ startAmbient(); }
-},{ once:true });
-document.addEventListener("visibilitychange",()=>{
-  if(document.hidden && ctx){ ctx.suspend(); }
-  else if(ctx){ ctx.resume(); }
+const raw=wrap.dataset.sources;
+if(!raw){sourceBlock.style.display="none";}
+else raw.split(",").forEach(u=>{
+  try{
+    const url=new URL(u.trim());
+    const host=url.hostname.replace("www.","");
+    const a=document.createElement("a");
+    a.href=url;a.target="_blank";a.rel="nofollow noopener";
+    a.innerHTML=`<img src="https://www.google.com/s2/favicons?domain=${host}&sz=32">${host.split(".")[0]}`;
+    wrap.appendChild(a);
+  }catch(e){}
 });
+
+/* Enable music on first click (policy safe) */
+document.addEventListener("click",()=>{
+  const a=document.getElementById("ambient");
+  if(a.muted){a.muted=false;a.volume=0.04;}
+},{once:true});
 </script>
 
 </body>
