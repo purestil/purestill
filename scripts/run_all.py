@@ -16,5 +16,6 @@ def run(script):
 run("scripts/live_engine.py")
 run("scripts/trust_signal.py")
 run("scripts/discover_signal.py")
+run("generators/build_articles.py")
 
 print("\n✅ All PureStill engines completed successfully")
