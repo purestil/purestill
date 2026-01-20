@@ -1,35 +1,68 @@
-print("🧹 Starting PureStill data normalization…")
+print("🔧 Normalizing PureStill data.json…")
 
-import json, os, hashlib
+import json
+import hashlib
 from datetime import datetime, timezone, timedelta
 
 DATA_FILE = "data.json"
-OUTPUT_FILE = "data.json"   # in-place normalization
-SIGNALS_DIR = "signals"
-
-os.makedirs(SIGNALS_DIR, exist_ok=True)
 
 NOW = datetime.now(timezone.utc)
 
-# ===================== SCHEMA DEFAULTS =====================
-DEFAULT_ITEM = {
-    "TITLE": "",
-    "SUMMARY": "",
-    "CONTENT": "",
-    "CATEGORY": "General",
-    "DATE": "",
-    "SOURCE": "",
-    "IS_BREAKING": False,
-    "PUBLISH_GROUP": "normal",
-    "COUNTRY": "GLOBAL",
-    "VISIBILITY": "public",
-    "WORD_COUNT": 0,
-    "CANONICAL_READY": True
+# =========================
+# CONFIG (LOCKED RULES)
+# =========================
+
+BREAKING_TTL_HOURS = 2          # auto demote breaking after 2h
+MAX_BREAKING_ALLOWED = 3        # safety guard
+DEFAULT_COUNTRY = "GLOBAL"
+
+CATEGORY_MAP = {
+    "policy": "Policy",
+    "politics": "Policy",
+    "government": "Policy",
+    "economy": "Economy",
+    "business": "Business",
+    "technology": "Technology",
+    "tech": "Technology",
+    "ai": "AI",
+    "sports": "Sports"
 }
 
-# ===================== LOAD DATA =====================
-if not os.path.exists(DATA_FILE):
-    raise Exception("❌ data.json not found")
+# =========================
+# HELPERS
+# =========================
+
+def iso(dt):
+    return dt.replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+def normalize_date(d):
+    try:
+        dt = datetime.fromisoformat(d.replace("Z", "+00:00"))
+        if not dt.tzinfo:
+            dt = dt.replace(tzinfo=timezone.utc)
+        return iso(dt)
+    except:
+        return iso(NOW)
+
+def normalize_category(cat):
+    if not cat:
+        return "General"
+    key = str(cat).lower().strip()
+    return CATEGORY_MAP.get(key, cat.title())
+
+def fingerprint(title):
+    return hashlib.md5(title.lower().encode()).hexdigest()
+
+def default_headlines(title):
+    return [
+        title,
+        f"{title}: what it means",
+        f"Explained: {title}"
+    ]
+
+# =========================
+# LOAD DATA
+# =========================
 
 with open(DATA_FILE, encoding="utf-8") as f:
     raw = json.load(f)
@@ -37,113 +70,77 @@ with open(DATA_FILE, encoding="utf-8") as f:
 if not isinstance(raw, list):
     raise Exception("❌ data.json must be a list")
 
-# ===================== HELPERS =====================
-def iso_now():
-    return NOW.isoformat()
-
-def parse_date(d):
-    try:
-        return datetime.fromisoformat(str(d).replace("Z", "+00:00"))
-    except Exception:
-        return NOW
-
-def hours_old(d):
-    return (NOW - parse_date(d)).total_seconds() / 3600
-
-def guess_country(title, source):
-    s = f"{title} {source}".lower()
-    if any(k in s for k in ["u.s.", "us ", "america", "federal", "wall street"]):
-        return "US"
-    if any(k in s for k in ["uk ", "britain", "london"]):
-        return "UK"
-    if any(k in s for k in ["canada", "toronto"]):
-        return "CA"
-    if any(k in s for k in ["india", "delhi", "mumbai"]):
-        return "IN"
-    return "GLOBAL"
-
-def normalize_category(c):
-    c = str(c).strip().title()
-    allowed = {
-        "Policy","Economy","Business","Technology","AI",
-        "Sports","General"
-    }
-    return c if c in allowed else "General"
-
-def word_count(text):
-    return len(text.split()) if isinstance(text, str) else 0
-
-def uid_for(item):
-    key = f"{item.get('TITLE','')}{item.get('SOURCE','')}"
-    return hashlib.md5(key.encode()).hexdigest()
-
-# ===================== NORMALIZATION =====================
 normalized = []
-seen_ids = set()
-demoted = 0
-fixed = 0
+seen = set()
+breaking_count = 0
+
+# =========================
+# NORMALIZE EACH ITEM
+# =========================
 
 for item in raw:
-    if not isinstance(item, dict):
+    title = item.get("TITLE") or item.get("title")
+    if not title:
         continue
 
-    n = DEFAULT_ITEM.copy()
+    fid = fingerprint(title)
+    if fid in seen:
+        continue
+    seen.add(fid)
 
-    # --- map legacy keys ---
-    n["TITLE"]   = item.get("TITLE") or item.get("title","").strip()
-    n["SUMMARY"] = item.get("SUMMARY") or item.get("summary","").strip()
-    n["CONTENT"] = item.get("CONTENT") or item.get("content","").strip()
-    n["SOURCE"]  = item.get("SOURCE") or item.get("source","").strip()
-    n["CATEGORY"]= normalize_category(item.get("CATEGORY") or item.get("category","General"))
-    n["DATE"]    = item.get("DATE") or item.get("date") or iso_now()
+    date_raw = item.get("DATE") or item.get("date") or iso(NOW)
+    date = normalize_date(date_raw)
 
-    # --- breaking logic (STRICT) ---
-    is_breaking = bool(item.get("IS_BREAKING") is True)
-    age = hours_old(n["DATE"])
+    age_hours = (NOW - datetime.fromisoformat(date.replace("Z","+00:00"))).total_seconds() / 3600
 
-    if is_breaking and age > 2:
+    is_breaking = bool(item.get("IS_BREAKING", False))
+
+    # 🔴 AUTO DEMOTION
+    if is_breaking and age_hours > BREAKING_TTL_HOURS:
         is_breaking = False
-        demoted += 1
 
-    n["IS_BREAKING"] = is_breaking
-    n["PUBLISH_GROUP"] = "breaking" if is_breaking else "normal"
+    # 🔴 HARD BREAKING CAP
+    if is_breaking:
+        if breaking_count >= MAX_BREAKING_ALLOWED:
+            is_breaking = False
+        else:
+            breaking_count += 1
 
-    # --- country ---
-    n["COUNTRY"] = item.get("COUNTRY") or guess_country(n["TITLE"], n["SOURCE"])
+    category = normalize_category(
+        item.get("CATEGORY") or item.get("category")
+    )
 
-    # --- content checks ---
-    wc = word_count(n["CONTENT"])
-    n["WORD_COUNT"] = wc
+    entry = {
+        "TITLE": title.strip(),
+        "SUMMARY": item.get("SUMMARY") or item.get("summary") or "",
+        "CONTENT": item.get("CONTENT") or item.get("content") or "",
+        "CATEGORY": category,
+        "DATE": date,
+        "SOURCE": item.get("SOURCE") or item.get("source") or "",
 
-    if wc > 0 and wc < 250:
-        # weak content → hide from homepage
-        n["VISIBILITY"] = "internal"
+        # 🔐 REQUIRED SYSTEM FIELDS
+        "COUNTRY": item.get("COUNTRY", DEFAULT_COUNTRY),
+        "IS_BREAKING": is_breaking,
+        "PUBLISH_GROUP": (
+            "breaking" if is_breaking else item.get("PUBLISH_GROUP", "normal")
+        ),
 
-    # --- de-duplication ---
-    uid = uid_for(n)
-    if uid in seen_ids:
-        continue
-    seen_ids.add(uid)
+        # 🧠 DISCOVER / HEADLINE SYSTEM
+        "HEADLINE_VARIANTS": item.get("HEADLINE_VARIANTS") or default_headlines(title),
+        "HEADLINE_ACTIVE": int(item.get("HEADLINE_ACTIVE", 0)),
+        "DISCOVER_SIGNAL": int(item.get("DISCOVER_SIGNAL", 0)),
+        "VISIBILITY": item.get("VISIBILITY", "normal")
+    }
 
-    normalized.append(n)
-    fixed += 1
+    normalized.append(entry)
 
-# ===================== SAVE =====================
-with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-    json.dump(normalized, f, indent=2, ensure_ascii=False)
+# =========================
+# SAVE BACK (AUTHORITATIVE)
+# =========================
 
-# ===================== TRUST SIGNAL EMIT =====================
-trust = {
-    "normalized": True,
-    "items_total": len(normalized),
-    "breaking_demoted": demoted,
-    "weak_content_hidden": len([i for i in normalized if i["VISIBILITY"]!="public"]),
-    "last_run": iso_now()
-}
+with open(DATA_FILE, "w", encoding="utf-8") as f:
+    json.dump(normalized, f, indent=2)
 
-with open(os.path.join(SIGNALS_DIR, "normalization.json"), "w") as f:
-    json.dump(trust, f, indent=2)
-
-print(f"✅ Normalized items: {fixed}")
-print(f"⏱ Breaking auto-demoted: {demoted}")
-print("🛡 Data schema locked. Safe for Discover.")
+print(f"✅ Normalized {len(normalized)} articles")
+print(f"🔴 Active breaking items: {breaking_count}")
+print("🛡 Schema locked. data.json is now system-managed.")
