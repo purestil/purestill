@@ -1,12 +1,26 @@
 print("Starting PureStill generator…")
 
 import json, os, re
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 # ================= CONFIG =================
 BASE_URL = "https://purestill.pages.dev"
 SITE_DIR = "site"
 ARTICLES_DIR = os.path.join(SITE_DIR, "articles")
+SIGNALS_DIR = "signals"
+
+# 🔴 LIVE rules
+LIVE_DEMOTION_HOURS = 2      # auto-demote LIVE after 2h
+LIVE_MAX_DISPLAY = 20
+
+# 🌍 Country RPM priority
+COUNTRY_RPM = {
+    "US": 100,
+    "UK": 95,
+    "CA": 90,
+    "AU": 85,
+    "GLOBAL": 70
+}
 
 os.makedirs(ARTICLES_DIR, exist_ok=True)
 
@@ -16,6 +30,20 @@ with open("data.json", encoding="utf-8") as f:
 
 if not isinstance(raw_data, list):
     raise Exception("data.json must be a list")
+
+# ================= LOAD LIVE FEED =================
+live_feed = []
+live_file = os.path.join(SIGNALS_DIR, "live_feed.json")
+if os.path.exists(live_file):
+    with open(live_file, encoding="utf-8") as f:
+        live_feed = json.load(f)
+
+# ================= LOAD TRUST / CTR SIGNALS =================
+trust_score = 100
+trust_path = os.path.join(SIGNALS_DIR, "trust_score.json")
+if os.path.exists(trust_path):
+    with open(trust_path) as f:
+        trust_score = json.load(f).get("trust_score", 100)
 
 # ================= LOAD TEMPLATES =================
 with open("article_template.html", encoding="utf-8") as f:
@@ -40,18 +68,19 @@ def hours_old(date_str):
     try:
         dt = datetime.fromisoformat(date_str.replace("Z", "+00:00"))
     except Exception:
-        dt = NOW
+        return 999
     if not dt.tzinfo:
         dt = dt.replace(tzinfo=timezone.utc)
     return (NOW - dt).total_seconds() / 3600
 
 # ================= SCORING =================
 CATEGORY_WEIGHT = {
-    "Policy": 85,
-    "Economy": 90,
     "Business": 95,
+    "Economy": 90,
     "Technology": 88,
     "AI": 90,
+    "Policy": 85,
+    "Politics": 80,
     "Sports": 60,
     "General": 70
 }
@@ -59,28 +88,33 @@ CATEGORY_WEIGHT = {
 def final_score(article):
     freshness = max(0, 100 - article["age_hours"] * 6)
     category_score = CATEGORY_WEIGHT.get(article["category"], 70)
-    return round(freshness * 0.6 + category_score * 0.4, 2)
+    rpm = COUNTRY_RPM.get(article["country"], 70)
+    trust_boost = trust_score / 10
+    return round(
+        freshness * 0.35 +
+        category_score * 0.30 +
+        rpm * 0.25 +
+        trust_boost,
+        2
+    )
 
-# ================= AUTO EXPAND =================
+# ================= AUTO CONTENT =================
 def auto_expand_article(title, summary, category):
     return f"""
 <h2>Context</h2>
-<p>{summary} This development reflects broader trends shaping the {category.lower()} landscape.</p>
+<p>{summary}</p>
 
 <h2>Background</h2>
-<p>Recent months have seen gradual shifts influenced by economic conditions, policy expectations, and institutional responses.</p>
+<p>Recent developments in the {category.lower()} space indicate a broader structural trend.</p>
 
-<h2>Key Developments</h2>
-<p>Available information suggests a measured, data-driven approach.</p>
+<h2>Why It Matters</h2>
+<p>The outcome has implications for markets, institutions, and public confidence.</p>
 
-<h2>Why This Matters</h2>
-<p>Even incremental signals can influence markets, confidence, and long-term outcomes.</p>
-
-<h2>What to Watch Next</h2>
-<p>Upcoming data releases and official statements will provide further clarity.</p>
+<h2>What Happens Next</h2>
+<p>Further updates and official responses are expected in the coming days.</p>
 """
 
-# ================= ARTICLE GENERATION =================
+# ================= ARTICLE BUILD =================
 articles = []
 
 for item in raw_data:
@@ -89,22 +123,23 @@ for item in raw_data:
         continue
 
     summary = safe(item, "SUMMARY", "summary")
-    raw_content = safe(item, "CONTENT", "content")
+    content_raw = safe(item, "CONTENT", "content")
     category = safe(item, "CATEGORY", "category", default="General")
     source = safe(item, "SOURCE", "source")
     date = safe(item, "DATE", "date", default=NOW.isoformat())
+    country = safe(item, "COUNTRY", default="GLOBAL")
 
-    content = raw_content.strip() if raw_content and raw_content.strip() else auto_expand_article(
+    age = hours_old(date)
+
+    # 🔴 LIVE demotion logic
+    is_live = item.get("IS_BREAKING", False) is True and age <= LIVE_DEMOTION_HOURS
+
+    content = content_raw.strip() if content_raw else auto_expand_article(
         title, summary, category
     )
 
     slug = slugify(title)
     canonical = f"{BASE_URL}/articles/{slug}.html"
-
-    age = hours_old(date)
-
-    # 🔴 LIVE BREAKING = EXPLICIT ONLY (CRITICAL FIX)
-    is_breaking = item.get("IS_BREAKING", False) is True
 
     article = {
         "title": title,
@@ -113,7 +148,8 @@ for item in raw_data:
         "date": date,
         "slug": slug,
         "age_hours": age,
-        "is_breaking": is_breaking
+        "is_live": is_live,
+        "country": country
     }
 
     article["final_score"] = final_score(article)
@@ -137,7 +173,7 @@ for item in raw_data:
 
 print(f"Generated {len(articles)} articles")
 
-# ================= CARD RENDERERS =================
+# ================= RENDER HELPERS =================
 def render_card(a):
     return f"""
     <div class="card">
@@ -149,41 +185,35 @@ def render_card(a):
     </div>
     """
 
-def render_live(a):
-    minutes = int(a["age_hours"] * 60)
-    label = f"{minutes}m ago" if minutes < 60 else f"{int(a['age_hours'])}h ago"
+def render_live(item):
+    mins = int(item["age_hours"] * 60)
+    label = f"{mins}m ago" if mins < 60 else f"{int(item['age_hours'])}h ago"
     return f"""
     <div class="live-item">
       <span class="live-badge">LIVE</span>
-      <a href="/articles/{a['slug']}.html">{a['title']}</a>
+      <a href="/articles/{item['slug']}.html">{item['title']}</a>
       <small class="live-age">{label}</small>
     </div>
     """
 
-# ================= HOMEPAGE BUILD =================
+# ================= HOMEPAGE LOGIC =================
 used = set()
 
-# 🔴 LIVE BREAKING (ONLY EXPLICIT LIVE)
-live = [a for a in articles if a["is_breaking"]]
-live.sort(key=lambda x: x["age_hours"])
+# 🔴 LIVE BREAKING (EXPLICIT + AUTO-DEMOTED)
+live_articles = [a for a in articles if a["is_live"]]
+live_articles.sort(key=lambda x: x["age_hours"])
 
-if live:
-    live_html = "".join(render_live(a) for a in live[:20])
-else:
-    live_html = """
-    <div class="live-empty">
-      No breaking developments at this moment.
-    </div>
-    """
+live_html = "".join(render_live(a) for a in live_articles[:LIVE_MAX_DISPLAY]) \
+    if live_articles else "<div class='live-empty'>No breaking developments.</div>"
 
-used.update(a["slug"] for a in live)
+used.update(a["slug"] for a in live_articles)
 
 # 🔵 TRENDING NOW
 remaining = [a for a in articles if a["slug"] not in used]
 trending = sorted(remaining, key=lambda x: x["final_score"], reverse=True)[:6]
 used.update(a["slug"] for a in trending)
 
-# 🟢 TOP STORIES
+# 🟢 TOP STORIES (RPM weighted)
 remaining = [a for a in remaining if a["slug"] not in used]
 top = sorted(remaining, key=lambda x: x["final_score"], reverse=True)[:6]
 used.update(a["slug"] for a in top)
@@ -196,8 +226,8 @@ used.update(a["slug"] for a in recent)
 # ⚪ OLDER
 older = [a for a in articles if a["slug"] not in used][:6]
 
-# ⭐ FEATURED (NON-BREAKING ONLY)
-featured_candidates = [a for a in articles if not a["is_breaking"]]
+# ⭐ FEATURED (non-live only)
+featured_candidates = [a for a in articles if not a["is_live"]]
 featured = max(featured_candidates, key=lambda x: x["final_score"]) if featured_candidates else None
 
 # ================= RENDER INDEX =================
