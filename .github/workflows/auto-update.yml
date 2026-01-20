@@ -4,11 +4,12 @@ on:
   # Manual trigger (always keep)
   workflow_dispatch:
 
-  # 🔴 Live desk (every 15 minutes)
+  # 🔴 Live desk + editorial cadence
   schedule:
+    # Every 15 minutes → LIVE desk + hourly logic (lightweight)
     - cron: "*/15 * * * *"
 
-  # 🧠 Daily deep refresh (once per day UTC)
+    # Daily deep refresh (03:00 UTC)
     - cron: "0 3 * * *"
 
 jobs:
@@ -46,31 +47,50 @@ jobs:
           print("feedparser installed OK")
           EOF
 
-      # 🔴 LIVE BREAKING ENGINE (fast, unlimited, non-SEO)
+      # 🔴 LIVE BREAKING ENGINE
+      # Runs every 15 min AND during daily job
       - name: Run Live Engine
         run: |
-          echo "Running live_engine.py"
+          echo "🔴 Running live_engine.py"
           python live_engine.py
 
-      # 🧠 HOURLY EDITORIAL ENGINE (safe, capped)
+      # 🧠 HOURLY EDITORIAL ENGINE
+      # Internally capped (MAX_PER_HOUR) so safe even if called often
       - name: Run Hourly Engine
         run: |
-          echo "Running hourly_engine.py"
+          echo "🧠 Running hourly_engine.py"
           python hourly_engine.py
 
-      # 📰 DAILY RSS / CURATED FETCH (your existing logic)
-      - name: Fetch daily content
+      # 📰 DAILY CURATED FETCH
+      # fetch_news.py is internally rate-limited → safe to call always
+      - name: Fetch curated content
         run: |
-          echo "Running fetch_news.py"
+          echo "📰 Running fetch_news.py"
           python fetch_news.py
+
+      # 🛡 TRUST + QUALITY GUARDS
+      - name: Trust & quality signals
+        run: |
+          echo "🛡 Running trust_signal.py"
+          python trust_signal.py
+
+      - name: Discover feedback loop
+        run: |
+          echo "📈 Running discover_feedback.py"
+          python discover_feedback.py || true
+
+      - name: Content decay pruning
+        run: |
+          echo "🧹 Running content_decay.py"
+          python content_decay.py || true
 
       # 🏠 BUILD STATIC SITE
       - name: Generate site
         run: |
-          echo "Running generate_pages.py"
+          echo "🏠 Running generate_pages.py"
           python generate_pages.py
 
-      # 💾 COMMIT & PUSH (SAFE)
+      # 💾 COMMIT & PUSH (SAFE, NO-FAIL)
       - name: Commit and push changes
         run: |
           git config user.name "purestill-bot"
@@ -81,6 +101,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Live newsroom update"
+            git commit -m "PureStill live newsroom update"
             git push
           fi
