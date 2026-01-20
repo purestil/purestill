@@ -3,5 +3,17 @@
   "Markets": [],
   "Policy": [],
   "Technology": [],
-  "World": []
+  "World": [
+    {
+      "id": "28075f37e1a722cc2bc5015e3b6c2a6c",
+      "title": "Man who admitted killing Japan's ex-PM Shinzo Abe set to be sentenced",
+      "url": "https://www.bbc.com/news/articles/c86v5lj39zpo?at_medium=RSS&at_campaign=rss",
+      "source": "BBC",
+      "topic": "World",
+      "priority": 80,
+      "minutes_ago": 8,
+      "timestamp": "2026-01-20T23:57:34.431523+00:00",
+      "expires_at": "2026-01-21T01:57:34.431523+00:00"
+    }
+  ]
 }
