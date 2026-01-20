@@ -1,21 +1,27 @@
 name: PureStill Auto Post
 
 on:
+  # Manual trigger (always keep this)
   workflow_dispatch:
+
+  # Scheduled run (daily UTC)
   schedule:
-    - cron: "0 3 * * *"   # daily UTC
+    - cron: "0 3 * * *"
 
 jobs:
   autopost:
     runs-on: ubuntu-latest
 
+    # REQUIRED so git push works
     permissions:
       contents: write
 
     steps:
-      # 1️⃣ Checkout repo
+      # 1️⃣ Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # important for clean git history
 
       # 2️⃣ Setup Python
       - name: Setup Python
@@ -23,32 +29,43 @@ jobs:
         with:
           python-version: "3.11"
 
-      # 3️⃣ Install dependencies (CRITICAL)
+      # 3️⃣ Install Python dependencies (CRITICAL)
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install feedparser
+          python -m pip install feedparser
 
-      # 4️⃣ Verify feedparser (debug safety)
+      # 4️⃣ Verify dependency (prevents silent failures)
       - name: Verify feedparser
-        run: python - <<EOF
+        run: |
+          python - <<EOF
           import feedparser
           print("feedparser installed OK")
-        EOF
+          EOF
 
-      # 5️⃣ Fetch new content
+      # 5️⃣ Fetch new content (RSS → data.json)
       - name: Fetch new content
-        run: python fetch_news.py
+        run: |
+          echo "Running fetch_news.py"
+          python fetch_news.py
 
-      # 6️⃣ Generate site
+      # 6️⃣ Generate static site (data.json → /site)
       - name: Generate site
-        run: python generate_pages.py
+        run: |
+          echo "Running generate_pages.py"
+          python generate_pages.py
 
-      # 7️⃣ Commit and push (safe)
+      # 7️⃣ Commit and push changes (SAFE, NO-FAIL)
       - name: Commit and push changes
         run: |
           git config user.name "purestill-bot"
           git config user.email "purestill.official@gmail.com"
+
           git add data.json site || true
-          git diff --cached --quiet || git commit -m "Auto post update"
-          git push
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Auto post update"
+            git push
+          fi
