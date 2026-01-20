@@ -3,22 +3,22 @@
 <head>
 <meta charset="UTF-8">
 
-<title>{{SITE_TITLE}}</title>
+<title>PureStill | Independent Global Analysis</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="index, follow">
-<meta name="description" content="{{SITE_DESCRIPTION}}">
+<meta name="description" content="Independent global analysis and contextual reporting.">
 
 <style>
 body{
   margin:0;
   font-family:Inter,system-ui,sans-serif;
-  background:#ffffff;
-  color:#111111;
+  background:#fff;
+  color:#111;
 }
 header{
   text-align:center;
   padding:28px 0;
-  border-bottom:1px solid #eeeeee;
+  border-bottom:1px solid #eee;
 }
 header h1{
   font-family:Georgia,serif;
@@ -30,18 +30,15 @@ nav{
 }
 nav a{
   margin:0 12px;
-  color:#555555;
+  color:#555;
   text-decoration:none;
   font-size:14px;
 }
-nav a:hover{text-decoration:underline}
-
 main{
   max-width:1200px;
   margin:auto;
   padding:60px 20px;
 }
-
 .section{
   margin-top:80px;
 }
@@ -50,7 +47,6 @@ main{
   font-size:26px;
   margin-bottom:30px;
 }
-
 .grid{
   display:grid;
   gap:30px;
@@ -58,29 +54,27 @@ main{
 @media(min-width:1024px){
   .grid{grid-template-columns:repeat(3,1fr)}
 }
-
 .card{
-  border:1px solid #eeeeee;
+  border:1px solid #eee;
   padding:24px;
 }
 .card a{
   font-size:18px;
-  color:#111111;
+  color:#111;
   text-decoration:none;
 }
 .card a:hover{text-decoration:underline}
 .card p{
   font-size:14px;
-  color:#666666;
+  color:#666;
   margin-top:8px;
 }
-
 footer{
   margin-top:120px;
-  border-top:1px solid #eeeeee;
+  border-top:1px solid #eee;
   padding-top:40px;
   font-size:14px;
-  color:#777777;
+  color:#777;
   text-align:center;
 }
 </style>
@@ -89,7 +83,7 @@ footer{
 <body>
 
 <header>
-  <h1>{{SITE_NAME}}</h1>
+  <h1>PureStill</h1>
   <nav>
     <a href="/">Home</a>
     <a href="/topics/">Topics</a>
@@ -109,20 +103,20 @@ footer{
 </main>
 
 <footer>
-  © {{SITE_NAME}} · Updated hourly
+  © PureStill · Updated hourly
 </footer>
 
 <script>
-fetch("/signals/articles_index.json",{cache:"no-store"})
-.then(r=>r.json())
-.then(data=>{
-  const wrap=document.getElementById("latest");
-  wrap.innerHTML="";
+fetch("/signals/articles_index.json", { cache: "no-store" })
+.then(r => r.json())
+.then(data => {
+  const wrap = document.getElementById("latest");
+  wrap.innerHTML = "";
 
-  data.slice(0,9).forEach(a=>{
-    const div=document.createElement("div");
-    div.className="card";
-    div.innerHTML=`
+  data.slice(0, 9).forEach(a => {
+    const div = document.createElement("div");
+    div.className = "card";
+    div.innerHTML = `
       <a href="${a.url}">${a.title}</a>
       <p>Updated ${new Date(a.updated).toLocaleString()}</p>
     `;
