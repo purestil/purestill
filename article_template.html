@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 
-<!-- 🌙 Universal theme sync (CLS-safe) -->
+<!-- 🌙 Universal theme sync -->
 <script>
 (function(){
   const KEY="purestill-theme";
@@ -27,17 +27,15 @@
 <meta property="article:modified_time" content="{{DATE}}">
 
 <style>
-/* ================= PURESTILL DESIGN TOKENS ================= */
+/* ================= THEME ================= */
 :root{
   --bg:#ffffff;
   --text:#111111;
   --muted:#6b7280;
   --border:#e5e7eb;
   --card:#fafafa;
-
   --accent:#c9b26b;
   --accent-hover:#d4af37;
-
   --reading-width:720px;
 }
 html.dark{
@@ -55,7 +53,7 @@ body{
   font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
   background:var(--bg);
   color:var(--text);
-  line-height:1.85;
+  line-height:1.9;
 }
 a{color:var(--accent)}
 a:hover{color:var(--accent-hover)}
@@ -86,104 +84,72 @@ header{
   z-index:9999;
 }
 
-/* ================= LAYOUT ================= */
-.page-layout{
-  display:grid;
-  grid-template-columns:260px 1fr;
-  gap:48px;
-  max-width:1100px;
-  margin:0 auto;
-  padding:64px 20px 120px;
-}
-@media(max-width:980px){
-  .page-layout{grid-template-columns:1fr}
-  .side-topics{display:none}
-}
-
-/* ================= SIDE TOPIC SLIDER ================= */
-.side-topics{
-  position:sticky;
-  top:96px;
-  padding-left:18px;
-  border-left:3px solid var(--border);
-}
-.side-topics h3{
-  font-size:13px;
-  text-transform:uppercase;
-  letter-spacing:.05em;
-  color:var(--muted);
-  margin-bottom:18px;
-}
-.topic-item{margin-bottom:20px}
-.topic-item a{
-  font-size:14px;
-  font-weight:600;
-  color:var(--text);
-  text-decoration:none;
-}
-.topic-preview{
-  font-size:13px;
-  color:var(--muted);
-  margin-top:4px;
-  line-height:1.45;
-  display:-webkit-box;
-  -webkit-line-clamp:3;
-  -webkit-box-orient:vertical;
-  overflow:hidden;
-}
-
 /* ================= ARTICLE ================= */
-.article-wrap{max-width:var(--reading-width)}
+.article-wrap{
+  max-width:var(--reading-width);
+  margin:0 auto;
+  padding:72px 20px 120px;
+}
 .category{
   font-size:13px;
   color:var(--muted);
-  margin-bottom:12px;
   text-transform:uppercase;
+  margin-bottom:14px;
 }
 h1{
   font-family:"Playfair Display",Georgia,serif;
-  font-size:clamp(30px,4vw,42px);
+  font-size:clamp(32px,4vw,44px);
   line-height:1.25;
 }
 .subhead{
   font-size:19px;
   color:var(--muted);
-  margin:22px 0 30px;
+  margin:24px 0 34px;
 }
 .meta{
   font-size:13px;
   color:var(--muted);
-  margin-bottom:40px;
+  margin-bottom:42px;
 }
 
-/* 🔥 PARAGRAPH STYLE CHANGE (ONLY CHANGE) */
+/* ✨ PARAGRAPH BEAUTIFICATION */
 article{
-  font-size:18.5px;
+  font-size:18.8px;
 }
 article p{
-  margin-bottom:28px;
-  letter-spacing:.15px;
+  margin-bottom:30px;
+  letter-spacing:.2px;
+}
+article h2{
+  font-family:"Playfair Display",Georgia,serif;
+  font-size:1.6em;
+  margin:72px 0 26px;
+}
+article h3{
+  font-family:"Playfair Display",Georgia,serif;
+  font-size:1.3em;
+  margin:56px 0 22px;
 }
 
 /* ================= BACK BUTTON ================= */
 .back-btn{
   font-size:14px;
   color:var(--muted);
-  margin-bottom:24px;
+  margin-bottom:28px;
   cursor:pointer;
 }
 .back-btn:hover{text-decoration:underline}
 
 /* ================= SOURCE ================= */
 .source{
-  margin-top:56px;
-  padding-top:22px;
+  margin-top:64px;
+  padding-top:24px;
   border-top:1px solid var(--border);
   font-size:14px;
   color:var(--muted);
 }
 
-/* ================= INTERNAL TOPIC LINKS ================= */
+/* ================= INTERNAL LINKS (TEXT ONLY) ================= */
 .internal-links{
   margin-top:90px;
   padding-top:44px;
@@ -192,21 +158,31 @@ article p{
 .internal-links h2{
   font-family:"Playfair Display",Georgia,serif;
   font-size:22px;
-  margin-bottom:18px;
+  margin-bottom:28px;
 }
-.internal-links a{
-  display:inline-block;
-  margin:6px 16px 6px 0;
-  font-size:14px;
-  color:var(--accent);
+.link-list{
+  display:grid;
+  gap:18px;
+}
+.link-item a{
+  display:block;
+  font-size:16px;
+  font-weight:600;
+  color:var(--text);
   text-decoration:none;
 }
-.internal-links a:hover{text-decoration:underline}
+.link-item span{
+  display:block;
+  font-size:13px;
+  color:var(--muted);
+  margin-top:4px;
+}
+.link-item a:hover{text-decoration:underline}
 
-/* ================= FOOTER (INDEX STYLE) ================= */
+/* ================= FOOTER ================= */
 footer{
   margin-top:120px;
-  padding-top:34px;
+  padding-top:36px;
   border-top:1px solid var(--border);
   font-size:14px;
   color:var(--muted);
@@ -228,29 +204,6 @@ footer a:hover{text-decoration:underline}
   <div class="brand"><a href="/">PureStill</a></div>
 </header>
 
-<div class="page-layout">
-
-<!-- 🔹 SIDE TOPICS -->
-<aside class="side-topics">
-  <h3>All Topics</h3>
-
-  <div class="topic-item">
-    <a href="/topics/ai/">Artificial Intelligence</a>
-    <div class="topic-preview">How AI is reshaping work, productivity, and global competition.</div>
-  </div>
-
-  <div class="topic-item">
-    <a href="/topics/economy/">Global Economy</a>
-    <div class="topic-preview">Inflation, interest rates, trade, and economic stability worldwide.</div>
-  </div>
-
-  <div class="topic-item">
-    <a href="/topics/technology/">Technology</a>
-    <div class="topic-preview">Platforms, regulation, and long-term innovation trends.</div>
-  </div>
-</aside>
-
-<!-- 🔹 ARTICLE -->
 <main class="article-wrap">
 
 <div class="back-btn" onclick="history.back()">← Back</div>
@@ -276,14 +229,23 @@ footer a:hover{text-decoration:underline}
 
 {{AD_BOTTOM}}
 
-<!-- 🔹 INTERNAL LINKS -->
+<!-- 🔗 INTERNAL LINKS (CLEAN, NO IMAGES) -->
 <section class="internal-links">
-  <h2>Explore All Topics</h2>
-  <a href="/topics/ai/">AI</a>
-  <a href="/topics/business/">Business</a>
-  <a href="/topics/economy/">Economy</a>
-  <a href="/topics/policy/">Policy</a>
-  <a href="/topics/technology/">Technology</a>
+  <h2>More Analysis</h2>
+  <div class="link-list">
+    <div class="link-item">
+      <a href="/topics/ai/">Why AI Is Reshaping White-Collar Work</a>
+      <span>Automation, productivity, and long-term labor shifts.</span>
+    </div>
+    <div class="link-item">
+      <a href="/topics/economy/">How Interest Rates Affect Global Markets</a>
+      <span>Inflation, capital flows, and investor behavior.</span>
+    </div>
+    <div class="link-item">
+      <a href="/topics/technology/">The Real Cost of Big Tech Regulation</a>
+      <span>Competition, innovation, and policy trade-offs.</span>
+    </div>
+  </div>
 </section>
 
 <footer>
@@ -296,7 +258,6 @@ footer a:hover{text-decoration:underline}
 </footer>
 
 </main>
-</div>
 
 <script>
 /* Reading progress */
@@ -305,13 +266,6 @@ window.addEventListener("scroll",()=>{
   const p=(h.scrollTop/(h.scrollHeight-h.clientHeight))*100;
   document.getElementById("reading-progress").style.width=p+"%";
 });
-
-/* Source attribution */
-const wrap=document.querySelector(".sources");
-const raw=wrap?.dataset.sources;
-if(!raw){
-  document.getElementById("sourceBlock").style.display="none";
-}
 </script>
 
 </body>
