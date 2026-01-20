@@ -50,40 +50,18 @@ article{font-size:17px;}
 article h2{margin-top:56px;font-family:Georgia,serif;}
 article a{color:var(--accent);}
 
-/* SOURCE */
 .source{margin-top:40px;font-size:14px;color:var(--muted);}
-.sources a{
-  display:inline-flex;align-items:center;gap:6px;
-  margin-right:12px;color:var(--accent);text-decoration:none;
-}
+.sources a{display:inline-flex;align-items:center;gap:6px;margin-right:12px;color:var(--accent);text-decoration:none;}
 .sources img{width:16px;height:16px;border-radius:2px}
 
-/* COMMENTS */
 .comments{margin-top:80px;border-top:1px solid var(--border);padding-top:30px;}
-.comments textarea{
-  width:100%;min-height:90px;padding:10px;
-  border:1px solid var(--border);background:var(--card);color:var(--text);
-}
-.comments button{
-  margin-top:10px;padding:8px 14px;
-  border:1px solid var(--border);background:var(--card);cursor:pointer;
-}
+.comments textarea{width:100%;min-height:90px;padding:10px;border:1px solid var(--border);background:var(--card);color:var(--text);}
+.comments button{margin-top:10px;padding:8px 14px;border:1px solid var(--border);background:var(--card);cursor:pointer;}
 
-/* SUBSCRIBE */
-.subscribe{
-  margin-top:60px;padding:20px;border:1px solid var(--border);
-  background:var(--card);
-}
-.subscribe input{
-  padding:8px;width:100%;max-width:320px;
-  border:1px solid var(--border);background:#fff;
-}
+.subscribe{margin-top:60px;padding:20px;border:1px solid var(--border);background:var(--card);}
+.subscribe input{padding:8px;width:100%;max-width:320px;border:1px solid var(--border);background:#fff;}
 
-/* FOOTER */
-footer{
-  margin-top:100px;border-top:1px solid var(--border);
-  padding-top:30px;font-size:14px;color:var(--muted);
-}
+footer{margin-top:100px;border-top:1px solid var(--border);padding-top:30px;font-size:14px;color:var(--muted);}
 .footer-links a{margin-right:14px;color:var(--muted);text-decoration:none;}
 .footer-links a:hover{text-decoration:underline;}
 .footer-note{max-width:800px;font-size:13px;line-height:1.6;margin-top:10px;}
@@ -108,7 +86,6 @@ footer{
 
 <article>{{CONTENT}}</article>
 
-<!-- SOURCE -->
 <div class="source" id="sourceBlock">
   <strong>Source:</strong>
   <span class="sources" data-sources="{{SOURCE}}"></span>
@@ -122,7 +99,6 @@ footer{
   <ul>{{RELATED_LINKS}}</ul>
 </section>
 
-<!-- COMMENTS -->
 <section class="comments">
   <h2>Reader Feedback</h2>
   <p>Your comments help improve our analysis. Please keep feedback respectful.</p>
@@ -130,7 +106,6 @@ footer{
   <button disabled>Submit (coming soon)</button>
 </section>
 
-<!-- SUBSCRIBE -->
 <section class="subscribe">
   <strong>Get new analysis updates</strong><br>
   Receive occasional summaries. No spam.
@@ -146,31 +121,26 @@ footer{
     <a href="/terms.html">Terms</a>
     <a href="/disclaimer.html">Disclaimer</a>
   </div>
-
   <div class="footer-note">
     PureStill is an independent analysis platform that summarizes and contextualizes
     publicly available information related to business, technology, and economic developments.
-    Content is provided for general informational purposes only and does not constitute
-    professional advice.
+    Content is provided for general informational purposes only.
   </div>
-
   <div class="footer-note">© PureStill</div>
 </footer>
 
 </main>
 
-<!-- AUTO COPYRIGHT-FREE AMBIENT AUDIO -->
-<audio id="ambient" loop muted autoplay>
-  <source src="https://cdn.pixabay.com/audio/2022/10/03/audio_4e0e3f1e7c.mp3" type="audio/mpeg">
-</audio>
+<!-- CATEGORY-BASED COPYRIGHT-FREE AUDIO -->
+<audio id="ambient" loop muted preload="none"></audio>
 
 <script>
-/* Reading time */
+/* ===== Reading Meta ===== */
 const words=document.querySelector("article").innerText.split(/\s+/).length;
 readingTime.innerText=Math.max(1,Math.round(words/200))+" min read";
 readingLevel.innerText=words<600?"Easy":words<1200?"Medium":"Advanced";
 
-/* Source handling */
+/* ===== Source ===== */
 const wrap=document.querySelector(".sources");
 const raw=wrap.dataset.sources;
 if(!raw){sourceBlock.style.display="none";}
@@ -185,11 +155,63 @@ else raw.split(",").forEach(u=>{
   }catch(e){}
 });
 
-/* Enable music on first click (policy safe) */
+/* ===== AUDIO SYSTEM ===== */
+const audio=document.getElementById("ambient");
+const STORAGE_KEY="purestill-volume";
+
+/* Category sound packs (Pixabay public-domain) */
+const soundMap={
+  economy:"https://cdn.pixabay.com/audio/2022/10/03/audio_4e0e3f1e7c.mp3",
+  markets:"https://cdn.pixabay.com/audio/2022/08/04/audio_2f6c7a9b38.mp3",
+  technology:"https://cdn.pixabay.com/audio/2022/11/09/audio_3e12c4a8b6.mp3",
+  policy:"https://cdn.pixabay.com/audio/2022/09/02/audio_c0b5bfa7f5.mp3"
+};
+
+const cat=(document.getElementById("cat").innerText||"").toLowerCase();
+audio.src=soundMap[cat]||soundMap.economy;
+
+/* Restore volume */
+let baseVolume=parseFloat(localStorage.getItem(STORAGE_KEY));
+if(isNaN(baseVolume)) baseVolume=0.25;
+
+/* Fade helpers */
+function fadeTo(target,duration=600){
+  const step=(target-audio.volume)/(duration/50);
+  const f=setInterval(()=>{
+    audio.volume=Math.min(1,Math.max(0,audio.volume+step));
+    if(Math.abs(audio.volume-target)<0.02){
+      audio.volume=target;clearInterval(f);
+    }
+  },50);
+}
+
+/* Enable on first user action */
 document.addEventListener("click",()=>{
-  const a=document.getElementById("ambient");
-  if(a.muted){a.muted=false;a.volume=0.04;}
+  if(audio.muted){
+    audio.muted=false;
+    audio.volume=0;
+    audio.play();
+    fadeTo(baseVolume,800);
+  }
 },{once:true});
+
+/* Auto-lower on fast scroll */
+let lastScroll=0;
+window.addEventListener("scroll",()=>{
+  const cur=window.scrollY;
+  const speed=Math.abs(cur-lastScroll);
+  lastScroll=cur;
+  if(speed>40){
+    fadeTo(baseVolume*0.4,300);
+  }else{
+    fadeTo(baseVolume,500);
+  }
+});
+
+/* Save volume preference */
+window.addEventListener("beforeunload",()=>{
+  localStorage.setItem(STORAGE_KEY,baseVolume.toFixed(2));
+});
 </script>
 
 </body>
