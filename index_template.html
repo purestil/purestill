@@ -3,250 +3,276 @@
 <head>
 <meta charset="UTF-8">
 
-<!-- ✅ UNIVERSAL THEME DECISION (DO NOT TOUCH AGAIN) -->
+<!-- PURESTILL UNIVERSAL THEME -->
 <script>
 (function(){
-  const KEY = "purestill-theme";
-  const saved = localStorage.getItem(KEY);
-  const hour = new Date().getHours();
-
-  let mode = saved;
-  if(!mode){
-    mode = (hour >= 19 || hour <= 5) ? "dark" : "light";
-  }
-
-  if(mode === "dark"){
-    document.documentElement.classList.add("dark");
-  }
+  const KEY="purestill-theme";
+  const saved=localStorage.getItem(KEY);
+  const hour=new Date().getHours();
+  let mode=saved||(hour>=19||hour<=5?"dark":"light");
+  if(mode==="dark") document.documentElement.classList.add("dark");
 })();
 </script>
 
-<title>PureStill | Independent Global Analysis</title>
+<title>{{TITLE}} | PureStill</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Independent analysis of business, technology, and economic developments with a focus on the United States.">
+<meta name="description" content="{{SUMMARY}}">
 <meta name="robots" content="index, follow">
 <meta http-equiv="content-language" content="en-us">
+<link rel="canonical" href="{{CANONICAL_URL}}">
 
-<link rel="canonical" href="https://purestill.pages.dev/">
-
-<meta name="news_keywords" content="economy, markets, technology, policy">
-<meta property="og:site_name" content="PureStill">
+<meta name="news_keywords" content="{{CATEGORY}}">
+<meta property="article:published_time" content="{{DATE}}">
+<meta property="article:modified_time" content="{{DATE}}">
 
 <style>
-/* ================= THEME VARIABLES ================= */
 :root{
-  --bg:#ffffff;
-  --text:#111;
-  --muted:#555;
-  --border:#e0e0e0;
-  --link:#1a0dab;
-  --card:#fafafa;
-  --accent:#1a0dab;
+  --bg:#fff;--text:#111;--muted:#666;--border:#e5e5e5;
+  --link:#1a0dab;--card:#fafafa;--accent:#1a0dab;
 }
-
-/* ✅ CHANGED: html.dark (NOT body.dark) */
 html.dark{
-  --bg:#0e0e10;
-  --text:#eaeaea;
-  --muted:#aaa;
-  --border:#2a2a2a;
-  --link:#8ab4f8;
-  --card:#16161a;
+  --bg:#0e0e10;--text:#eaeaea;--muted:#aaa;
+  --border:#2a2a2a;--link:#8ab4f8;--card:#16161a;
 }
-
-/* ================= BASE ================= */
 body{
-  margin:0;
-  font-family:Inter, Arial, sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  line-height:1.75;
+  margin:0;font-family:Inter,Arial,sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.8;
 }
 
-/* ================= LAYOUT ================= */
-.container{
-  width:100%;
-  margin:0 auto;
-  padding:48px 24px 80px;
+/* ===== PROGRESS BAR (NEW) ===== */
+.progress-bar{
+  position:fixed;
+  top:0;
+  left:0;
+  height:3px;
+  width:0%;
+  background:var(--accent);
+  z-index:99999;
 }
 
-@media (min-width:1024px){
-  .container{ max-width:1200px; }
-}
-
-@media (max-width:1023px){
-  .container{
-    max-width:760px;
-    padding:36px 16px 64px;
-  }
-}
-
-/* ================= HEADER ================= */
-header{
-  text-align:center;
-  margin-bottom:56px;
-}
-
-.brand{
-  font-family:Georgia, serif;
-  font-size:clamp(30px, 4vw, 38px);
-  font-weight:500;
-}
-
-nav{
-  margin-top:20px;
-  font-size:14px;
-}
-
-nav a{
-  margin:0 10px;
-  color:var(--text);
-  text-decoration:none;
-  font-weight:500;
-}
-
-nav a:hover{ text-decoration:underline; }
-
-@media (max-width:600px){
-  nav a{
-    display:inline-block;
-    margin:6px 8px;
-  }
-}
-
-/* ================= SECTIONS ================= */
-.section{
-  margin-top:72px;
-}
-
-.section h2{
-  font-family:Georgia, serif;
-  font-size:clamp(22px, 3vw, 26px);
-  margin-bottom:32px;
-}
-
-/* ================= CARDS ================= */
-.card-grid{
-  display:grid;
-  gap:32px;
-}
-
-@media (min-width:1024px){
-  .card-grid{ grid-template-columns:repeat(3, 1fr); }
-}
-
-@media (min-width:600px) and (max-width:1023px){
-  .card-grid{ grid-template-columns:repeat(2, 1fr); }
-}
-
-@media (max-width:599px){
-  .card-grid{ grid-template-columns:1fr; }
-}
-
-.card{
-  border:1px solid var(--border);
-  padding:24px;
-  background:var(--card);
-}
-
-.card h3{
-  font-family:Georgia, serif;
-  font-size:20px;
-  margin:0 0 10px;
-}
-
-/* ================= FOOTER ================= */
-footer{
-  margin-top:96px;
-  padding-top:36px;
-  border-top:1px solid var(--border);
-  font-size:14px;
-  color:var(--muted);
-  text-align:center;
-}
-
-/* ================= TOGGLE ================= */
-.toggle{
+/* ===== BACK BUTTON ===== */
+.back-btn{
   position:fixed;
   top:14px;
-  right:16px;
+  left:14px;
+  z-index:10000;
   font-size:13px;
-  cursor:pointer;
-  color:var(--muted);
+  padding:6px 10px;
   background:var(--card);
   border:1px solid var(--border);
-  padding:6px 10px;
+  border-radius:4px;
+  cursor:pointer;
+  color:var(--text);
+}
+
+/* ===== HEADER ===== */
+header{
+  text-align:center;
+  padding:22px 0;
+  border-bottom:1px solid var(--border);
+}
+.brand a{
+  font-family:Georgia,serif;
+  font-size:28px;
+  font-weight:600;
+  color:var(--text);
+  text-decoration:none;
+}
+
+/* ===== ARTICLE ===== */
+.article-wrap{
+  max-width:1000px;
+  margin:0 auto;
+  padding:48px 20px 100px;
+}
+.category{font-size:13px;color:var(--muted);}
+h1{font-family:Georgia,serif;font-size:clamp(26px,4vw,38px);}
+.subhead{font-size:18px;color:var(--muted);margin:18px 0;}
+.reading-meta{font-size:13px;color:var(--muted);margin-bottom:30px;}
+article{font-size:17px;}
+article h2{margin-top:56px;font-family:Georgia,serif;}
+article a{color:var(--accent);}
+
+/* ===== SOURCE ===== */
+.source{margin-top:40px;font-size:14px;color:var(--muted);}
+.sources a{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-right:12px;
+  color:var(--accent);
+  text-decoration:none;
+}
+.sources img{width:16px;height:16px;border-radius:2px}
+
+/* ===== COMMENTS ===== */
+.comments{
+  margin-top:80px;
+  border-top:1px solid var(--border);
+  padding-top:30px;
+}
+.comments textarea{
+  width:100%;
+  min-height:90px;
+  padding:10px;
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--text);
+}
+.comments button{
+  margin-top:10px;
+  padding:8px 14px;
+  border:1px solid var(--border);
+  background:var(--card);
+  cursor:pointer;
+}
+
+/* ===== SUBSCRIBE ===== */
+.subscribe{
+  margin-top:60px;
+  padding:20px;
+  border:1px solid var(--border);
+  background:var(--card);
+}
+.subscribe input{
+  padding:8px;
+  width:100%;
+  max-width:320px;
+  border:1px solid var(--border);
+  background:#fff;
+}
+
+/* ===== FOOTER ===== */
+footer{
+  margin-top:100px;
+  border-top:1px solid var(--border);
+  padding-top:30px;
+  font-size:14px;
+  color:var(--muted);
+}
+.footer-links a{
+  margin-right:14px;
+  color:var(--muted);
+  text-decoration:none;
+}
+.footer-links a:hover{text-decoration:underline;}
+.footer-note{
+  max-width:800px;
+  font-size:13px;
+  line-height:1.6;
+  margin-top:10px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="toggle" onclick="toggleTheme()" id="themeBtn">🌙</div>
+<!-- PROGRESS BAR -->
+<div class="progress-bar" id="progressBar"></div>
 
-<div class="container">
+<!-- BACK BUTTON -->
+<div class="back-btn" onclick="goBack()">← Back</div>
 
 <header>
-  <div class="brand">PureStill</div>
-  <nav>
-    <a href="/">Home</a>
-    <a href="/articles/">Articles</a>
-    <a href="/topics/">Topics</a>
-    <a href="/about.html">About</a>
-    <a href="/terms.html">Terms</a>
-    <a href="/privacy-policy.html">Privacy</a>
-    <a href="/contact.html">Contact</a>
-    <a href="/disclaimer.html">Disclaimer</a>
-  </nav>
+  <div class="brand"><a href="/">PureStill</a></div>
 </header>
 
-<section class="section featured">
-  <h2>Featured Analysis</h2>
-  {{FEATURED_ARTICLE}}
-</section>
+<main class="article-wrap">
 
-<section class="section">
-  <h2>Recent Analysis</h2>
-  <div class="card-grid">
-    {{RECENT_ARTICLES}}
-  </div>
-</section>
+<div class="category" id="cat">{{CATEGORY}}</div>
+<h1>{{TITLE}}</h1>
+<div class="subhead">{{SUMMARY}}</div>
 
-<section class="section">
-  <h2>Top Articles</h2>
-  <div class="card-grid">
-    {{TOP_ARTICLES}}
-  </div>
-</section>
-
-<section class="section">
-  <h2>Earlier Analysis</h2>
-  <div class="card-grid">
-    {{OLDER_ARTICLES}}
-  </div>
-</section>
-
-<footer>© PureStill</footer>
-
+<div class="reading-meta">
+  <span id="readingTime"></span> · <span id="readingLevel"></span>
 </div>
 
-<!-- ✅ ONLY TOGGLE LEFT -->
+<article>{{CONTENT}}</article>
+
+<div class="source" id="sourceBlock">
+  <strong>Source:</strong>
+  <span class="sources" data-sources="{{SOURCE}}"></span>
+</div>
+
+{{AD_MID}}
+{{AD_BOTTOM}}
+
+<section class="related">
+  <h2>Related Analysis</h2>
+  <ul>{{RELATED_LINKS}}</ul>
+</section>
+
+<section class="comments">
+  <h2>Reader Feedback</h2>
+  <p>Your comments help improve our analysis. Please keep feedback respectful.</p>
+  <textarea placeholder="Share your thoughts…"></textarea>
+  <button disabled>Submit (coming soon)</button>
+</section>
+
+<section class="subscribe">
+  <strong>Get new analysis updates</strong><br>
+  Receive occasional summaries. No spam.
+  <br><br>
+  <input type="email" placeholder="Your email address" disabled>
+</section>
+
+<footer>
+  <div class="footer-links">
+    <a href="/about.html">About</a>
+    <a href="/contact.html">Contact</a>
+    <a href="/privacy-policy.html">Privacy</a>
+    <a href="/terms.html">Terms</a>
+    <a href="/disclaimer.html">Disclaimer</a>
+  </div>
+
+  <div class="footer-note">
+    PureStill is an independent analysis platform that summarizes and contextualizes
+    publicly available information related to business, technology, and economic developments.
+    Content is provided for general informational purposes only.
+  </div>
+
+  <div class="footer-note">© PureStill</div>
+</footer>
+
+</main>
+
 <script>
-function toggleTheme(){
-  const KEY="purestill-theme";
-  const root=document.documentElement;
-
-  root.classList.toggle("dark");
-
-  localStorage.setItem(
-    KEY,
-    root.classList.contains("dark") ? "dark" : "light"
-  );
-
-  document.getElementById("themeBtn").textContent =
-    root.classList.contains("dark") ? "☀️" : "🌙";
+/* BACK */
+function goBack(){
+  if(history.length>1){history.back();}
+  else{location.href="/";}
 }
+
+/* READING META */
+const words=document.querySelector("article").innerText.split(/\s+/).length;
+readingTime.innerText=Math.max(1,Math.round(words/200))+" min read";
+readingLevel.innerText=words<600?"Easy":words<1200?"Medium":"Advanced";
+
+/* SOURCE */
+const wrap=document.querySelector(".sources");
+const raw=wrap.dataset.sources;
+if(!raw){sourceBlock.style.display="none";}
+else{
+  raw.split(",").forEach(u=>{
+    try{
+      const url=new URL(u.trim());
+      const host=url.hostname.replace("www.","");
+      const a=document.createElement("a");
+      a.href=url;a.target="_blank";a.rel="nofollow noopener";
+      a.innerHTML=`<img src="https://www.google.com/s2/favicons?domain=${host}&sz=32">${host.split(".")[0]}`;
+      wrap.appendChild(a);
+    }catch(e){}
+  });
+}
+
+/* PROGRESS BAR LOGIC */
+const bar=document.getElementById("progressBar");
+window.addEventListener("scroll",()=>{
+  const doc=document.documentElement;
+  const scrolled=(doc.scrollTop)/(doc.scrollHeight-doc.clientHeight)*100;
+  bar.style.width=scrolled+"%";
+});
 </script>
 
 </body>
