@@ -3,5 +3,28 @@
   "Markets": [],
   "Policy": [],
   "Technology": [],
-  "World": []
+  "World": [
+    {
+      "id": "3d9342754997fa4a66304978e7f1d457",
+      "title": "Jason Statham: I've taken a lot of stunts too far",
+      "url": "https://www.bbc.com/news/articles/cn421lk5y70o?at_medium=RSS&at_campaign=rss",
+      "source": "BBC",
+      "topic": "World",
+      "priority": 65,
+      "minutes_ago": 48,
+      "timestamp": "2026-01-20T21:38:59.502837+00:00",
+      "expires_at": "2026-01-20T23:38:59.502837+00:00"
+    },
+    {
+      "id": "5f8560824b5bde6981b8ff85e991f19d",
+      "title": "US second lady Usha Vance announces she is pregnant with fourth child",
+      "url": "https://www.bbc.com/news/articles/crkr7z7ky6po?at_medium=RSS&at_campaign=rss",
+      "source": "BBC",
+      "topic": "World",
+      "priority": 80,
+      "minutes_ago": 4,
+      "timestamp": "2026-01-20T21:38:59.502837+00:00",
+      "expires_at": "2026-01-20T23:38:59.502837+00:00"
+    }
+  ]
 }
