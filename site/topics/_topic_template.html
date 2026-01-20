@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<title>{{TOPIC}} | PureStill</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index, follow">
+
+<style>
+body{
+  margin:0;
+  font-family:Inter,system-ui,sans-serif;
+  background:#fff;
+  color:#111;
+}
+header{
+  text-align:center;
+  padding:26px 0;
+  border-bottom:1px solid #eee;
+}
+header a{
+  font-family:Georgia,serif;
+  font-size:28px;
+  color:#111;
+  text-decoration:none;
+}
+main{
+  max-width:900px;
+  margin:auto;
+  padding:60px 20px;
+}
+.item{
+  padding:22px 0;
+  border-bottom:1px solid #eee;
+}
+.item a{
+  font-size:20px;
+  color:#111;
+  text-decoration:none;
+}
+.item small{
+  color:#777;
+  font-size:13px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <a href="/">PureStill</a>
+</header>
+
+<main>
+
+<h1>{{TOPIC}}</h1>
+<p>Latest analysis and developments.</p>
+
+<div id="topicList"></div>
+
+</main>
+
+<script>
+fetch("/signals/topics_feed.json",{cache:"no-store"})
+.then(r=>r.json())
+.then(data=>{
+  const items=data["{{TOPIC}}"] || [];
+  const wrap=document.getElementById("topicList");
+
+  items.forEach(i=>{
+    const div=document.createElement("div");
+    div.className="item";
+    div.innerHTML=`
+      <a href="${i.url}">${i.title}</a><br>
+      <small>${i.minutes_ago} min ago · ${i.source}</small>
+    `;
+    wrap.appendChild(div);
+  });
+});
+</script>
+
+</body>
+</html>
