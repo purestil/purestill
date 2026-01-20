@@ -3,13 +3,15 @@
 <head>
 <meta charset="UTF-8">
 
+<!-- 🌗 AUTO + MANUAL THEME -->
 <script>
 (function(){
   const KEY="purestill-theme";
   const saved=localStorage.getItem(KEY);
   const hour=new Date().getHours();
-  let mode=saved||(hour>=19||hour<=5?"dark":"light");
-  if(mode==="dark") document.documentElement.classList.add("dark");
+  const auto=(hour>=19||hour<=5)?"dark":"light";
+  const mode=saved||auto;
+  document.documentElement.classList.toggle("dark",mode==="dark");
 })();
 </script>
 
@@ -37,39 +39,78 @@ body{
   line-height:1.65;
 }
 
+/* HEADER */
 header{
   text-align:center;
   padding:28px 0;
-  border-bottom:1px solid var(--border)
+  border-bottom:1px solid var(--border);
+  position:relative;
 }
 .brand{
   font-family:Georgia,serif;
   font-size:34px;
-  font-weight:600
+  font-weight:600;
 }
 nav{
-  margin-top:14px;
-  font-size:14px
+  margin-top:10px;
+  font-size:14px;
 }
 nav a{
-  margin:0 10px;
+  margin:0 8px;
   color:var(--muted);
-  text-decoration:none
+  text-decoration:none;
 }
 
+/* HEADER CONTROLS */
+.header-controls{
+  position:absolute;
+  top:20px;
+  right:20px;
+  display:flex;
+  gap:8px;
+}
+.ctrl{
+  border:1px solid var(--border);
+  background:var(--card);
+  padding:6px 10px;
+  font-size:13px;
+  cursor:pointer;
+  border-radius:6px;
+}
+
+/* COUNTRY MENU */
+.country-menu{
+  margin-top:6px;
+  font-size:13px;
+}
+.country-menu a{
+  margin:0 6px;
+  color:var(--muted);
+  text-decoration:none;
+}
+
+/* TRUST BADGES */
+.trust-badges{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:6px;
+}
+.trust-badges span{
+  margin:0 6px;
+}
+
+/* LAYOUT */
 .container{
   max-width:1200px;
   margin:0 auto;
-  padding:56px 20px 120px
+  padding:56px 20px 120px;
 }
-
 .section{
-  margin-top:80px
+  margin-top:80px;
 }
 .section h2{
   font-family:Georgia,serif;
   font-size:26px;
-  margin-bottom:10px
 }
 .section-note{
   font-size:14px;
@@ -77,10 +118,10 @@ nav a{
   margin-bottom:28px;
 }
 
-/* ===== CARD GRID ===== */
+/* CARDS */
 .card-grid{
   display:grid;
-  gap:32px
+  gap:32px;
 }
 @media(min-width:1024px){
   .card-grid{grid-template-columns:repeat(3,1fr)}
@@ -88,89 +129,112 @@ nav a{
 @media(max-width:1023px){
   .card-grid{grid-template-columns:1fr}
 }
-
 .card{
   border:1px solid var(--border);
   background:var(--card);
-  padding:24px
+  padding:24px;
 }
 .card h3{
   font-family:Georgia,serif;
-  font-size:20px;
-  margin:0 0 10px
 }
 .card p{
-  font-size:16px;
-  color:var(--muted)
-}
-.read-more a{
-  color:var(--accent);
-  text-decoration:underline
+  color:var(--muted);
 }
 
-/* ===== LIVE BREAKING ===== */
+/* LIVE BREAKING */
 .live-breaking{
   border-left:4px solid #d93025;
-  padding-left:20px
+  padding-left:20px;
 }
 .live-item{
   padding:14px 0;
-  border-bottom:1px dashed var(--border)
+  border-bottom:1px dashed var(--border);
 }
 .live-item:last-child{border-bottom:none}
 .live-badge{
-  display:inline-block;
-  font-size:12px;
   color:#d93025;
   font-weight:600;
-  margin-right:8px
+  font-size:12px;
+  margin-right:6px;
 }
 .live-age{
   font-size:12px;
   color:var(--muted);
-  margin-left:6px
 }
 .live-empty{
-  color:var(--muted);
   font-size:14px;
-  padding:12px 0
+  color:var(--muted);
 }
 
-/* ===== FOOTER ===== */
+/* 📱 MOBILE LIVE TICKER */
+.mobile-live{
+  display:none;
+}
+@media(max-width:768px){
+  .mobile-live{
+    display:block;
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    background:var(--card);
+    border-top:2px solid #d93025;
+    padding:10px 14px;
+    z-index:9999;
+  }
+  .mobile-live .live-item{
+    border:none;
+    padding:0;
+  }
+}
+
+/* 📖 READER MODE */
+.reader header,
+.reader nav,
+.reader .section:not(:first-child),
+.reader footer{
+  display:none!important;
+}
+.reader .container{
+  max-width:760px;
+  padding-top:20px;
+}
+
+/* FOOTER */
 footer{
   margin-top:120px;
   border-top:1px solid var(--border);
   padding-top:40px;
   font-size:14px;
-  color:var(--muted)
+  color:var(--muted);
 }
 .footer-links a{
   margin-right:14px;
   color:var(--muted);
-  text-decoration:none
+  text-decoration:none;
 }
 .footer-note{
   max-width:900px;
   font-size:13px;
   line-height:1.6;
-  margin-top:12px
+  margin-top:12px;
 }
 </style>
 
-<!-- 🔄 SAFE LIVE AUTO-REFRESH (NO SEO RISK) -->
+<!-- 🔄 SAFE LIVE AUTO REFRESH -->
 <script>
-setInterval(function(){
+setInterval(()=>{
   fetch("/index.html",{cache:"no-store"})
     .then(r=>r.text())
-    .then(html=>{
-      const doc=new DOMParser().parseFromString(html,"text/html");
-      const live=doc.querySelector(".live-breaking");
-      if(live){
-        document.querySelector(".live-breaking").innerHTML=live.innerHTML;
-      }
+    .then(t=>{
+      const d=new DOMParser().parseFromString(t,"text/html");
+      const live=d.querySelector(".live-breaking");
+      const mob=d.querySelector(".mobile-live");
+      if(live)document.querySelector(".live-breaking").innerHTML=live.innerHTML;
+      if(mob)document.querySelector(".mobile-live").innerHTML=mob.innerHTML;
     })
     .catch(()=>{});
-}, 180000); // every 3 minutes
+},180000);
 </script>
 
 </head>
@@ -179,6 +243,12 @@ setInterval(function(){
 
 <header>
   <div class="brand">PureStill</div>
+
+  <div class="header-controls">
+    <div class="ctrl" onclick="toggleTheme()">🌙</div>
+    <div class="ctrl" onclick="toggleReader()">Reader</div>
+  </div>
+
   <nav>
     <a href="/">Home</a>
     <a href="/articles/">Articles</a>
@@ -186,11 +256,20 @@ setInterval(function(){
     <a href="/about.html">About</a>
     <a href="/contact.html">Contact</a>
   </nav>
+
+  <div class="country-menu">
+    🌍 <a href="/us/">US</a> | <a href="/uk/">UK</a> | <a href="/ca/">CA</a>
+  </div>
+
+  <div class="trust-badges">
+    <span>✔ Independent</span>
+    <span>✔ Source-Attribution</span>
+    <span>✔ Editorial Review</span>
+  </div>
 </header>
 
 <main class="container">
 
-<!-- 🔴 LIVE BREAKING -->
 <section class="section">
   <h2>Live Breaking</h2>
   <div class="section-note">Real-time global developments as they happen</div>
@@ -199,7 +278,6 @@ setInterval(function(){
   </div>
 </section>
 
-<!-- 🔥 TRENDING -->
 <section class="section">
   <h2>Trending Now</h2>
   <div class="section-note">Most discussed global topics this hour</div>
@@ -208,7 +286,6 @@ setInterval(function(){
   </div>
 </section>
 
-<!-- 💎 TOP STORIES -->
 <section class="section">
   <h2>Top Stories</h2>
   <div class="section-note">High-impact analysis with global relevance</div>
@@ -217,13 +294,11 @@ setInterval(function(){
   </div>
 </section>
 
-<!-- ⭐ FEATURED -->
 <section class="section">
   <h2>Featured Analysis</h2>
   {{FEATURED_ARTICLE}}
 </section>
 
-<!-- 📰 RECENT -->
 <section class="section">
   <h2>Recent Analysis</h2>
   <div class="card-grid">
@@ -231,13 +306,19 @@ setInterval(function(){
   </div>
 </section>
 
-<!-- 🗂️ OLDER -->
 <section class="section">
   <h2>Earlier Analysis</h2>
   <div class="card-grid">
     {{OLDER_ARTICLES}}
   </div>
 </section>
+
+</main>
+
+<!-- 📱 MOBILE LIVE -->
+<div class="mobile-live">
+  {{LIVE_BREAKING}}
+</div>
 
 <footer>
   <div class="footer-links">
@@ -256,6 +337,16 @@ setInterval(function(){
   <div class="footer-note">© PureStill</div>
 </footer>
 
-</main>
+<script>
+function toggleTheme(){
+  const h=document.documentElement;
+  const d=h.classList.toggle("dark");
+  localStorage.setItem("purestill-theme",d?"dark":"light");
+}
+function toggleReader(){
+  document.documentElement.classList.toggle("reader");
+}
+</script>
+
 </body>
 </html>
