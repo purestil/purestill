@@ -3,12 +3,13 @@
 <head>
 <meta charset="UTF-8">
 
+<!-- 🌙 THEME BOOTSTRAP (FAST, CLS-SAFE) -->
 <script>
 (function(){
   const KEY="purestill-theme";
   const saved=localStorage.getItem(KEY);
   const hour=new Date().getHours();
-  let mode=saved||(hour>=19||hour<=5?"dark":"light");
+  const mode=saved||(hour>=19||hour<=5?"dark":"light");
   if(mode==="dark") document.documentElement.classList.add("dark");
 })();
 </script>
@@ -20,34 +21,59 @@
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://purestill.pages.dev/">
 
+<!-- ===== PURESTILL GENERATEPRESS-STYLE THEME ===== -->
 <style>
+/* ================= ROOT TOKENS ================= */
 :root{
-  --bg:#fff;--text:#111;--muted:#666;--border:#e5e5e5;
-  --link:#1a0dab;--card:#fafafa;--accent:#1a0dab;
-}
-html.dark{
-  --bg:#0e0e10;--text:#eaeaea;--muted:#aaa;
-  --border:#2a2a2a;--link:#8ab4f8;--card:#16161a;
-}
-body{
-  margin:0;
-  font-family:Inter,Arial,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  line-height:1.65;
+  --bg:#ffffff;
+  --text:#111111;
+  --muted:#6b7280;
+  --border:#e5e7eb;
+  --card:#fafafa;
+
+  --accent:#c9b26b;
+  --accent-hover:#d4af37;
+
+  --max-width:1200px;
+  --reading-width:720px;
 }
 
-/* ===== HEADER ===== */
+html.dark{
+  --bg:#0e0e10;
+  --text:#eae6da;
+  --muted:#9ca3af;
+  --border:#2a2a2e;
+  --card:#16161a;
+}
+
+/* ================= BASE ================= */
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+a{
+  color:var(--accent);
+  text-decoration:none;
+}
+a:hover{color:var(--accent-hover)}
+
+/* ================= HEADER ================= */
 header{
   border-bottom:1px solid var(--border);
-  padding:22px 0 18px;
+  padding:26px 0 18px;
   position:relative;
 }
 .brand{
   text-align:center;
-  font-family:Georgia,serif;
-  font-size:34px;
+  font-family:"Playfair Display",Georgia,serif;
+  font-size:36px;
   font-weight:600;
+  letter-spacing:.3px;
 }
 nav{
   margin-top:14px;
@@ -55,16 +81,15 @@ nav{
   font-size:14px;
 }
 nav a{
-  margin:0 10px;
+  margin:0 12px;
   color:var(--muted);
-  text-decoration:none;
 }
+nav a:hover{color:var(--accent)}
 
-/* 🌙 THEME TOGGLE */
 .theme-toggle{
   position:absolute;
-  top:18px;
-  right:18px;
+  top:22px;
+  right:22px;
   border:1px solid var(--border);
   background:var(--card);
   padding:6px 10px;
@@ -73,29 +98,30 @@ nav a{
   border-radius:6px;
 }
 
-/* ===== MAIN LAYOUT ===== */
+/* ================= LAYOUT ================= */
 .container{
-  max-width:1200px;
+  max-width:var(--max-width);
   margin:0 auto;
-  padding:56px 20px 120px;
+  padding:64px 20px 120px;
 }
 .section{
-  margin-top:80px;
+  margin-top:96px;
 }
 .section h2{
-  font-family:Georgia,serif;
-  font-size:26px;
+  font-family:"Playfair Display",Georgia,serif;
+  font-size:28px;
+  margin-bottom:6px;
 }
 .section-note{
   font-size:14px;
   color:var(--muted);
-  margin-bottom:28px;
+  margin-bottom:32px;
 }
 
-/* ===== CARD GRID ===== */
+/* ================= CARD GRID ================= */
 .card-grid{
   display:grid;
-  gap:32px;
+  gap:36px;
 }
 @media(min-width:1024px){
   .card-grid{grid-template-columns:repeat(3,1fr)}
@@ -106,19 +132,28 @@ nav a{
 .card{
   border:1px solid var(--border);
   background:var(--card);
-  padding:24px;
+  padding:28px;
+  transition:transform .15s ease,border-color .15s ease;
+}
+.card:hover{
+  transform:translateY(-2px);
+  border-color:var(--accent);
 }
 .card h3{
-  font-family:Georgia,serif;
+  font-family:"Playfair Display",Georgia,serif;
+  font-size:20px;
+  margin-top:0;
 }
 .card p{
   color:var(--muted);
+  font-size:15px;
 }
 
-/* ===== LIVE BREAKING ===== */
+/* ================= LIVE BREAKING ================= */
 .live-breaking{
-  border-left:4px solid #d93025;
-  padding-left:20px;
+  max-width:var(--reading-width);
+  border-left:3px solid #d93025;
+  padding-left:22px;
 }
 .live-item{
   padding:14px 0;
@@ -140,24 +175,29 @@ nav a{
   color:var(--muted);
 }
 
-/* ===== FOOTER ===== */
+/* ================= FEATURED ================= */
+.featured-wrap{
+  max-width:var(--reading-width);
+}
+
+/* ================= FOOTER ================= */
 footer{
-  margin-top:120px;
+  margin-top:140px;
   border-top:1px solid var(--border);
-  padding-top:40px;
+  padding-top:48px;
   font-size:14px;
   color:var(--muted);
 }
 .footer-links a{
-  margin-right:14px;
+  margin-right:16px;
   color:var(--muted);
-  text-decoration:none;
 }
+.footer-links a:hover{color:var(--accent)}
 .footer-note{
   max-width:900px;
   font-size:13px;
   line-height:1.6;
-  margin-top:12px;
+  margin-top:14px;
 }
 </style>
 
@@ -210,7 +250,9 @@ footer{
 
 <section class="section">
   <h2>Featured Analysis</h2>
-  {{FEATURED_ARTICLE}}
+  <div class="featured-wrap">
+    {{FEATURED_ARTICLE}}
+  </div>
 </section>
 
 <section class="section">
@@ -249,8 +291,8 @@ footer{
 <script>
 function toggleTheme(){
   const h=document.documentElement;
-  const d=h.classList.toggle("dark");
-  localStorage.setItem("purestill-theme",d?"dark":"light");
+  const isDark=h.classList.toggle("dark");
+  localStorage.setItem("purestill-theme",isDark?"dark":"light");
 }
 </script>
 
