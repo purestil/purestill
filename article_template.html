@@ -36,8 +36,7 @@
   --accent:#c9b26b;
   --accent-hover:#d4af37;
 
-  /* BrianCoords-style reading width */
-  --reading-width:860px;
+  --reading-max:860px;
 }
 
 html.dark{
@@ -56,21 +55,18 @@ body{
   color:var(--text);
   line-height:1.95;
 }
-a{
-  color:var(--accent);
-  text-decoration:underline;
-}
+a{color:var(--accent);text-decoration:underline}
 a:hover{color:var(--accent-hover)}
 
-/* ================= HEADER (UNCHANGED) ================= */
+/* ================= HEADER ================= */
 header{
   text-align:center;
-  padding:28px 0;
+  padding:clamp(22px,4vw,30px) 0;
   border-bottom:1px solid var(--border);
 }
 .brand a{
   font-family:Georgia,serif;
-  font-size:30px;
+  font-size:clamp(26px,4vw,32px);
   font-weight:600;
   color:var(--text);
   text-decoration:none;
@@ -89,77 +85,97 @@ header{
 
 /* ================= ARTICLE WRAP ================= */
 .article-wrap{
-  max-width:var(--reading-width);
+  max-width:var(--reading-max);
   margin:0 auto;
-  padding:80px 24px 140px;
+  padding:
+    clamp(56px,8vw,88px)
+    clamp(18px,5vw,28px)
+    clamp(100px,12vw,150px);
 }
 
 /* ================= META ================= */
 .category{
-  font-size:13px;
-  text-transform:uppercase;
+  font-size:12px;
   letter-spacing:.05em;
+  text-transform:uppercase;
   color:var(--muted);
-  margin-bottom:16px;
+  margin-bottom:18px;
 }
 h1{
   font-family:Georgia,serif;
-  font-size:clamp(34px,4.2vw,48px);
-  line-height:1.25;
-  margin-bottom:20px;
+  font-size:clamp(34px,6vw,48px);
+  line-height:1.22;
 }
 .subhead{
-  font-size:20px;
+  font-size:clamp(18px,4vw,21px);
   color:var(--muted);
-  margin-bottom:36px;
+  margin:24px 0 36px;
 }
 .meta{
   font-size:13px;
   color:var(--muted);
-  margin-bottom:52px;
+  margin-bottom:56px;
 }
+
+/* ================= TOC ================= */
+.toc{
+  border-left:3px solid var(--accent);
+  padding-left:18px;
+  margin-bottom:64px;
+}
+.toc h2{
+  font-family:Georgia,serif;
+  font-size:18px;
+  margin-bottom:14px;
+}
+.toc a{
+  display:block;
+  font-size:14px;
+  margin-bottom:8px;
+  color:var(--text);
+  text-decoration:none;
+}
+.toc a:hover{text-decoration:underline}
 
 /* ================= ARTICLE CONTENT ================= */
 article{
-  font-size:19.5px;
+  font-size:clamp(18.5px,3.6vw,20px);
 }
-
-/* BrianCoords-style paragraphs */
 article p{
-  margin-bottom:34px;
+  margin-bottom:clamp(28px,5vw,38px);
   letter-spacing:.15px;
 }
-
-/* Section rhythm */
 article h2{
   font-family:Georgia,serif;
-  font-size:1.65em;
-  margin:84px 0 32px;
+  font-size:clamp(24px,5vw,30px);
+  margin:clamp(70px,10vw,100px) 0 34px;
 }
 article h3{
   font-family:Georgia,serif;
-  font-size:1.35em;
-  margin:64px 0 28px;
+  font-size:clamp(20px,4.5vw,24px);
+  margin:clamp(52px,8vw,72px) 0 28px;
 }
 
-/* Emphasis block (used sparingly) */
-.article-note{
-  border-left:3px solid var(--accent);
-  padding-left:18px;
-  margin:52px 0;
-  font-size:18px;
-  color:var(--muted);
+/* ================= PULL QUOTES ================= */
+.pull-quote{
+  font-family:Georgia,serif;
+  font-size:clamp(20px,4vw,24px);
+  line-height:1.6;
+  margin:clamp(60px,10vw,90px) 0;
+  padding-left:22px;
+  border-left:4px solid var(--accent);
+  color:var(--text);
 }
 
 /* ================= ADS ================= */
 .ad{
-  margin:80px 0;
+  margin:clamp(80px,12vw,110px) 0;
 }
 
 /* ================= SOURCE ================= */
 .source{
-  margin-top:80px;
-  padding-top:28px;
+  margin-top:clamp(80px,12vw,110px);
+  padding-top:30px;
   border-top:1px solid var(--border);
   font-size:14px;
   color:var(--muted);
@@ -167,21 +183,18 @@ article h3{
 
 /* ================= INTERNAL LINKS ================= */
 .internal-links{
-  margin-top:110px;
-  padding-top:52px;
+  margin-top:clamp(120px,16vw,160px);
+  padding-top:56px;
   border-top:1px solid var(--border);
 }
 .internal-links h2{
   font-family:Georgia,serif;
-  font-size:24px;
-  margin-bottom:30px;
+  font-size:clamp(22px,4.5vw,26px);
+  margin-bottom:32px;
 }
-.link-list{
-  display:grid;
-  gap:22px;
-}
+.link-list{display:grid;gap:24px}
 .link-item a{
-  font-size:17px;
+  font-size:clamp(16px,3.5vw,18px);
   font-weight:600;
   color:var(--text);
   text-decoration:none;
@@ -204,8 +217,8 @@ article h3{
   display:flex;
   justify-content:space-between;
   gap:24px;
-  margin-top:100px;
-  padding-top:40px;
+  margin-top:clamp(110px,16vw,150px);
+  padding-top:44px;
   border-top:1px solid var(--border);
 }
 .article-pagination a{
@@ -222,8 +235,8 @@ article h3{
 
 /* ================= FOOTER ================= */
 footer{
-  margin-top:140px;
-  padding-top:40px;
+  margin-top:clamp(140px,18vw,180px);
+  padding-top:44px;
   border-top:1px solid var(--border);
   font-size:14px;
   color:var(--muted);
@@ -248,14 +261,16 @@ footer a:hover{text-decoration:underline}
 <main class="article-wrap">
 
 <div class="category">{{CATEGORY}}</div>
-
 <h1>{{TITLE}}</h1>
-
 <div class="subhead">{{SUMMARY}}</div>
-
 <div class="meta">Published {{DATE}}</div>
 
-<article>
+<!-- 📌 AUTO TABLE OF CONTENTS -->
+<nav class="toc" id="toc">
+  <h2>On this page</h2>
+</nav>
+
+<article id="articleContent">
 {{CONTENT}}
 </article>
 
@@ -268,13 +283,11 @@ footer a:hover{text-decoration:underline}
 
 {{AD_BOTTOM}}
 
-<!-- 🔗 INTERNAL LINKS -->
 <section class="internal-links">
   <h2>More Analysis</h2>
   <div class="link-list" id="autoLinks"></div>
 </section>
 
-<!-- 🔁 PAGINATION -->
 <nav class="article-pagination" id="articlePagination"></nav>
 
 <footer>
@@ -292,8 +305,19 @@ footer a:hover{text-decoration:underline}
 /* Reading progress */
 window.addEventListener("scroll",()=>{
   const h=document.documentElement;
-  const p=(h.scrollTop/(h.scrollHeight-h.clientHeight))*100;
-  document.getElementById("reading-progress").style.width=p+"%";
+  document.getElementById("reading-progress").style.width =
+    (h.scrollTop/(h.scrollHeight-h.clientHeight))*100 + "%";
+});
+
+/* Auto TOC */
+const toc=document.getElementById("toc");
+document.querySelectorAll("#articleContent h2, #articleContent h3").forEach((h,i)=>{
+  const id="sec-"+i;
+  h.id=id;
+  const a=document.createElement("a");
+  a.href="#"+id;
+  a.textContent=h.textContent;
+  toc.appendChild(a);
 });
 
 /* Auto internal links + pagination */
@@ -303,12 +327,11 @@ fetch('/data.json')
   const articles=data.articles;
   const current=location.pathname;
 
-  const list=document.getElementById('autoLinks');
   articles.filter(a=>a.url!==current).slice(0,3).forEach(a=>{
     const d=document.createElement('div');
     d.className='link-item';
     d.innerHTML=`<a href="${a.url}">${a.title}</a><span>${a.summary}</span>`;
-    list.appendChild(d);
+    document.getElementById('autoLinks').appendChild(d);
   });
 
   const idx=articles.findIndex(a=>a.url===current);
