@@ -1,0 +1,27 @@
+import json, datetime, os
+
+SIGNALS_FILE = "signals/breaking_signals.json"
+
+# Example input sources (titles only)
+SAMPLE_FEED = [
+  {"title": "Major outage reported affecting multiple countries", "source": "Reuters"},
+  {"title": "Court issues new ruling impacting financial markets", "source": "AP"}
+]
+
+os.makedirs("signals", exist_ok=True)
+
+signals = []
+now = datetime.datetime.utcnow().isoformat() + "Z"
+
+for i, item in enumerate(SAMPLE_FEED):
+    signals.append({
+        "id": f"evt_{now}_{i}",
+        "title": item["title"],
+        "source": item["source"],
+        "detected_at": now
+    })
+
+with open(SIGNALS_FILE, "w", encoding="utf-8") as f:
+    json.dump(signals, f, indent=2)
+
+print("Breaking signals updated")
