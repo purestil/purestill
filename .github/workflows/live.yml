@@ -23,28 +23,29 @@ jobs:
         with:
           python-version: "3.11"
 
-      # 3️⃣ Install dependencies
+      # 3️⃣ Install Python dependencies
       - name: Install Python dependencies
         run: |
           pip install --upgrade pip
           pip install feedparser
 
-      # 4️⃣ Run live engine
-      - name: Run PureStill live engine
+      # 4️⃣ Run ALL PureStill engines (LIVE + TRUST + DISCOVER)
+      # 🚫 Do NOT run individual scripts anymore
+      - name: Run PureStill engines
         run: |
-          python scripts/live_engine.py
+          python ./scripts/run_all.py
 
-      # 5️⃣ Commit and push updates (only if changed)
-      - name: Commit updated live signals
+      # 5️⃣ Commit and push updates (only if files changed)
+      - name: Commit updated signal files
         run: |
           git config user.name "purestill-bot"
           git config user.email "bot@purestill.local"
 
-          git add signals/live_feed.json signals/topics_feed.json signals/live_seen.json
+          git add signals/*.json
 
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "🔴 Hourly live update"
+            git commit -m "🔴 Hourly PureStill auto update"
             git push
           fi
