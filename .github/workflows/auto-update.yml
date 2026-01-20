@@ -1,15 +1,18 @@
-name: PureStill Auto Post
+name: PureStill Live Newsroom
 
 on:
-  # Manual trigger (always keep this)
+  # Manual trigger (always keep)
   workflow_dispatch:
 
-  # Scheduled run (daily UTC)
+  # 🔴 Live desk (every 15 minutes)
   schedule:
+    - cron: "*/15 * * * *"
+
+  # 🧠 Daily deep refresh (once per day UTC)
     - cron: "0 3 * * *"
 
 jobs:
-  autopost:
+  newsroom:
     runs-on: ubuntu-latest
 
     # REQUIRED so git push works
@@ -21,7 +24,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0   # important for clean git history
+          fetch-depth: 0
 
       # 2️⃣ Setup Python
       - name: Setup Python
@@ -29,13 +32,13 @@ jobs:
         with:
           python-version: "3.11"
 
-      # 3️⃣ Install Python dependencies (CRITICAL)
+      # 3️⃣ Install dependencies
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
           python -m pip install feedparser
 
-      # 4️⃣ Verify dependency (prevents silent failures)
+      # 4️⃣ Verify dependency (fail fast)
       - name: Verify feedparser
         run: |
           python - <<EOF
@@ -43,29 +46,41 @@ jobs:
           print("feedparser installed OK")
           EOF
 
-      # 5️⃣ Fetch new content (RSS → data.json)
-      - name: Fetch new content
+      # 🔴 LIVE BREAKING ENGINE (fast, unlimited, non-SEO)
+      - name: Run Live Engine
+        run: |
+          echo "Running live_engine.py"
+          python live_engine.py
+
+      # 🧠 HOURLY EDITORIAL ENGINE (safe, capped)
+      - name: Run Hourly Engine
+        run: |
+          echo "Running hourly_engine.py"
+          python hourly_engine.py
+
+      # 📰 DAILY RSS / CURATED FETCH (your existing logic)
+      - name: Fetch daily content
         run: |
           echo "Running fetch_news.py"
           python fetch_news.py
 
-      # 6️⃣ Generate static site (data.json → /site)
+      # 🏠 BUILD STATIC SITE
       - name: Generate site
         run: |
           echo "Running generate_pages.py"
           python generate_pages.py
 
-      # 7️⃣ Commit and push changes (SAFE, NO-FAIL)
+      # 💾 COMMIT & PUSH (SAFE)
       - name: Commit and push changes
         run: |
           git config user.name "purestill-bot"
           git config user.email "purestill.official@gmail.com"
 
-          git add data.json site || true
+          git add data.json site signals || true
 
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Auto post update"
+            git commit -m "Live newsroom update"
             git push
           fi
