@@ -8,9 +8,6 @@ BASE_URL = "https://purestill.pages.dev"
 SITE_DIR = "site"
 ARTICLES_DIR = os.path.join(SITE_DIR, "articles")
 
-# 🔥 Breaking window (hours)
-BREAKING_WINDOW_HOURS = 12
-
 os.makedirs(ARTICLES_DIR, exist_ok=True)
 
 # ================= LOAD DATA =================
@@ -74,10 +71,10 @@ def auto_expand_article(title, summary, category):
 <p>Recent months have seen gradual shifts influenced by economic conditions, policy expectations, and institutional responses.</p>
 
 <h2>Key Developments</h2>
-<p>Available information suggests a measured approach, with emphasis on data-driven assessment.</p>
+<p>Available information suggests a measured, data-driven approach.</p>
 
 <h2>Why This Matters</h2>
-<p>Even incremental signals can influence markets, public confidence, and long-term outcomes.</p>
+<p>Even incremental signals can influence markets, confidence, and long-term outcomes.</p>
 
 <h2>What to Watch Next</h2>
 <p>Upcoming data releases and official statements will provide further clarity.</p>
@@ -106,11 +103,8 @@ for item in raw_data:
 
     age = hours_old(date)
 
-    # 🔴 BREAKING LOGIC
-    is_breaking = (
-        item.get("IS_BREAKING", False) is True
-        or age <= BREAKING_WINDOW_HOURS
-    )
+    # 🔴 LIVE BREAKING = EXPLICIT ONLY (CRITICAL FIX)
+    is_breaking = item.get("IS_BREAKING", False) is True
 
     article = {
         "title": title,
@@ -169,7 +163,7 @@ def render_live(a):
 # ================= HOMEPAGE BUILD =================
 used = set()
 
-# 🔴 LIVE BREAKING (TOP, UNLIMITED)
+# 🔴 LIVE BREAKING (ONLY EXPLICIT LIVE)
 live = [a for a in articles if a["is_breaking"]]
 live.sort(key=lambda x: x["age_hours"])
 
@@ -184,12 +178,12 @@ else:
 
 used.update(a["slug"] for a in live)
 
-# 🔵 TRENDING NOW (HOURLY BEST)
+# 🔵 TRENDING NOW
 remaining = [a for a in articles if a["slug"] not in used]
 trending = sorted(remaining, key=lambda x: x["final_score"], reverse=True)[:6]
 used.update(a["slug"] for a in trending)
 
-# 🟢 TOP STORIES (RPM + SCORE)
+# 🟢 TOP STORIES
 remaining = [a for a in remaining if a["slug"] not in used]
 top = sorted(remaining, key=lambda x: x["final_score"], reverse=True)[:6]
 used.update(a["slug"] for a in top)
@@ -202,15 +196,19 @@ used.update(a["slug"] for a in recent)
 # ⚪ OLDER
 older = [a for a in articles if a["slug"] not in used][:6]
 
-# ⭐ FEATURED
-featured = max(articles, key=lambda x: x["final_score"])
+# ⭐ FEATURED (NON-BREAKING ONLY)
+featured_candidates = [a for a in articles if not a["is_breaking"]]
+featured = max(featured_candidates, key=lambda x: x["final_score"]) if featured_candidates else None
 
 # ================= RENDER INDEX =================
 index_html = INDEX_TEMPLATE
 index_html = index_html.replace("{{LIVE_BREAKING}}", live_html)
 index_html = index_html.replace("{{TRENDING_ARTICLES}}", "".join(render_card(a) for a in trending))
 index_html = index_html.replace("{{TOP_ARTICLES}}", "".join(render_card(a) for a in top))
-index_html = index_html.replace("{{FEATURED_ARTICLE}}", render_card(featured))
+index_html = index_html.replace(
+    "{{FEATURED_ARTICLE}}",
+    render_card(featured) if featured else ""
+)
 index_html = index_html.replace("{{RECENT_ARTICLES}}", "".join(render_card(a) for a in recent))
 index_html = index_html.replace("{{OLDER_ARTICLES}}", "".join(render_card(a) for a in older))
 
