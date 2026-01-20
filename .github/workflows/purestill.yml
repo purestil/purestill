@@ -1,20 +1,25 @@
 name: PureStill Automation
 
 on:
+  workflow_dispatch:
   schedule:
-    - cron: "*/15 * * * *"
     - cron: "0 * * * *"
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - run: python generators/fetch_breaking.py
-      - run: python generators/fetch_hourly.py
-      - run: python generators/breaking_writer.py
-      - run: python generators/hourly_writer.py
-      - run: python generate_pages.py
+
+      - name: Show repo files (debug)
+        run: ls -la
+
+      - name: Run generator
+        run: python generate_pages.py
