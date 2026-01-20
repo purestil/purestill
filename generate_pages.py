@@ -8,6 +8,9 @@ BASE_URL = "https://purestill.pages.dev"
 SITE_DIR = "site"
 ARTICLES_DIR = os.path.join(SITE_DIR, "articles")
 
+# 🔥 BREAKING WINDOW (HOURS)
+BREAKING_WINDOW_HOURS = 12
+
 os.makedirs(ARTICLES_DIR, exist_ok=True)
 
 # ================= LOAD DATA =================
@@ -103,7 +106,12 @@ for item in raw_data:
     canonical = f"{BASE_URL}/articles/{slug}.html"
 
     age = hours_old(date)
-    is_breaking = age <= 2
+
+    # ✅ BREAKING LOGIC (EXPLICIT FLAG OR TIME WINDOW)
+    is_breaking = (
+        item.get("IS_BREAKING", False) is True
+        or age <= BREAKING_WINDOW_HOURS
+    )
 
     article = {
         "title": title,
@@ -149,39 +157,52 @@ def render_card(a):
     """
 
 def render_live(a):
+    hours = int(a["age_hours"])
     return f"""
     <div class="live-item">
       <span class="live-badge">LIVE</span>
       <a href="/articles/{a['slug']}.html">{a['title']}</a>
+      <small class="live-age">{hours}h ago</small>
     </div>
     """
 
 # ================= HOMEPAGE BUILD =================
 used = set()
 
+# 🔴 LIVE BREAKING
 live = [a for a in articles if a["is_breaking"]]
 live.sort(key=lambda x: x["age_hours"])
 
-live_html = "".join(render_live(a) for a in live)
+if live:
+    live_html = "".join(render_live(a) for a in live)
+else:
+    live_html = """
+    <div class="live-empty">
+      No breaking developments at this moment.
+    </div>
+    """
+
 used.update(a["slug"] for a in live)
 
+# 🔵 TRENDING
 remaining = [a for a in articles if a["slug"] not in used]
-
 trending = sorted(remaining, key=lambda x: x["final_score"], reverse=True)[:6]
 used.update(a["slug"] for a in trending)
 
+# 🟢 TOP
 remaining = [a for a in remaining if a["slug"] not in used]
-
 top = sorted(remaining, key=lambda x: x["final_score"], reverse=True)[:6]
 used.update(a["slug"] for a in top)
 
+# 🟣 RECENT
 remaining = [a for a in remaining if a["slug"] not in used]
-
 recent = sorted(remaining, key=lambda x: x["date"], reverse=True)[:6]
 used.update(a["slug"] for a in recent)
 
+# ⚪ OLDER
 older = [a for a in articles if a["slug"] not in used][:6]
 
+# ⭐ FEATURED
 featured = max(articles, key=lambda x: x["final_score"])
 
 index_html = INDEX_TEMPLATE
