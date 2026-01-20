@@ -1,0 +1,26 @@
+{
+  "publisher": "PureStill",
+  "updated_at": "2026-01-20T20:10:41.116170+00:00",
+  "signals": {
+    "editorial_type": "analysis",
+    "original_reporting": false,
+    "summarization": true,
+    "source_attribution": true,
+    "fact_checking": "source-based",
+    "update_frequency": "hourly",
+    "language": "en",
+    "region_focus": [
+      "US",
+      "UK",
+      "CA",
+      "AU"
+    ],
+    "ad_policy_safe": true,
+    "spam_score": 0.01
+  },
+  "cadence": {
+    "live_updates_per_hour": 1,
+    "analysis_depth": "longform",
+    "content_decay_hours": 48
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "publisher": "PureStill",
+  "last_update": "2026-01-20T20:10:41.136296+00:00",
+  "discover_ready": true,
+  "signals": {
+    "freshness": "high",
+    "update_velocity": "hourly",
+    "mobile_optimized": true,
+    "visual_intrusive_ads": false,
+    "content_type": "news_analysis",
+    "clickbait": false
+  },
+  "metrics": {
+    "live_items": 10,
+    "topic_strength": {
+      "AI": 0,
+      "Markets": 0,
+      "Policy": 0,
+      "Technology": 0,
+      "World": 0
+    },
+    "priority_topics": [
+      "AI",
+      "Markets",
+      "Policy"
+    ]
+  }
+}
