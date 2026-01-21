@@ -1,30 +1,19 @@
 {
-  "AI": [
-    {
-      "id": "708b55078b56fa20615a79481ad05a68",
-      "title": "Ghislaine Maxwell to testify before US Congress in Epstein probe",
-      "url": "https://www.bbc.com/news/articles/cr7jlylp5keo?at_medium=RSS&at_campaign=rss",
-      "source": "BBC",
-      "topic": "AI",
-      "priority": 65,
-      "minutes_ago": 44,
-      "timestamp": "2026-01-21T20:59:36.002947+00:00",
-      "expires_at": "2026-01-21T22:59:36.002947+00:00"
-    },
-    {
-      "id": "91e89ea3e3d15e0b687fd02f08d68872",
-      "title": "Decision on Manchester-London 'ghost train' was uninformed, regulator admits",
-      "url": "https://www.bbc.com/news/articles/cx2ydq20drlo?at_medium=RSS&at_campaign=rss",
-      "source": "BBC",
-      "topic": "AI",
-      "priority": 50,
-      "minutes_ago": 81,
-      "timestamp": "2026-01-21T20:59:36.002947+00:00",
-      "expires_at": "2026-01-21T22:59:36.002947+00:00"
-    }
-  ],
+  "AI": [],
   "Markets": [],
   "Policy": [],
   "Technology": [],
-  "World": []
+  "World": [
+    {
+      "id": "5fc40f36569490787806e5ecee8fa78c",
+      "title": "Lords back UK social media ban for under-16s",
+      "url": "https://www.bbc.com/news/articles/cz0pnekxpn8o?at_medium=RSS&at_campaign=rss",
+      "source": "BBC",
+      "topic": "World",
+      "priority": 65,
+      "minutes_ago": 20,
+      "timestamp": "2026-01-21T21:54:54.961006+00:00",
+      "expires_at": "2026-01-21T23:54:54.961006+00:00"
+    }
+  ]
 }
