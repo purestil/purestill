@@ -1,42 +1,30 @@
 {
   "AI": [
     {
-      "id": "a7ef96fb6050507c79c8b388b3942d5d",
-      "title": "Faisal Islam: What it was like inside the room with Donald Trump at Davos",
-      "url": "https://www.bbc.com/news/articles/cm24vjvy3n1o?at_medium=RSS&at_campaign=rss",
+      "id": "708b55078b56fa20615a79481ad05a68",
+      "title": "Ghislaine Maxwell to testify before US Congress in Epstein probe",
+      "url": "https://www.bbc.com/news/articles/cr7jlylp5keo?at_medium=RSS&at_campaign=rss",
       "source": "BBC",
       "topic": "AI",
       "priority": 65,
-      "minutes_ago": 20,
-      "timestamp": "2026-01-21T19:43:38.873578+00:00",
-      "expires_at": "2026-01-21T21:43:38.873578+00:00"
+      "minutes_ago": 44,
+      "timestamp": "2026-01-21T20:59:36.002947+00:00",
+      "expires_at": "2026-01-21T22:59:36.002947+00:00"
     },
     {
-      "id": "904cb320edd4767fc348cb49dd9cfe01",
-      "title": "Oldest cave painting of red claw hand could rewrite human creativity timeline",
-      "url": "https://www.bbc.com/news/articles/czx1pnlzer5o?at_medium=RSS&at_campaign=rss",
+      "id": "91e89ea3e3d15e0b687fd02f08d68872",
+      "title": "Decision on Manchester-London 'ghost train' was uninformed, regulator admits",
+      "url": "https://www.bbc.com/news/articles/cx2ydq20drlo?at_medium=RSS&at_campaign=rss",
       "source": "BBC",
       "topic": "AI",
-      "priority": 40,
-      "minutes_ago": 223,
-      "timestamp": "2026-01-21T19:43:38.873578+00:00",
-      "expires_at": "2026-01-21T21:43:38.873578+00:00"
+      "priority": 50,
+      "minutes_ago": 81,
+      "timestamp": "2026-01-21T20:59:36.002947+00:00",
+      "expires_at": "2026-01-21T22:59:36.002947+00:00"
     }
   ],
   "Markets": [],
   "Policy": [],
   "Technology": [],
-  "World": [
-    {
-      "id": "5551179d7e6bdd3a2535e53c1a20ea29",
-      "title": "US to transfer Islamic State prisoners from Syria to Iraq",
-      "url": "https://www.bbc.com/news/articles/cx20pwqkgp9o?at_medium=RSS&at_campaign=rss",
-      "source": "BBC",
-      "topic": "World",
-      "priority": 50,
-      "minutes_ago": 138,
-      "timestamp": "2026-01-21T19:43:38.873578+00:00",
-      "expires_at": "2026-01-21T21:43:38.873578+00:00"
-    }
-  ]
+  "World": []
 }
