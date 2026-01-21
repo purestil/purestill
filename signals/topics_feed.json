@@ -1,87 +1,41 @@
 {
-  "AI": [
-    {
-      "id": "8d30fb6be0a6c6201465411878b95bf4",
-      "title": "Driver killed in Spain train crash days after high-speed collision",
-      "url": "https://www.bbc.com/news/articles/c1m78xl0gmpo?at_medium=RSS&at_campaign=rss",
-      "source": "BBC",
-      "topic": "AI",
-      "priority": 50,
-      "minutes_ago": 70,
-      "timestamp": "2026-01-21T04:11:37.696497+00:00",
-      "expires_at": "2026-01-21T06:11:37.696497+00:00"
-    },
-    {
-      "id": "d0cf0ff3ec3704a2b1b80c57ac3238af",
-      "title": "Woman who was groomed as teen 'insulted' after compensation claims denied",
-      "url": "https://www.bbc.com/news/articles/c4g0ed1v82ro?at_medium=RSS&at_campaign=rss",
-      "source": "BBC",
-      "topic": "AI",
-      "priority": 50,
-      "minutes_ago": 164,
-      "timestamp": "2026-01-21T04:11:37.696497+00:00",
-      "expires_at": "2026-01-21T06:11:37.696497+00:00"
-    }
-  ],
+  "AI": [],
   "Markets": [],
   "Policy": [],
-  "Technology": [
-    {
-      "id": "dbe8084b9406b3c6b40f13c838b2ff7d",
-      "title": "UK homes to get \u00a315bn for solar and green tech to cut energy bills",
-      "url": "https://www.bbc.com/news/articles/ckgj7me00p0o?at_medium=RSS&at_campaign=rss",
-      "source": "BBC",
-      "topic": "Technology",
-      "priority": 40,
-      "minutes_ago": 338,
-      "timestamp": "2026-01-21T04:11:37.696497+00:00",
-      "expires_at": "2026-01-21T06:11:37.696497+00:00"
-    }
-  ],
+  "Technology": [],
   "World": [
     {
-      "id": "898813839e4b834e008ea301654d7577",
-      "title": "Trump doubles down on Greenland threats, saying there is 'no going back'",
+      "id": "9bc81c4abbf67b8d7684b5bd6863c3a2",
+      "title": "Trump doubles down on Greenland ahead of Davos visit, saying there is 'no going back'",
       "url": "https://www.bbc.com/news/articles/cvgr19m642zo?at_medium=RSS&at_campaign=rss",
       "source": "BBC",
       "topic": "World",
       "priority": 65,
-      "minutes_ago": 23,
-      "timestamp": "2026-01-21T04:11:37.696497+00:00",
-      "expires_at": "2026-01-21T06:11:37.696497+00:00"
+      "minutes_ago": 42,
+      "timestamp": "2026-01-21T05:47:05.065796+00:00",
+      "expires_at": "2026-01-21T07:47:05.065796+00:00"
     },
     {
-      "id": "726c974a605a9de7e6d023511e4b1d0f",
-      "title": "Driving test cheating soars as candidates turn to Bluetooth headsets and impersonators",
-      "url": "https://www.bbc.com/news/articles/cx2g30wwmnno?at_medium=RSS&at_campaign=rss",
-      "source": "BBC",
-      "topic": "World",
-      "priority": 40,
-      "minutes_ago": 251,
-      "timestamp": "2026-01-21T04:11:37.696497+00:00",
-      "expires_at": "2026-01-21T06:11:37.696497+00:00"
-    },
-    {
-      "id": "d581dc4b952b64f072f252f9d833bfdb",
-      "title": "Why doing a mix of exercise could be the key to longer life",
-      "url": "https://www.bbc.com/news/articles/cn0y9pqe2zro?at_medium=RSS&at_campaign=rss",
+      "id": "1ad15853f65a128cdb4cbec7dc21cea1",
+      "title": "Why is Emmanuel Macron wearing sunglasses indoors at Davos?",
+      "url": "https://www.bbc.com/news/articles/c4g050pdld3o?at_medium=RSS&at_campaign=rss",
       "source": "BBC",
       "topic": "World",
       "priority": 50,
-      "minutes_ago": 173,
-      "timestamp": "2026-01-21T04:11:37.696497+00:00",
-      "expires_at": "2026-01-21T06:11:37.696497+00:00"
+      "minutes_ago": 92,
+      "timestamp": "2026-01-21T05:47:05.065796+00:00",
+      "expires_at": "2026-01-21T07:47:05.065796+00:00"
     },
     {
-      "id": "15e22013415cbc4c416696cb05762e4b",
-      "title": "'It's harder to sell tickets': Grassroots music venues struggle to make profit",
-      "url": "https://www.bbc.com/news/articles/c20d1lxlx3go?at_medium=RSS&at_campaign=rss",
+      "id": "6aed9b7c555928a952710e9926ac8dec",
+      "title": "Life sentence for man who killed Japan's ex-PM Shinzo Abe",
+      "url": "https://www.bbc.com/news/articles/c86v5lj39zpo?at_medium=RSS&at_campaign=rss",
       "source": "BBC",
       "topic": "World",
-      "priority": 40,
-      "minutes_ago": 187,
-      "timestamp": "2026-01-21T04:11:37.696497+00:00",
-      "expires_at": "2026-01-21T06:11:37.696497+00:00"
+      "priority": 65,
+      "minutes_ago": 58,
+      "timestamp": "2026-01-21T05:47:05.065796+00:00",
+      "expires_at": "2026-01-21T07:47:05.065796+00:00"
     }
   ]
 }
