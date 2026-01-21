@@ -5,15 +5,26 @@
   "Technology": [],
   "World": [
     {
-      "id": "9449cb10be7754b6767765e4d09ff7c8",
-      "title": "Trump drops tariffs threat over Greenland after Nato talks",
+      "id": "cb111b8af161619fac996bdae401bc6f",
+      "title": "Trump says he has 'framework' of a Greenland deal as he drops Europe tariffs threat",
       "url": "https://www.bbc.com/news/articles/cgezx40r7d7o?at_medium=RSS&at_campaign=rss",
       "source": "BBC",
       "topic": "World",
-      "priority": 50,
-      "minutes_ago": 111,
-      "timestamp": "2026-01-21T22:56:20.385860+00:00",
-      "expires_at": "2026-01-22T00:56:20.385860+00:00"
+      "priority": 65,
+      "minutes_ago": 44,
+      "timestamp": "2026-01-21T23:50:43.809574+00:00",
+      "expires_at": "2026-01-22T01:50:43.809574+00:00"
+    },
+    {
+      "id": "ad2737a26845538b897dfa5578528fca",
+      "title": "Chris Mason: Latest twist in Trump diplomacy brings relief for Starmer",
+      "url": "https://www.bbc.com/news/articles/c62wwre0jrro?at_medium=RSS&at_campaign=rss",
+      "source": "BBC",
+      "topic": "World",
+      "priority": 65,
+      "minutes_ago": 49,
+      "timestamp": "2026-01-21T23:50:43.809574+00:00",
+      "expires_at": "2026-01-22T01:50:43.809574+00:00"
     }
   ]
 }
