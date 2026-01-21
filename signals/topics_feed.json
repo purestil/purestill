@@ -5,15 +5,15 @@
   "Technology": [],
   "World": [
     {
-      "id": "5fc40f36569490787806e5ecee8fa78c",
-      "title": "Lords back UK social media ban for under-16s",
-      "url": "https://www.bbc.com/news/articles/cz0pnekxpn8o?at_medium=RSS&at_campaign=rss",
+      "id": "9449cb10be7754b6767765e4d09ff7c8",
+      "title": "Trump drops tariffs threat over Greenland after Nato talks",
+      "url": "https://www.bbc.com/news/articles/cgezx40r7d7o?at_medium=RSS&at_campaign=rss",
       "source": "BBC",
       "topic": "World",
-      "priority": 65,
-      "minutes_ago": 20,
-      "timestamp": "2026-01-21T21:54:54.961006+00:00",
-      "expires_at": "2026-01-21T23:54:54.961006+00:00"
+      "priority": 50,
+      "minutes_ago": 111,
+      "timestamp": "2026-01-21T22:56:20.385860+00:00",
+      "expires_at": "2026-01-22T00:56:20.385860+00:00"
     }
   ]
 }
