@@ -1,42 +1,41 @@
 {
-  "AI": [
-    {
-      "id": "55b03b7586fb54e21254d6ffe3bdd178",
-      "title": "Next buys shoe chain Russell & Bromley but 33 shops at risk",
-      "url": "https://www.bbc.com/news/articles/cy7mv35p8ppo?at_medium=RSS&at_campaign=rss",
-      "source": "BBC",
-      "topic": "AI",
-      "priority": 50,
-      "minutes_ago": 137,
-      "timestamp": "2026-01-21T15:02:53.931088+00:00",
-      "expires_at": "2026-01-21T17:02:53.931088+00:00"
-    }
-  ],
+  "AI": [],
   "Markets": [],
   "Policy": [],
   "Technology": [],
   "World": [
     {
-      "id": "7406769ecb762bc4c43e2315a0139f31",
-      "title": "Blake Lively called Justin Baldoni 'a clown' in text messages",
-      "url": "https://www.bbc.com/news/articles/cwy1l9pgjv7o?at_medium=RSS&at_campaign=rss",
+      "id": "00c9fa85dc81df2e8d08441215feb99f",
+      "title": "Woman guilty of keeping slave for more than 20 years",
+      "url": "https://www.bbc.com/news/articles/c78v36g4pnno?at_medium=RSS&at_campaign=rss",
       "source": "BBC",
       "topic": "World",
-      "priority": 40,
-      "minutes_ago": 190,
-      "timestamp": "2026-01-21T15:02:53.931088+00:00",
-      "expires_at": "2026-01-21T17:02:53.931088+00:00"
+      "priority": 80,
+      "minutes_ago": 3,
+      "timestamp": "2026-01-21T16:04:15.535689+00:00",
+      "expires_at": "2026-01-21T18:04:15.535689+00:00"
     },
     {
-      "id": "92e37a60857b00aa4ff416ab950ed562",
-      "title": "Could US Congress stop Trump from taking over Greenland?",
-      "url": "https://www.bbc.com/news/articles/c701rvrpjwko?at_medium=RSS&at_campaign=rss",
+      "id": "21f45bbe23b4a4685d671235301bbc94",
+      "title": "Prue Leith leaves The Great British Bake Off",
+      "url": "https://www.bbc.com/news/articles/cm2j80g4vy3o?at_medium=RSS&at_campaign=rss",
       "source": "BBC",
       "topic": "World",
-      "priority": 40,
-      "minutes_ago": 300,
-      "timestamp": "2026-01-21T15:02:53.931088+00:00",
-      "expires_at": "2026-01-21T17:02:53.931088+00:00"
+      "priority": 65,
+      "minutes_ago": 22,
+      "timestamp": "2026-01-21T16:04:15.535689+00:00",
+      "expires_at": "2026-01-21T18:04:15.535689+00:00"
+    },
+    {
+      "id": "dba5ebb4eaaf57e6f7ec3b8f5c9e59bc",
+      "title": "Trump says he won't use 'excessive force' to get Greenland",
+      "url": "https://www.bbc.com/news/videos/c0mkp3ezjmvo?at_medium=RSS&at_campaign=rss",
+      "source": "BBC",
+      "topic": "World",
+      "priority": 65,
+      "minutes_ago": 28,
+      "timestamp": "2026-01-21T16:04:15.535689+00:00",
+      "expires_at": "2026-01-21T18:04:15.535689+00:00"
     }
   ]
 }
